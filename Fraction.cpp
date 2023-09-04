@@ -9,7 +9,7 @@
 #include "Fraction.h"
 
 void Fraction::PrintFrac() {
-    std::cout << numerator << '/' << denomerator << std::endl;
+    std::cout << numerator << "/" << denomerator << std::endl;
 }
 
 Fraction Fraction::SumFrac(const Fraction b) {
@@ -19,11 +19,28 @@ Fraction Fraction::SumFrac(const Fraction b) {
     return ans;
 }
 
-Fraction Fraction::deMultiplication(const Fraction b) {
-    if(denomerator*b.numerator == 0)
-        exit(-1);
+Fraction Fraction::MinusFrac(const Fraction b) {
     Fraction ans;
+    ans.numerator = numerator * b.denomerator - denomerator * b.numerator;
+    ans.denomerator = denomerator * b.denomerator;
+    return ans;
+}
+
+Fraction Fraction::DivisionFrac(const Fraction b) {
+    Fraction ans = {0, 1};
+    if(denomerator * b.numerator == 0)
+        return ans;
     ans.numerator = numerator * b.denomerator;
     ans.denomerator = denomerator * b.numerator;
     return ans;
 }
+
+Fraction Fraction::MultiplicationFrac(const Fraction b) {
+    Fraction ans = {0, 1};
+    if(denomerator * b.denomerator == 0)
+        return ans;
+    ans.numerator = numerator * b.numerator;
+    ans.denomerator = denomerator * b.denomerator;
+    return ans;
+}
+

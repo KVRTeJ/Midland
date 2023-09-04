@@ -9,9 +9,11 @@
 
 class Fraction {
     public:
-    Fraction SumFrac(const Fraction b);
     void PrintFrac();
-    Fraction deMultiplication(const Fraction b);
+    Fraction SumFrac(const Fraction b);
+    Fraction MinusFrac(const Fraction b);
+    Fraction DivisionFrac(const Fraction b);
+    Fraction MultiplicationFrac(const Fraction b);
     
     int numerator;
     int denomerator;

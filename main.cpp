@@ -29,11 +29,23 @@ int main() {
     b.numerator = 1;
     b.denomerator = 2;
     
-    Fraction s = a.SumFrac(b);
-    s.PrintFrac();
     
-    s = a.deMultiplication(b);
-    s.PrintFrac();
-
+    std::cout << "Sum - ";
+    Fraction temp = a.SumFrac(b); //breakpoint - ???
+    temp.PrintFrac();
+    
+    std::cout << "Minus - ";
+    temp = a.MinusFrac(b);
+    temp.PrintFrac();
+    
+    std::cout << "Division - ";
+    temp = a.DivisionFrac(b);
+    temp.PrintFrac();
+    //a.PrintFrac(a.DivisionFrac(b)); // <- expected 0 arguments - ???
+    
+    std::cout << "Multiplication - ";
+    temp = a.MultiplicationFrac(b);
+    temp.PrintFrac();
+    
     return 0;
 }
