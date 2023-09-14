@@ -12,18 +12,9 @@
 
 int main() {
     
-    /*int an, ad, bn, bd;
-    std::cout << "a numerator - ";
-    std::cin >> an;
-    std::cout << "a denumerator - ";
-    std::cin >> ad;
-    
-    std::cout << "a = " << an << "/" << ad << std::endl;
-    */
-    
     Fraction a;
     a.numerator = 1;
-    a.denomerator = 2;
+    a.denomerator = 3;
     
     Fraction b;
     b.numerator = 1;
@@ -31,7 +22,7 @@ int main() {
     
     
     std::cout << "Sum - ";
-    Fraction temp = a.SumFrac(b); //breakpoint - ???
+    Fraction temp = a.SumFrac(b);
     temp.PrintFrac();
     
     std::cout << "Minus - ";
@@ -41,7 +32,6 @@ int main() {
     std::cout << "Division - ";
     temp = a.DivisionFrac(b);
     temp.PrintFrac();
-    //a.PrintFrac(a.DivisionFrac(b)); // <- expected 0 arguments - ???
     
     std::cout << "Multiplication - ";
     temp = a.MultiplicationFrac(b);
