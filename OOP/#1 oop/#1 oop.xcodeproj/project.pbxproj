@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2C14B88D2AB2C580008088AF /* Fraction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C14B88C2AB2C580008088AF /* Fraction.cpp */; };
-		2C14B8902AB2C58E008088AF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C14B88F2AB2C58E008088AF /* main.cpp */; };
+		2C14B8942AB2C6BB008088AF /* Fraction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C14B8912AB2C6BB008088AF /* Fraction.cpp */; };
+		2C14B8952AB2C6BB008088AF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C14B8922AB2C6BB008088AF /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,9 +25,9 @@
 
 /* Begin PBXFileReference section */
 		2C14B8822AB2C56F008088AF /* #1 oop */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "#1 oop"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2C14B88C2AB2C580008088AF /* Fraction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Fraction.cpp; path = ../../Fraction.cpp; sourceTree = "<group>"; };
-		2C14B88E2AB2C58E008088AF /* Fraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Fraction.h; path = ../../Fraction.h; sourceTree = "<group>"; };
-		2C14B88F2AB2C58E008088AF /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../main.cpp; sourceTree = "<group>"; };
+		2C14B8912AB2C6BB008088AF /* Fraction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fraction.cpp; sourceTree = "<group>"; };
+		2C14B8922AB2C6BB008088AF /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		2C14B8932AB2C6BB008088AF /* Fraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fraction.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,9 +60,9 @@
 		2C14B8842AB2C56F008088AF /* #1 oop */ = {
 			isa = PBXGroup;
 			children = (
-				2C14B88F2AB2C58E008088AF /* main.cpp */,
-				2C14B88E2AB2C58E008088AF /* Fraction.h */,
-				2C14B88C2AB2C580008088AF /* Fraction.cpp */,
+				2C14B8922AB2C6BB008088AF /* main.cpp */,
+				2C14B8932AB2C6BB008088AF /* Fraction.h */,
+				2C14B8912AB2C6BB008088AF /* Fraction.cpp */,
 			);
 			path = "#1 oop";
 			sourceTree = "<group>";
@@ -124,8 +124,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C14B88D2AB2C580008088AF /* Fraction.cpp in Sources */,
-				2C14B8902AB2C58E008088AF /* main.cpp in Sources */,
+				2C14B8952AB2C6BB008088AF /* main.cpp in Sources */,
+				2C14B8942AB2C6BB008088AF /* Fraction.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

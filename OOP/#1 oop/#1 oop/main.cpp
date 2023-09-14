@@ -1,14 +1,41 @@
 //
 //  main.cpp
-//  #1 oop
+//  #1
 //
-//  Created by Dmitriy on 14.09.2023.
+//  Created by Dmitriy on 04.09.2023.
 //
 
 #include <iostream>
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+#include "Fraction.h"
+
+
+int main() {
+    
+    Fraction a;
+    a.numerator = 1;
+    a.denomerator = 3;
+    
+    Fraction b;
+    b.numerator = 1;
+    b.denomerator = 2;
+    
+    
+    std::cout << "Sum - ";
+    Fraction temp = a.SumFrac(b);
+    temp.PrintFrac();
+    
+    std::cout << "Minus - ";
+    temp = a.MinusFrac(b);
+    temp.PrintFrac();
+    
+    std::cout << "Division - ";
+    temp = a.DivisionFrac(b);
+    temp.PrintFrac();
+    
+    std::cout << "Multiplication - ";
+    temp = a.MultiplicationFrac(b);
+    temp.PrintFrac();
+    
     return 0;
 }
