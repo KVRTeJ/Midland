@@ -8,28 +8,37 @@
 //#1 Задача Комивояджера
 
 #include <iostream>
-
-void PrintMatr(int(&a)[5][5], int c, int b)
-{
-    for(int i = 0; i < c; i++) {
-        for(int j = 0; j < b; j++)
-            std::cout << a[i][j];
-        std::cout << std::endl;
-    }
-}
+#include "midland++.hpp"
 
 int main() {
     
-    //numberCities - кол-во городов, startCity - начальный город
+    //numberCities - кол-во городов, SourceCity - начальный город
     //priseMatr - матрица стоимости
-    int NumberOfCities, StartingCity, **PriseMatr;
+    int NumberOfCities, SourceCity, **PriseMatr;
 
     std::cout << "Кол-во городов - ";
     std::cin >> NumberOfCities;
     std::cout << "Стартовый город - ";
-    std::cin >> StartingCity;
+    std::cin >> SourceCity;
     
-    **priseMatr = new int*[NumberOfCities*NumberOfCities];
+    PriseMatr = new int * [NumberOfCities];
+    for(int index = 0; index < NumberOfCities; index++) {
+        PriseMatr[index] = new int [NumberOfCities];
+    }
+    
+    if(NumberOfCities < 5)
+        InputMatrix(PriseMatr, NumberOfCities, NumberOfCities);
+    else
+        RandomCostMatrix(PriseMatr, NumberOfCities, NumberOfCities, 1, 9);
+    
+    std::cout << "Итоговая матрица стоимости: " << std::endl;
+    PrintMatrix(PriseMatr, NumberOfCities, NumberOfCities);
+    
+    
+    
+    for(int index = 0; index < NumberOfCities; index++)
+        delete [] PriseMatr[index];
+    delete [] PriseMatr;
     
     return 0;
 }

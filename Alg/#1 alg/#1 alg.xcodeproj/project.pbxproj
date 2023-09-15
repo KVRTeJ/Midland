@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C14B8732AB2BB8C008088AF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C14B8722AB2BB8C008088AF /* main.cpp */; };
+		2C26B2E52AB4521D005108F0 /* midland++.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C26B2E32AB4521D005108F0 /* midland++.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,6 +27,8 @@
 		2C14B86F2AB2BB8C008088AF /* #1 alg */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "#1 alg"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C14B8722AB2BB8C008088AF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2C26B2E22AB41804005108F0 /* midland.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = midland.h; path = "../../../../xcode/Labs C/mylib/mylib/midland.h"; sourceTree = "<group>"; };
+		2C26B2E32AB4521D005108F0 /* midland++.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "midland++.cpp"; sourceTree = "<group>"; };
+		2C26B2E42AB4521D005108F0 /* midland++.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = "midland++.hpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +63,8 @@
 			children = (
 				2C26B2E22AB41804005108F0 /* midland.h */,
 				2C14B8722AB2BB8C008088AF /* main.cpp */,
+				2C26B2E32AB4521D005108F0 /* midland++.cpp */,
+				2C26B2E42AB4521D005108F0 /* midland++.hpp */,
 			);
 			path = "#1 alg";
 			sourceTree = "<group>";
@@ -122,6 +127,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C14B8732AB2BB8C008088AF /* main.cpp in Sources */,
+				2C26B2E52AB4521D005108F0 /* midland++.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
