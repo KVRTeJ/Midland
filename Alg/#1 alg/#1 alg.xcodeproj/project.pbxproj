@@ -25,6 +25,7 @@
 /* Begin PBXFileReference section */
 		2C14B86F2AB2BB8C008088AF /* #1 alg */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "#1 alg"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C14B8722AB2BB8C008088AF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		2C26B2E22AB41804005108F0 /* midland.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = midland.h; path = "../../../../xcode/Labs C/mylib/mylib/midland.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +58,7 @@
 		2C14B8712AB2BB8C008088AF /* #1 alg */ = {
 			isa = PBXGroup;
 			children = (
+				2C26B2E22AB41804005108F0 /* midland.h */,
 				2C14B8722AB2BB8C008088AF /* main.cpp */,
 			);
 			path = "#1 alg";
