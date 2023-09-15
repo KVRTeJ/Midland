@@ -11,34 +11,49 @@
 #include "midland++.hpp"
 
 int main() {
+    const int min = 1, max = 9, N = 5;
     
-    //numberCities - кол-во городов, SourceCity - начальный город
-    //priseMatr - матрица стоимости
-    int NumberOfCities, SourceCity, **PriseMatr;
+    //NumberOfCities - кол-во городов, SourceCity - начальный город
+    //PriseMatr - матрица стоимости
+    //CurrentWay - актуальный путь, MinWay - минимальный путь
+    //CurrentWeight - вес актального пути, MinWeight - вес минимального пути
+    int NumberOfCities, SourceCity, **PriseMatr, CurrentWeight, *CurrentWay, MinWeight, *MinWay;
 
     std::cout << "Кол-во городов - ";
     std::cin >> NumberOfCities;
     std::cout << "Стартовый город - ";
     std::cin >> SourceCity;
     
+    CurrentWay = new int [NumberOfCities];
+    MinWay = new int [NumberOfCities];
     PriseMatr = new int * [NumberOfCities];
     for(int index = 0; index < NumberOfCities; index++) {
         PriseMatr[index] = new int [NumberOfCities];
     }
     
-    if(NumberOfCities < 5)
-        InputMatrix(PriseMatr, NumberOfCities, NumberOfCities);
+    if(NumberOfCities < N)
+        MatrixInput(PriseMatr, NumberOfCities, NumberOfCities);
     else
-        RandomCostMatrix(PriseMatr, NumberOfCities, NumberOfCities, 1, 9);
+        MatrixRandomCost(PriseMatr, NumberOfCities, NumberOfCities, min, max);
     
     std::cout << "Итоговая матрица стоимости: " << std::endl;
-    PrintMatrix(PriseMatr, NumberOfCities, NumberOfCities);
+    MatrixPrint(PriseMatr, NumberOfCities, NumberOfCities);
     
+    for(int index = 0; index < NumberOfCities; index++)
+        MinWay[index] = max;
     
+    //Алгоритм
     
     for(int index = 0; index < NumberOfCities; index++)
         delete [] PriseMatr[index];
     delete [] PriseMatr;
+    delete [] CurrentWay;
+    
+    //Ответ
+    
+    //ArrayPrint(MinWay, NumberOfCities);
+    
+    delete [] MinWay;
     
     return 0;
 }
