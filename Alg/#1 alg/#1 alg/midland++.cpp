@@ -30,7 +30,7 @@ void MatrixInput(int **matrix, int column, int row) {
 
 void MatrixRandom(int **matrix, int column, int row, int min, int max) {
     
-    srand( (unsigned int) time(NULL));
+    srand( (unsigned int) time(0));
     
     for(int c = 0; c < column; c++)
         for(int r = 0; r < row; r++)
@@ -40,7 +40,7 @@ void MatrixRandom(int **matrix, int column, int row, int min, int max) {
 
 void MatrixRandomCost(int **matrix, int column, int row, int min, int max) {
     
-    srand( (unsigned int) time(NULL));
+    srand( (unsigned int) time(0));
     
     for(int c = 0; c < column; c++)
         for(int r = 0; r < row; r++)
@@ -64,7 +64,7 @@ void ArrayPrint(int *array, int size) {
 void Swap(int &first, int &second) {
     int temp = first;
     first = second;
-    second = first;
+    second = temp;
 }
 
 unsigned int Factorial(int number) {
@@ -72,4 +72,8 @@ unsigned int Factorial(int number) {
         return 1;
     else
         return number*Factorial(number-1);
+}
+
+int WayWeight(int *array) {
+    return 0;
 }

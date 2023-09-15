@@ -23,3 +23,6 @@ void Swap(int &first, int &second);
 
 unsigned int Factorial(int number);
 //Рекурсия, которая вычисляет факториал 'number'
+
+int WayWeight(int *array);
+//Подсчет веса пути
