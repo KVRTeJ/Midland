@@ -79,5 +79,5 @@ int WayWeight(int **matrix, int *array, int size) {
     for(int index = 0; index < size; index++) {
         answer += matrix[array[index]][array[index+1]];
     }
-    return 0;
+    return answer;
 }
