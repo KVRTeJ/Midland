@@ -74,6 +74,10 @@ unsigned int Factorial(int number) {
         return number*Factorial(number-1);
 }
 
-int WayWeight(int *array) {
+int WayWeight(int **matrix, int *array, int size) {
+    int answer = 0;
+    for(int index = 0; index < size; index++) {
+        answer += matrix[array[index]][array[index+1]];
+    }
     return 0;
 }
