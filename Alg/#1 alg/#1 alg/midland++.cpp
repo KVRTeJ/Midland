@@ -1,80 +1,81 @@
-#include "midland++.hpp"
 #include <iostream>
 #include <time.h>
 
-void MatrixPrint(int **matrix, int column, int row) {
+#include "midland++.hpp"
+
+void printMatrix(int **matrix, int column, int row) {
     //column - столбцы
     //row - строки
-    for(int c = 0; c < column; c++){
-        for(int r = 0; r < row; r++)
-            std::cout << matrix[c][r] << ' ';
+    for(int i = 0; i < column; i++){
+        for(int j = 0; j < row; j++)
+            std::cout << matrix[i][j] << ' ';
         std::cout << std::endl;
     }
     
 }
 
-void MatrixInput(int **matrix, int column, int row) {
+void inputMatrix(int **matrix, int column, int row) {
     //column - столбцы
     //row - строки
-    for(int c = 0; c < column; c++)
-        for(int r = 0; r < row; r++) {
-            if(c != r) {
-                std::cout << "Введите стоимость путь из города " << c + 1 << " до города " << r + 1 << std::endl;
-                std::cin >> matrix[c][r];
+    for(int i = 0; i < column; i++)
+        for(int j = 0; j < row; j++) {
+            if(i != j) {
+                std::cout << "Введите стоимость путь из города " << i + 1 << " до города " << j + 1 << std::endl;
+                std::cin >> matrix[i][j];
             }
             else
-                matrix[c][r] = 0;
+                matrix[i][j] = 0;
         }
     
 }
 
-void MatrixRandom(int **matrix, int column, int row, int min, int max) {
+void getRandomMatrix(int **matrix, int column, int row, int min, int max) {
     
     srand( (unsigned int) time(0));
     
-    for(int c = 0; c < column; c++)
-        for(int r = 0; r < row; r++)
-            matrix[c][r] = rand() % (max - min + 1) + min;
+    for(int i = 0; i < column; i++)
+        for(int j = 0; j < row; j++)
+            matrix[i][j] = rand() % (max - min + 1) + min;
 }
 
 
-void MatrixRandomCost(int **matrix, int column, int row, int min, int max) {
+void getRandomCostMatrix(int **matrix, int column, int row, int min, int max) {
     
     srand( (unsigned int) time(0));
     
-    for(int c = 0; c < column; c++)
-        for(int r = 0; r < row; r++)
-        if(c != r)
-            matrix[c][r] = rand() % (max - min + 1) + min;
+    for(int i = 0; i < column; i++)
+        for(int j = 0; j < row; j++)
+        if(i != j)
+            matrix[i][j] = rand() % (max - min + 1) + min;
         else
-            matrix[c][r] = 0;
+            matrix[i][j] = 0;
 }
 
-void ArrayCopy(int *arrayOriginal, int *arrayReplica, int size) {
-    for(int index = 0; index < size; index++)
-        arrayReplica[index] = arrayOriginal[index];
+void createArrayCopy(int *arrayOriginal, int *arrayReplica, int size) {
+    for(int i = 0; i < size; i++)
+        arrayReplica[i] = arrayOriginal[i];
 }
 
-void ArrayPrint(int *array, int size) {
-    for(int index = 0; index < size; index++)
-        std::cout << array[index] << ' ';
+void printArray(int *array, int size) {
+    for(int i = 0; i < size; i++)
+        std::cout << array[i] << ' ';
     std::cout << std::endl;
 }
 
-void Swap(int &first, int &second) {
+void swapNumbers(int &first, int &second) {
     int temp = first;
     first = second;
     second = temp;
 }
 
-unsigned int Factorial(int number) {
+unsigned int calculateFactorial(int number) {
     if(number == 0)
         return 1;
     else
-        return number * Factorial(number - 1);
+        return number * calculateFactorial(number - 1);
 }
 
-int WayWeight(int **matrix, int *array, int size) {
+int calculateWayWeight(int **matrix, int *array, int size) {
     int answer = 0;
     for(int index = 0; index < size; index++) {
         answer += matrix[array[index]][array[index + 1]];

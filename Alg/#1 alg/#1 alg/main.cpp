@@ -8,109 +8,117 @@
 //#1 Задача Комивояджера
 
 #include <iostream>
+
 #include "midland++.hpp"
 
 int main() {
     
-    //NumberOfCities - кол-во городов, SourceCity - начальный город
-    //PriseMatr - матрица стоимости
-    //CurrentWay - актуальный путь, MinWay - минимальный путь
-    //CurrentWeight - вес актального пути, MinWeight - вес минимального пути
-    //Permuration - актуальная перестановка чисел
-    //min, max - диапазон чисел для случайного заполнения матрицы
+    //numberOfCities - кол-во городов, SourceCity - начальный город
+    //priseMatr - матрица стоимости
+    //currentWay - актуальный путь, MinWay - минимальный путь
+    //currentWeight - вес актального пути, MinWeight - вес минимального пути
+    //permuration - актуальная перестановка чисел
+    //MIN, MAX - диапазон чисел для случайного заполнения матрицы
     
-    const int min = 1, max = 9;
+    const int MIN = 1, MAX = 9;
     
-    int numberOfCities, SourceCity,** PriseMatr, CurrentWeight, MinWeight,* MinWay,* Permutation, CounterPermutation = 0;
+    int numberOfCities, sourceCity,** priseMatr, currentWeight, minWeight,
+        * minWay,* permutation, counterPermutation = 0;
     
-    unsigned int NumberOfPermutations;
+    unsigned int numberOfPermutations;
 
     std::cout << "Кол-во городов - ";
     std::cin >> numberOfCities;
     std::cout << "Стартовый город - ";
-    std::cin >> SourceCity;
+    std::cin >> sourceCity;
     
-    MinWeight = max * numberOfCities;
+    minWeight = MAX * numberOfCities;
     
-    MinWay = new int [numberOfCities + 1];
-    Permutation = new int [numberOfCities + 1]; //+1 для возврата в исходный город
-    PriseMatr = new int * [numberOfCities];
+    minWay = new int [numberOfCities + 1];
+    permutation = new int [numberOfCities + 1]; //+1 для возврата в исходный город
+    priseMatr = new int * [numberOfCities];
     for(int index = 0; index < numberOfCities; index++) {
-        PriseMatr[index] = new int [numberOfCities];
+        priseMatr[index] = new int [numberOfCities];
     }
     
     //Заполнение матрицы
-    MatrixRandomCost(PriseMatr, numberOfCities, numberOfCities, min, max);
-    //MatrixInput(PriseMatr, NumberOfCities, NumberOfCities);
+    getRandomCostMatrix(priseMatr, numberOfCities, numberOfCities, MIN, MAX);
+    //inputMatrix(PriseMatr, NumberOfCities, NumberOfCities);
     
     
     std::cout << "Итоговая матрица стоимости: " << std::endl;
-    MatrixPrint(PriseMatr, numberOfCities, numberOfCities);
+    printMatrix(priseMatr, numberOfCities, numberOfCities);
     
-    NumberOfPermutations = Factorial(numberOfCities - 1);
+    numberOfPermutations = calculateFactorial(numberOfCities - 1);
     
     //Генерируем первый путь, учитывая, что начальный город - конечный
-    for(int i = 0, k = 0; i < numberOfCities; ) {
+    for(int i = 0, j = 0; i < numberOfCities; ) {
         
         if(i == 0) {
-            Permutation[i] = SourceCity - 1;
+            permutation[i] = sourceCity - 1;
             i++;
-            
         }
         
-        else if(k == SourceCity - 1) {
-            k++;
+        else if(j == sourceCity - 1) {
+            j++;
         }
         
         else {
-            Permutation[i] = k;
-            
-            k++;
+            permutation[i] = j;
+            j++;
             i++;
         }
         
     }
     
-    Permutation[numberOfCities] = SourceCity - 1;
+    permutation[numberOfCities] = sourceCity - 1;
     
-    CurrentWeight = WayWeight(PriseMatr, Permutation, numberOfCities);
-    CounterPermutation++; //Первая перестановка сгенерирована, прибавляем счетчик
+    currentWeight = calculateWayWeight(priseMatr, permutation, numberOfCities);
+    counterPermutation++;
+    //Первая перестановка сгенерирована, прибавляем счетчик
     
-    std::cout << "Перестановка номер - " << CounterPermutation << std::endl;
-    CurrentWeight = WayWeight(PriseMatr, Permutation, numberOfCities);
-    std::cout << "Вес - " << CurrentWeight << std::endl;
+    std::cout << "Перестановка номер - " << counterPermutation << std::endl;
+    currentWeight = calculateWayWeight(priseMatr, permutation, numberOfCities);
+    std::cout << "Вес - " << currentWeight << std::endl;
     std::cout << "Путь - ";
-    ArrayPrint(Permutation, numberOfCities + 1);
+    printArray(permutation, numberOfCities + 1);
     
-    while(NumberOfPermutations != CounterPermutation) {//Пока счетчик != кол-ву перестановок
+    while(numberOfPermutations != counterPermutation) {
+        //Пока счетчик != кол-ву перестановок
+        
         for(int i = numberOfCities - 2; i >= 1; i--) {
             //-1 по алгоритму и -1 потому что исходный город не трогаем
-            if((0 < i) && (i < (numberOfCities - 1)) && (Permutation[i] < Permutation[i + 1])) {
+            
+            if((0 < i) && (i < (numberOfCities - 1)) && (permutation[i] < permutation[i + 1])) {
                 //Пока 0 < i < n and P[i] < P[i+1] по алгоритму
-                for(int j = (numberOfCities-1); j > i; j--) { // j  на последний элемент
-                    if((i < j) && (j <= (numberOfCities - 1) ) && (Permutation[i] < Permutation[j])) {
+                
+                for(int j = (numberOfCities-1); j > i; j--) {
+                    // j  на последний элемент
+                    
+                    if((i < j) && (j <= (numberOfCities - 1) ) && (permutation[i] < permutation[j])) {
                         //Eсли i < j <= n and P[i] < P[j] по алгоритму
-                        Swap(Permutation[i], Permutation[j]);
-                        for(int i_tail = i + 1, j_tail = (numberOfCities - 1); i_tail <= j_tail; i_tail++, j_tail--)
-                            Swap(Permutation[i_tail], Permutation[j_tail]);//Инвертируем хвост
-                        CounterPermutation++; //Сделана перестановка - счетчик +1
+                        
+                        swapNumbers(permutation[i], permutation[j]);
+                        for(int i_tail = i + 1, j_tail = (numberOfCities - 1);
+                            i_tail <= j_tail; i_tail++, j_tail--)
+                            swapNumbers(permutation[i_tail], permutation[j_tail]);//Инвертируем хвост
+                        
+                        counterPermutation++; //Сделана перестановка - счетчик +1
                         
                         i = numberOfCities-1;
                         //Возвращаем i на исходное место
                         
-                        //Вес и минимальный маршрут
-                        
-                        CurrentWeight = WayWeight(PriseMatr, Permutation, numberOfCities);
+                        currentWeight = calculateWayWeight(priseMatr, permutation, numberOfCities);
                         //Текущий вес маршрута
                         
-                        std::cout << "Перестановка номер - " << CounterPermutation << std::endl;
-                        std::cout << "Вес - " << CurrentWeight << std::endl;
+                        std::cout << "Перестановка номер - " << counterPermutation << std::endl;
+                        std::cout << "Вес - " << currentWeight << std::endl;
                         std::cout << "Путь - ";
-                        ArrayPrint(Permutation, numberOfCities+1);
+                        printArray(permutation, numberOfCities+1);
                         
-                        if(CurrentWeight < MinWeight) {
-                            MinWeight = CurrentWeight;
-                            ArrayCopy(Permutation, MinWay, numberOfCities+1);
+                        if(currentWeight < minWeight) {
+                            minWeight = currentWeight;
+                            createArrayCopy(permutation, minWay, numberOfCities+1);
                         //Если текущий вес < минимального - он минимальный
                         }
                     }
@@ -123,13 +131,13 @@ int main() {
     //Ответ
     
     std::cout << "Минимальный путь - ";
-    ArrayPrint(MinWay, numberOfCities+1);
-    std::cout << "Минимальный вес пути - " << MinWeight << std::endl;
+    printArray(minWay, numberOfCities+1);
+    std::cout << "Минимальный вес пути - " << minWeight << std::endl;
     
     for(int index = 0; index < numberOfCities; index++)
-        delete [] PriseMatr[index];
-    delete [] PriseMatr;
-    delete [] MinWay;
+        delete [] priseMatr[index];
+    delete [] priseMatr;
+    delete [] minWay;
     
     return 0;
 }
