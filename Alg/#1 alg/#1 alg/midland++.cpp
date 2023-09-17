@@ -71,13 +71,13 @@ unsigned int Factorial(int number) {
     if(number == 0)
         return 1;
     else
-        return number*Factorial(number-1);
+        return number * Factorial(number - 1);
 }
 
 int WayWeight(int **matrix, int *array, int size) {
     int answer = 0;
     for(int index = 0; index < size; index++) {
-        answer += matrix[array[index]][array[index+1]];
+        answer += matrix[array[index]][array[index + 1]];
     }
     return answer;
 }
