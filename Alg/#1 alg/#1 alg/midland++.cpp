@@ -82,3 +82,4 @@ int calculateWayWeight(int **matrix, int *array, int size) {
     }
     return answer;
 }
+
