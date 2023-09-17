@@ -27,5 +27,5 @@ unsigned int calculateFactorial(int number);
 int calculateWayWeight(int **matrix, int *array, int size);
 //Подсчет веса пути
 
-//int* calculateMinimalWay(int** matrix, int numberOfCities, int sourceCity);
-//Подсчет минимального пути
+int calculateStraightMinimalWay(int** matrix,int* answerArray ,int numberOfCities, int sourceCity, int maxElement);
+//Подсчет минимального пути ответ записывается в "answerArray"
