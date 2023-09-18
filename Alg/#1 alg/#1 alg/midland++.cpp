@@ -178,3 +178,25 @@ int calculateStraightMinimalWay(int** priceMatrix, int* answerArray,
     
     return 0;
 }
+
+int findMinInTheRow(int** matrix, int size, int column, int maxElement) {
+    
+    int minNumber = maxElement, minIndex = 0;
+    
+    for(int i = 0; i < size; i++) {
+        
+        if(matrix[column][i] != 0) {
+            
+            if(matrix[column][i] < minNumber) {
+                
+                minNumber = matrix[column][i];
+                minIndex = i;
+                
+            }
+            
+        }
+        
+    }
+    
+    return minIndex;
+}

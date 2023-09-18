@@ -10,7 +10,7 @@ int main() {
     //MIN, MAX - диапазон чисел для случайного заполнения матрицы
     //minWay - массив для записи ответа с функций
     
-    const int MIN = 1, MAX = 99;
+    const int MIN = 1, MAX = 9;
     
     int** priceMatrix, * minWay, numberOfCities, sourceCity;
     
@@ -23,8 +23,8 @@ int main() {
     
     minWay = new int [numberOfCities + 1];
     priceMatrix = new int * [numberOfCities];
-    for(int index = 0; index < numberOfCities; index++) {
-        priceMatrix[index] = new int [numberOfCities];
+    for(int i = 0; i < numberOfCities; i++) {
+        priceMatrix[i] = new int [numberOfCities];
     }
     
     //Заполнение матрицы
@@ -34,7 +34,7 @@ int main() {
     std::cout << "Итоговая матрица стоимости: " << std::endl;
     printMatrix(priceMatrix, numberOfCities, numberOfCities);
 
-    
+    /*
     //Точный алгоритм
     clock_t start = clock();
     calculateStraightMinimalWay(priceMatrix, minWay, numberOfCities, sourceCity, MAX);
@@ -46,16 +46,30 @@ int main() {
     printArray(minWay, numberOfCities + 1);
     std::cout << "Вес маршрута - " << calculateWayWeight(priceMatrix, minWay, numberOfCities + 1) << std::endl;
     std::cout << "Затраченое время - " << seconds << "s" << std::endl;
+    */
+    
+    //Эвристический алгоритм #3
+    //Выбираем исходящую дугу минимальной стоимости из текущей вершины, начиная с первой.
 
+    int temp = -1;
     
-    //Эвристический алгоритм
+    int* wasArray = new int [numberOfCities];
     
-    {
-    
+    for(int j = 0; j < numberOfCities; j++) {
+        
+        temp = findMinInTheRow(priceMatrix, numberOfCities, j, MAX);
+        wasArray[temp] = 1;
+        std::cout << "temp = " << temp << " Element - " << priceMatrix[j][temp] << std::endl;
+        
+        
     }
     
-    for(int index = 0; index < numberOfCities; index++)
-        delete [] priceMatrix[index];
+    printArray(wasArray, numberOfCities);
+    
+    delete [] wasArray;
+    
+    for(int i = 0; i < numberOfCities; i++)
+        delete [] priceMatrix[i];
     delete [] priceMatrix;
     delete [] minWay;
     

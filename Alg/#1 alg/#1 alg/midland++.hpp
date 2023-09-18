@@ -29,3 +29,6 @@ int calculateWayWeight(int **matrix, int *array, int size);
 
 int calculateStraightMinimalWay(int** matrix,int* answerArray ,int numberOfCities, int sourceCity, int maxElement);
 //Подсчет минимального пути ответ записывается в "answerArray"
+
+int findMinInTheRow(int** matrix, int size, int column, int maxElement);
+//Выводит минимальный элемент в строке column размером size
