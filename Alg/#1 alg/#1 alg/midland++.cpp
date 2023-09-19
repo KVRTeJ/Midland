@@ -56,6 +56,20 @@ void createArrayCopy(int *arrayOriginal, int *arrayReplica, int size) {
         arrayReplica[i] = arrayOriginal[i];
 }
 
+void createMatrixCopy(int** matrixOriginal, int** matrixCopy, int column, int row) {
+    
+    for (int i = 0; i < column; i++) {
+        
+            for (int j = 0; j < row; j++) {
+                
+                matrixCopy[i][j] = matrixOriginal[i][j];
+                
+            }
+        
+        }
+    
+}
+
 void printArray(int *array, int size) {
     for(int i = 0; i < size; i++)
         std::cout << array[i] << ' ';
@@ -76,12 +90,12 @@ int calculateWayWeight(int **matrix, int *array, int size) {
     return answer;
 }
 
-int calculateStraightMinimalWay(int** priceMatrix, int* answerArray,
+void calculateStraightMinimalWay(int** priceMatrix, int* answerArray,
                                  int numberOfCities, int sourceCity,
                                  int maxElement) {
     
     //numberOfCities - кол-во городов, SourceCity - начальный город
-    //priseMatr - матрица стоимости
+    //priceMatrix - матрица стоимости
     //currentWay - актуальный путь, MinWay - минимальный путь
     //currentWeight - вес актального пути, MinWeight - вес минимального пути
     //permuration - актуальная перестановка чисел
@@ -90,7 +104,7 @@ int calculateStraightMinimalWay(int** priceMatrix, int* answerArray,
     //Обработка исключений
     if((sourceCity - 1) < 0 || (sourceCity - 1) > numberOfCities) {
         std::cout << "calculateStraightMinimalWay -> Ошибка в значении sourceCity" << std::endl;
-        return -1;
+        return;
     }
     
     //Ввод данных
@@ -127,13 +141,16 @@ int calculateStraightMinimalWay(int** priceMatrix, int* answerArray,
     createArrayCopy(permutation, answerArray, numberOfCities+1);
     counterPermutation++;
     //Первая перестановка сгенерирована, прибавляем счетчик
+    
     /*
+    //Вывод первого пути
     std::cout << "Перестановка номер - " << counterPermutation << std::endl;
     currentWeight = calculateWayWeight(priceMatrix, permutation, numberOfCities);
     std::cout << "Вес - " << currentWeight << std::endl;
     std::cout << "Путь - ";
     printArray(permutation, numberOfCities + 1);
     */
+    
     for(int i = numberOfCities - 2; i > 0; i--) {
         //-1 по алгоритму и -1 потому что исходный город не трогаем
         
@@ -157,13 +174,15 @@ int calculateStraightMinimalWay(int** priceMatrix, int* answerArray,
                     //Возвращаем i на исходное место
                     
                     currentWeight = calculateWayWeight(priceMatrix, permutation, numberOfCities);
-                    //Текущий вес маршрута
+                    
                     /*
+                    //Текущий вес маршрута. Вывод
                     std::cout << "Перестановка номер - " << counterPermutation << std::endl;
                     std::cout << "Вес - " << currentWeight << std::endl;
                     std::cout << "Путь - ";
                     printArray(permutation, numberOfCities+1);
                     */
+                    
                     if(currentWeight < minWeight) {
                         minWeight = currentWeight;
                         createArrayCopy(permutation, answerArray, numberOfCities+1);
@@ -176,7 +195,7 @@ int calculateStraightMinimalWay(int** priceMatrix, int* answerArray,
     
     delete [] permutation;
     
-    return 0;
+    return;
 }
 
 int findMinInTheRow(int** matrix, int size, int column, int maxElement) {
@@ -204,12 +223,93 @@ int findMinInTheRow(int** matrix, int size, int column, int maxElement) {
 bool wasInArray(int* array, int size, int number) {
     
     for(int i = 0; i < size; i++) {
-        
+ 
         if(array[i] == number) {
+            
             return true;
+        
         }
         
     }
     
     return false;
+    
 }
+
+void calculateHeuristicMinimalWay(int** priceMatrix, int* answerArray, int numberOfCities, int maxElement) {
+    
+    int minElement_NextRow = 1;
+    
+    
+    int** priceMatrixCopy = new int * [numberOfCities];
+    for(int i = 0; i < numberOfCities; i++)
+        priceMatrixCopy[i] = new int [numberOfCities];
+    
+    createMatrixCopy(priceMatrix, priceMatrixCopy, numberOfCities, numberOfCities);
+    //Создаем копию матрицы, чтобы не менять исходную
+    
+    for(int i = 0; i < numberOfCities + 1; i++) {
+        if(i == 0) {
+            answerArray[i] = 1;
+        }
+        answerArray[i] = 0;
+        
+    }
+    
+    answerArray[numberOfCities + 1] = 0;
+    //Готовим массив для минимального пути
+    //Так как алгоритм расчитан на то, что мы всегда стартуем из 1 города, нет необходимости строить путь с определенным исходным городом
+    
+    {
+    //Сделано, чтобы переменная currentColumn и i удалились сразу же после цикла
+        
+        int currentColumn = 0, i = 1; // currentColumn - текущий номер строки i - счетчик
+        
+        while(i < numberOfCities) {
+            //Пока не прошли по всем городам
+            
+            minElement_NextRow = findMinInTheRow(priceMatrixCopy, numberOfCities, currentColumn, maxElement);
+            //minElement_NextRow - сейчас индекс минимального элемента - а дальше номер следующей строки
+            
+            if(wasInArray(answerArray, numberOfCities, minElement_NextRow) == true) {
+                
+                priceMatrixCopy[currentColumn][minElement_NextRow] = 0;
+                minElement_NextRow = findMinInTheRow(priceMatrixCopy, numberOfCities, currentColumn, maxElement);
+                
+            }
+            //Проверка на цикл - если город уже есть в массиве перестановок, то анулируем его путь и снова ищем minElement_NextRow
+            
+            for(int k = 0; k < numberOfCities; k++) {
+                
+                priceMatrixCopy[currentColumn][k] = 0;
+                priceMatrixCopy[k][minElement_NextRow] = 0;
+                
+            }
+            
+            priceMatrixCopy[currentColumn][minElement_NextRow] = 0;
+            //По алгоритму: зануляем строку и столбец, с которыми работали, а также обратный путь
+            
+            /*
+            std::cout << "-------" << std::endl;
+            printMatrix(priceMatrixCopy, numberOfCities, numberOfCities);
+            //Вывод шагов
+            */
+            
+            answerArray[i] = minElement_NextRow;
+            currentColumn = minElement_NextRow;
+            i++;
+            //После проверки на цикл и зануления, записываем город в массив перестановок, а также ставим номер следующей строки, прибавляем счетчик
+            
+            
+        }
+        
+    }
+    
+    for(int i = 0; i < numberOfCities; i++)
+        delete [] priceMatrixCopy[i];
+    delete [] priceMatrixCopy;
+    
+    return;
+    
+}
+

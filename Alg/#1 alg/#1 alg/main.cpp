@@ -6,20 +6,20 @@
 int main() {
     
     //numberOfCities - кол-во городов, SourceCity - начальный город
-    //priseMatr - матрица стоимости
+    //priceMatrix - матрица стоимости
     //MIN, MAX - диапазон чисел для случайного заполнения матрицы
     //minWay - массив для записи ответа с функций
     
-    const int MIN = 1, MAX = 9;
+    const int MIN = 1, MAX = 99, bigNumber = 70, sourceCity = 1;
     
-    int** priceMatrix, * minWay, numberOfCities, sourceCity;
+    int** priceMatrix, * minWay, numberOfCities, minWeight;
     
     double seconds;
     
     std::cout << "Кол-во городов - ";
     std::cin >> numberOfCities;
-    std::cout << "Стартовый город - ";
-    std::cin >> sourceCity;
+    //std::cout << "Стартовый город - ";
+    //std::cin >> sourceCity;
     
     minWay = new int [numberOfCities + 1];
     priceMatrix = new int * [numberOfCities];
@@ -29,62 +29,49 @@ int main() {
     
     //Заполнение матрицы
     getRandomCostMatrix(priceMatrix, numberOfCities, numberOfCities, MIN, MAX); //Случайно
-    //inputMatrix(PriseMatr, NumberOfCities, NumberOfCities); //Вручную
+    //inputMatrix(priceMatrix, numberOfCities, numberOfCities); //Вручную
     
-    std::cout << "Итоговая матрица стоимости: " << std::endl;
-    printMatrix(priceMatrix, numberOfCities, numberOfCities);
-
-    /*
+    if(numberOfCities < bigNumber) {
+        
+        std::cout << "Итоговая матрица стоимости: " << std::endl;
+        printMatrix(priceMatrix, numberOfCities, numberOfCities);
+        
+    }
+    
     //Точный алгоритм
+    //Генерируем каждую перестановку алгоритмом Дейкстры
     clock_t start = clock();
     calculateStraightMinimalWay(priceMatrix, minWay, numberOfCities, sourceCity, MAX);
     clock_t end = clock();
     
     seconds = (double)(end - start) / CLOCKS_PER_SEC;
     
+    std::cout << "1) Точный алгоритм " << std::endl;
     std::cout << "Минимальный маршрут - ";
     printArray(minWay, numberOfCities + 1);
-    std::cout << "Вес маршрута - " << calculateWayWeight(priceMatrix, minWay, numberOfCities + 1) << std::endl;
+    minWeight = calculateWayWeight(priceMatrix, minWay, numberOfCities + 1);
+    std::cout << "Вес маршрута - " << minWeight << std::endl;
     std::cout << "Затраченое время - " << seconds << "s" << std::endl;
-    */
+    
     
     //Эвристический алгоритм #3
     //Выбираем исходящую дугу минимальной стоимости из текущей вершины, начиная с первой.
+    
+    start = clock();
+    calculateHeuristicMinimalWay(priceMatrix, minWay, numberOfCities, MAX);
+    end = clock();
+    
+    seconds = (double)(end - start) / CLOCKS_PER_SEC;
+    
+    std::cout << std::endl;
+    
+    std::cout << "2) Эвристический алгоритм " << std::endl;
+    std::cout << "Минимальный маршрут - ";
+    printArray(minWay, numberOfCities + 1);
+    minWeight = calculateWayWeight(priceMatrix, minWay, numberOfCities + 1);
+    std::cout << "Вес маршрута - " << minWeight << std::endl;
+    std::cout << "Затраченое время - " << seconds << "s" << std::endl;
 
-    int temp = -1;
-    
-    int* permutations = new int [numberOfCities + 1];
-    //int* wasArray = new int [numberOfCities];
-    
-    for(int i = 0; i < numberOfCities; i++) {
-        
-        permutations[i] = i;
-        
-    }
-    
-    permutations[numberOfCities + 1] = 0;
-    
-    printArray(permutations, numberOfCities + 1);
-    
-    
-    for(int j = 0; j < numberOfCities; j++) {
-        /*
-        if(wasInArray(permutations, numberOfCities, j) == true) {
-            priceMatrix[temp][j] = 0;
-            j--;
-        }
-        //проверка на цикл и откат на шаг назад
-        */
-        temp = findMinInTheRow(priceMatrix, numberOfCities, j, MAX);
-        //wasArray[temp] = 1;
-        //std::cout << "temp = " << temp << " Element - " << priceMatrix[j][temp] << std::endl;
-        
-        
-    }
-    
-    
-    //printArray(wasArray, numberOfCities);
-    //delete [] wasArray;
     
     for(int i = 0; i < numberOfCities; i++)
         delete [] priceMatrix[i];
