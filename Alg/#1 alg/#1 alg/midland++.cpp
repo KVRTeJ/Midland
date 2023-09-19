@@ -200,3 +200,16 @@ int findMinInTheRow(int** matrix, int size, int column, int maxElement) {
     
     return minIndex;
 }
+
+bool wasInArray(int* array, int size, int number) {
+    
+    for(int i = 0; i < size; i++) {
+        
+        if(array[i] == number) {
+            return true;
+        }
+        
+    }
+    
+    return false;
+}

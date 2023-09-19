@@ -32,3 +32,8 @@ int calculateStraightMinimalWay(int** matrix,int* answerArray ,int numberOfCitie
 
 int findMinInTheRow(int** matrix, int size, int column, int maxElement);
 //Выводит минимальный элемент в строке column размером size
+
+bool wasInArray(int* array, int size, int number);
+//Есть 2 ответа - true если number есть в массиве array и false если нету
+
+

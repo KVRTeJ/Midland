@@ -53,20 +53,38 @@ int main() {
 
     int temp = -1;
     
-    int* wasArray = new int [numberOfCities];
+    int* permutations = new int [numberOfCities + 1];
+    //int* wasArray = new int [numberOfCities];
+    
+    for(int i = 0; i < numberOfCities; i++) {
+        
+        permutations[i] = i;
+        
+    }
+    
+    permutations[numberOfCities + 1] = 0;
+    
+    printArray(permutations, numberOfCities + 1);
+    
     
     for(int j = 0; j < numberOfCities; j++) {
-        
+        /*
+        if(wasInArray(permutations, numberOfCities, j) == true) {
+            priceMatrix[temp][j] = 0;
+            j--;
+        }
+        //проверка на цикл и откат на шаг назад
+        */
         temp = findMinInTheRow(priceMatrix, numberOfCities, j, MAX);
-        wasArray[temp] = 1;
-        std::cout << "temp = " << temp << " Element - " << priceMatrix[j][temp] << std::endl;
+        //wasArray[temp] = 1;
+        //std::cout << "temp = " << temp << " Element - " << priceMatrix[j][temp] << std::endl;
         
         
     }
     
-    printArray(wasArray, numberOfCities);
     
-    delete [] wasArray;
+    //printArray(wasArray, numberOfCities);
+    //delete [] wasArray;
     
     for(int i = 0; i < numberOfCities; i++)
         delete [] priceMatrix[i];
