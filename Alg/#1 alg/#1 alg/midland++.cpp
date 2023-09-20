@@ -90,7 +90,7 @@ int calculateWayWeight(int **matrix, int *array, int size) {
     return answer;
 }
 
-void calculateStraightMinimalWay(int** priceMatrix, int* answerArray,
+void calculateStraightMinimalWay(int** priceMatrix, int* bestWay, int* worstWay,
                                  int numberOfCities, int sourceCity,
                                  int maxElement) {
     
@@ -108,7 +108,8 @@ void calculateStraightMinimalWay(int** priceMatrix, int* answerArray,
     }
     
     //Ввод данных
-    int* permutation, currentWeight, minWeight = (numberOfCities * maxElement), counterPermutation = 0;
+    int* permutation, currentWeight, minWeight = (numberOfCities * maxElement),
+    maxWeight = 0, counterPermutation = 0;
     
     
     permutation = new int [numberOfCities + 1];
@@ -138,7 +139,7 @@ void calculateStraightMinimalWay(int** priceMatrix, int* answerArray,
     permutation[numberOfCities] = sourceCity - 1;
     
     currentWeight = calculateWayWeight(priceMatrix, permutation, numberOfCities);
-    createArrayCopy(permutation, answerArray, numberOfCities+1);
+    createArrayCopy(permutation, bestWay, numberOfCities+1);
     counterPermutation++;
     //Первая перестановка сгенерирована, прибавляем счетчик
     
@@ -185,9 +186,16 @@ void calculateStraightMinimalWay(int** priceMatrix, int* answerArray,
                     
                     if(currentWeight < minWeight) {
                         minWeight = currentWeight;
-                        createArrayCopy(permutation, answerArray, numberOfCities+1);
+                        createArrayCopy(permutation, bestWay, numberOfCities+1);
                         //Если текущий вес < минимального - он минимальный
                     }
+                    
+                    else if(currentWeight > maxWeight) {
+                        maxWeight = currentWeight;
+                        createArrayCopy(permutation, worstWay, numberOfCities+1);
+                        //Если текущий вес > максимального - он максимальный
+                    }
+                    
                 }
             }
         }

@@ -30,7 +30,8 @@ unsigned int calculateFactorial(int number);
 int calculateWayWeight(int **matrix, int *array, int size);
 //Подсчет веса пути
 
-void calculateStraightMinimalWay(int** matrix,int* answerArray ,int numberOfCities, int sourceCity, int maxElement);
+void calculateStraightMinimalWay(int** matrix,int* bestWay, int* worstWay,
+                                 int numberOfCities, int sourceCity, int maxElement);
 //Подсчет минимального пути прямым методом. Ответ записывается в "answerArray"
 
 int findMinInTheRow(int** matrix, int size, int column, int maxElement);
