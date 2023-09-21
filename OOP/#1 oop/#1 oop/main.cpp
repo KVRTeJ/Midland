@@ -1,41 +1,44 @@
-//
-//  main.cpp
-//  #1
-//
-//  Created by Dmitriy on 04.09.2023.
-//
-
 #include <iostream>
 
 #include "Fraction.h"
 
 
+/*
+ Необходимые методы класса:
+ - конструктор (по умолчанию + как минимум один конструктор с параметрами);
+ - установление/получение числителя/знаменателя дроби;
+ - арифметические операции между дробями (+, -, *, /). Могут быть реализованы в виде перегрузок [+5 баллов] или обычных методов;
+ - операции сравнения (>, <, ==, !=). Могут быть реализованы в виде перегрузок [+5 баллов] или обычных методов;
+ - приведение дроби к несократимой (допускается как в виде публичного, так и закрытого метода, при условии, что закрытый метод вызывается при операциях, результатом которых может быть сократимая дробь);
+ - ввод/вывод дроби в консоль;
+ - как минимум два уникальных собственных метода на ваше усмотрение (пример: конвертация из double в обыкновенную дробь (с указанием точности (количества значащих знаков после запятой))).
+*/
+
 int main() {
     
-    Fraction a;
-    a.numerator = 1;
-    a.denomerator = 3;
+    Fraction a(5, 2);
     
-    Fraction b;
-    b.numerator = 1;
-    b.denomerator = 2;
+    Fraction b = Fraction(1, 0);
     
+    b.print();
+    b.setNumerator(a.getNumerator());
+    b.print();
     
     std::cout << "Sum - ";
-    Fraction temp = a.SumFrac(b);
-    temp.PrintFrac();
+    Fraction temp = a.sum(b);
+    temp.print();
     
     std::cout << "Minus - ";
-    temp = a.MinusFrac(b);
-    temp.PrintFrac();
+    temp = a.minus(b);
+    temp.print();
     
     std::cout << "Division - ";
-    temp = a.DivisionFrac(b);
-    temp.PrintFrac();
+    temp = a.division(b);
+    temp.print();
     
     std::cout << "Multiplication - ";
-    temp = a.MultiplicationFrac(b);
-    temp.PrintFrac();
+    temp = a.multiplication(b);
+    temp.print();
     
     return 0;
 }

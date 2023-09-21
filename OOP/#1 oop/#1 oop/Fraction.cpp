@@ -1,57 +1,113 @@
-//
-//  Fraction.cpp
-//  #1
-//
-//  Created by Dmitriy on 04.09.2023.
-//
 #include <iostream>
 
 #include "Fraction.h"
 
-Fraction::Fraction()
-{
-    numerator = 1;
-    denomerator = 1;
+Fraction::Fraction(const int numerator, const int denomerator) {
+    
+    this -> m_numerator = numerator;
+    
+    if(denomerator != 0) {
+        
+        this -> m_denominator = denomerator;
+        
+    }
+    
+    else {
+        
+        std::cerr << "Fraction::Fraction - Ошибка: denominator = 0" << std::endl;
+        std::cerr << "denominator исправлен на 1" << std::endl;
+        this -> m_denominator = 1;
+        
+    }
+    
 }
 
-Fraction::Fraction(int numerator, int denomerator) {// нельзя переименовывать
-    //
+void Fraction::print() const {
+    
+    std::cout << m_numerator << "/" << m_denominator << std::endl;
+    
 }
 
-void Fraction::PrintFrac() {
-    std::cout << numerator << "/" << denomerator << std::endl;
-}
 
-Fraction Fraction::SumFrac(const Fraction b) {
+Fraction Fraction::sum(const Fraction b) {
+    
     Fraction ans;
-    ans.numerator = numerator * b.denomerator + denomerator * b.numerator;
-    ans.denomerator = denomerator * b.denomerator;
+    ans.m_numerator = m_numerator * b.m_denominator + m_denominator * b.m_numerator;
+    ans.m_denominator = m_denominator * b.m_denominator;
+    
     return ans;
+    
 }
 
-Fraction Fraction::MinusFrac(const Fraction b) {
+Fraction Fraction::minus(const Fraction b) {
+    
     Fraction ans;
-    ans.numerator = numerator * b.denomerator - denomerator * b.numerator;
-    ans.denomerator = denomerator * b.denomerator;
+    
+    ans.m_numerator = m_numerator * b.m_denominator - m_denominator * b.m_numerator;
+    ans.m_denominator = m_denominator * b.m_denominator;
+    
     return ans;
+    
 }
 
 
-Fraction Fraction::DivisionFrac(const Fraction b) {
+Fraction Fraction::division(const Fraction b) {
+    
     Fraction ans; //= {0, 1};
-    if(denomerator * b.numerator == 0)
+    
+    if(m_denominator * b.m_numerator == 0)
         return ans;
-    ans.numerator = numerator * b.denomerator;
-    ans.denomerator = denomerator * b.numerator;
+    
+    ans.m_numerator = m_numerator * b.m_denominator;
+    ans.m_denominator = m_denominator * b.m_numerator;
+    
     return ans;
+    
 }
 
-Fraction Fraction::MultiplicationFrac(const Fraction b) {
-    Fraction ans;//= {0, 1};
-    if(denomerator * b.denomerator == 0)
+Fraction Fraction::multiplication(const Fraction b) {
+    
+    Fraction ans; //= {0, 1};
+    
+    if(m_denominator * b.m_denominator == 0)
         return ans;
-    ans.numerator = numerator * b.numerator;
-    ans.denomerator = denomerator * b.denomerator;
+    
+    ans.m_numerator = m_numerator * b.m_numerator;
+    ans.m_denominator = m_denominator * b.m_denominator;
+    
     return ans;
+    
+}
+
+
+ void reduce() {
+ 
+ }
+
+
+int Fraction::getNumerator() {
+    
+    return m_numerator;
+    
+}
+
+int Fraction::getDenomirator() {
+    
+    return m_denominator;
+    
+}
+
+void Fraction::setNumerator(int value) {
+    
+    m_numerator = value;
+    return;
+    
+}
+
+void Fraction::setDenomirator(int value) {
+    
+    m_denominator = value;
+    return;
+    
 }
 
