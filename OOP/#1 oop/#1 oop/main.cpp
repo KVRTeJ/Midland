@@ -2,7 +2,6 @@
 
 #include "Fraction.h"
 
-
 /*
  Необходимые методы класса:
  - конструктор (по умолчанию + как минимум один конструктор с параметрами);
@@ -16,29 +15,25 @@
 
 int main() {
     
-    Fraction a(5, 2);
+    Fraction a(2, 1), b(1,2);
+    a.print();
+    a.reduce();
+    a.print();
+
+    if(a < b) {
+        
+        std::cout << "true " << std::endl;
+        
+    }
     
-    Fraction b = Fraction(1, 0);
+    if(a > b) {
+        
+        std::cout << "false " << std::endl;
+        
+    }
     
-    b.print();
-    b.setNumerator(a.getNumerator());
-    b.print();
-    
-    std::cout << "Sum - ";
-    Fraction temp = a.sum(b);
-    temp.print();
-    
-    std::cout << "Minus - ";
-    temp = a.minus(b);
-    temp.print();
-    
-    std::cout << "Division - ";
-    temp = a.division(b);
-    temp.print();
-    
-    std::cout << "Multiplication - ";
-    temp = a.multiplication(b);
-    temp.print();
+    a = a * b;
+    a.print();
     
     return 0;
 }

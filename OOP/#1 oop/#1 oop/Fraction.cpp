@@ -2,6 +2,23 @@
 
 #include "Fraction.h"
 
+
+unsigned int calculateGreatestCommonDivisor(const unsigned int a,
+                                            const unsigned int b) {
+    
+    if (a % b == 0)
+        return b;
+    
+     if (b % a == 0)
+        return a;
+    
+    if (a > b)
+        return calculateGreatestCommonDivisor(a % b, b);
+    
+    return calculateGreatestCommonDivisor(a, b % a);
+    
+}
+
 Fraction::Fraction(const int numerator, const int denomerator) {
     
     this -> m_numerator = numerator;
@@ -79,35 +96,92 @@ Fraction Fraction::multiplication(const Fraction b) {
     
 }
 
-
- void reduce() {
- 
- }
-
-
-int Fraction::getNumerator() {
+int Fraction::getNumerator() const{
     
     return m_numerator;
     
 }
 
-int Fraction::getDenomirator() {
+int Fraction::getDenomirator() const{
     
     return m_denominator;
     
 }
 
-void Fraction::setNumerator(int value) {
+void Fraction::setNumerator(const int value) {
     
     m_numerator = value;
     return;
     
 }
 
-void Fraction::setDenomirator(int value) {
+void Fraction::setDenomirator(const int value) {
     
     m_denominator = value;
     return;
     
 }
 
+bool Fraction::operator == (const Fraction other) {
+    
+    return ((m_numerator == other.m_numerator) && (m_denominator == other.m_denominator));
+    
+}
+
+bool Fraction::operator != (const Fraction other) {
+    
+    return ( !(operator == (other) ) );
+    
+}
+
+bool Fraction::operator < (const Fraction other) {
+    
+    return ( (m_numerator * other.m_denominator) <
+            (other.m_numerator * m_denominator) );
+    
+}
+
+bool Fraction::operator > (const Fraction other) {
+    
+    return ( !(operator < (other) ) ) ;
+    
+}
+
+Fraction Fraction::operator + (const Fraction other) {
+    
+    return sum(other);
+    
+}
+
+
+Fraction Fraction::operator - (const Fraction other) {
+ 
+ return minus(other);
+    
+}
+
+
+Fraction Fraction::operator * (const Fraction other) {
+    
+    return multiplication(other);
+    
+}
+
+
+Fraction Fraction::operator / (const Fraction other) {
+    
+    return division(other);
+    
+}
+
+
+void Fraction::reduce() {
+    
+    int greatestCommonDivisor = calculateGreatestCommonDivisor(m_numerator, m_denominator);
+    
+    m_numerator /= greatestCommonDivisor;
+    m_denominator /= greatestCommonDivisor;
+    
+    return;
+    
+}

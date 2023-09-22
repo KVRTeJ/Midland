@@ -4,8 +4,10 @@ class Fraction {
     
 public:
     
+    //расставить const там где this не меняется
+    
     Fraction() = default;
-    Fraction(int numerator, int denomerator);
+    Fraction(const int numerator, const int denomerator);
     ~Fraction() = default;
     
     void print() const;
@@ -15,22 +17,30 @@ public:
     Fraction division(const Fraction b);
     Fraction multiplication(const Fraction b);
     
+    int getNumerator() const;
+    int getDenomirator() const;
+    
+    void setNumerator(const int value);
+    void setDenomirator(const int value);
+    
+    bool operator == (const Fraction other);
+    bool operator != (const Fraction other);
+    bool operator < (const Fraction other);
+    bool operator > (const Fraction other);
+    
+    Fraction operator + (const Fraction other);
+    Fraction operator - (const Fraction other);
+    Fraction operator * (const Fraction other);
+    Fraction operator / (const Fraction other);
+    
+    //Fraction operator ++ //свой метод
+    
     void reduce(); //сокращение дроби
-    
-    int getNumerator();
-    int getDenomirator();
-    
-    void setNumerator(int value);
-    void setDenomirator(int value);
     
 private:
     
     int m_numerator = 1; //Вторая очередь инициализации
     int m_denominator = 1; //Вторая очередь инициализации
-    
-private:
-    
-    int m_test;
     
 };
 
