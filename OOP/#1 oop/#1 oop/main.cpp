@@ -15,7 +15,12 @@
 
 int main() {
     
-    Fraction a(2, 1), b(1,2);
+    Fraction a(1, 1), b = {0, 1}, c;
+    
+    c = a / b;
+    
+    c.print();
+    
     a.print();
     a.reduce();
     a.print();

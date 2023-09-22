@@ -11,11 +11,12 @@ public:
     ~Fraction() = default;
     
     void print() const;
+    void scan();
     
-    Fraction sum(const Fraction b);
-    Fraction minus(const Fraction b);
-    Fraction division(const Fraction b);
-    Fraction multiplication(const Fraction b);
+    Fraction sum(const Fraction b) const;
+    Fraction minus(const Fraction b) const;
+    Fraction division(const Fraction b) const;
+    Fraction multiplication(const Fraction b) const;
     
     int getNumerator() const;
     int getDenomirator() const;

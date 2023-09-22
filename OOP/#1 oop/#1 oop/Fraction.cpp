@@ -45,8 +45,25 @@ void Fraction::print() const {
     
 }
 
+void Fraction::scan() {
+    
+    std::cout << "Введите числитель - ";
+    std::cin >> m_numerator;
+    
+    std::cout << "Введите знаменатель - ";
+    std::cin >> m_denominator;
+    
+    while(m_denominator == 0) {
+        
+        std::cout << "Введите знаменатель - ";
+        std::cin >> m_denominator;
+        
+    }
+    
+}
 
-Fraction Fraction::sum(const Fraction b) {
+
+Fraction Fraction::sum(const Fraction b) const {
     
     Fraction ans;
     ans.m_numerator = m_numerator * b.m_denominator + m_denominator * b.m_numerator;
@@ -56,7 +73,7 @@ Fraction Fraction::sum(const Fraction b) {
     
 }
 
-Fraction Fraction::minus(const Fraction b) {
+Fraction Fraction::minus(const Fraction b) const {
     
     Fraction ans;
     
@@ -68,9 +85,9 @@ Fraction Fraction::minus(const Fraction b) {
 }
 
 
-Fraction Fraction::division(const Fraction b) {
+Fraction Fraction::division(const Fraction b) const {
     
-    Fraction ans; //= {0, 1};
+    Fraction ans;
     
     if(m_denominator * b.m_numerator == 0)
         return ans;
@@ -82,7 +99,7 @@ Fraction Fraction::division(const Fraction b) {
     
 }
 
-Fraction Fraction::multiplication(const Fraction b) {
+Fraction Fraction::multiplication(const Fraction b) const {
     
     Fraction ans; //= {0, 1};
     
@@ -96,13 +113,13 @@ Fraction Fraction::multiplication(const Fraction b) {
     
 }
 
-int Fraction::getNumerator() const{
+int Fraction::getNumerator() const {
     
     return m_numerator;
     
 }
 
-int Fraction::getDenomirator() const{
+int Fraction::getDenomirator() const {
     
     return m_denominator;
     
