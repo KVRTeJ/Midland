@@ -4,8 +4,6 @@ class Fraction {
     
 public:
     
-    //расставить const там где this не меняется
-    
     Fraction() = default;
     Fraction(const int numerator, const int denomerator);
     ~Fraction() = default;
@@ -34,9 +32,14 @@ public:
     Fraction operator * (const Fraction other);
     Fraction operator / (const Fraction other);
     
-    //Fraction operator ++ //свой метод
+    void reduce();
     
-    void reduce(); //сокращение дроби
+    //Свои методы
+    
+    Fraction operator -- (int);
+    Fraction & operator ++ ();
+    Fraction operator ++ (int);
+    Fraction & operator -- ();
     
 private:
     

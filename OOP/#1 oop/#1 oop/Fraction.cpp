@@ -202,3 +202,55 @@ void Fraction::reduce() {
     return;
     
 }
+
+//Свои методы
+
+Fraction Fraction::operator -- (int) {
+    
+    Fraction old(*this);
+    
+    operator -- ();
+    
+    return old;
+    
+}
+
+Fraction & Fraction::operator -- () {
+    
+    
+    m_numerator--;
+    
+    if(m_denominator != 1) {
+        
+        m_denominator--;
+        
+    }
+    
+    return *this;
+    
+}
+
+Fraction Fraction::operator ++ (int) {
+    
+    Fraction old(*this);
+    
+    operator ++ ();
+    
+    return old;
+}
+
+Fraction & Fraction::operator ++ () {
+    
+    
+    m_numerator++;
+    
+    if(m_denominator != -1) {
+        
+        m_denominator++;
+        
+    }
+    
+    return *this;
+    
+}
+
