@@ -5,10 +5,14 @@
 
 int bmSearch(std::string string, std::string subString) {
     
-    int sizeString = (int) string.size(), //размер строки
-        sizeSubString = (int) subString.size(), //размер подстроки
-        tab[256] = {0}; //таблица символов
+    int sizeString = (int) string.size(), //Размер строки
+        sizeSubString = (int) subString.size(), //Размер подстроки
+        tab[256] = {0}; //Таблица символов
     
+    /*
+    std::cout << "size s " << sizeString << std::endl;
+    std::cout << "size ss " << sizeSubString << std::endl;
+    */
     
     //Генерируем таблицу
     for(int i = 0; i < sizeSubString - 1; i++) {
@@ -27,19 +31,16 @@ int bmSearch(std::string string, std::string subString) {
         
     }
     
-    int temp = 0;
-    int i = sizeSubString - 1;
-    int j = sizeSubString - 1;
-    int k = 0;
-    
-    while(temp <= sizeString - sizeSubString) {
+    {
+        int i = sizeSubString - 1;
+        int j = sizeSubString - 1;
+        int k = i;
         
-        if(i < sizeString) {
+        bool a = true;
+        
+        while(a) {
             
-            if(j >= 0) {
-                
-                k = i;
-                j = sizeSubString - 1;
+            if(i > 0 && i < sizeString) {
                 
                 if(j >= 0) {
                     
@@ -52,33 +53,34 @@ int bmSearch(std::string string, std::string subString) {
                     
                     else {
                         
-                        temp = temp + tab[string[i]];
                         i += tab[string[i]];
                         j = sizeSubString - 1;
+                        k = i;
                         
                     }
                     
                 }
                 
+                else if(j >= 0) {
+
+                    return -1;
+                    
+                }
+                
+                else {
+                    
+                    return i + 2 - sizeSubString;
+                    
+                }
+                
             }
             
-        }
-        
-        else if(j >= 0) {
-            
-            return -1;
-            
-        }
-        
-        else {
-            
-            return i + 1 - sizeSubString;
+            else
+                return -1;
             
         }
         
     }
     
-    
-    
-    return 0;
+    return -1;
 }
