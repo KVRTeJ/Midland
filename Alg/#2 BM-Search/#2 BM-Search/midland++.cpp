@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "midland++.hpp"
 
@@ -40,7 +41,7 @@ int bmSearch(std::string string, std::string subString) {
         
         while(a) {
             
-            if(i > 0 && i < sizeString) {
+            if(i < sizeString) {
                 
                 if(j >= 0) {
                     
@@ -83,4 +84,19 @@ int bmSearch(std::string string, std::string subString) {
     }
     
     return -1;
+}
+
+void printVector(std::vector<int> nums) {
+    
+    for(auto it = nums.begin(); it != nums.end(); it++) {
+        
+        if(it != nums.begin())
+            std::cout << ", ";
+        
+        std::cout << *it;
+        
+    }
+    
+    std::cout << std::endl;
+    
 }

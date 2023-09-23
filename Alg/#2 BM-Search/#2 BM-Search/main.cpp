@@ -9,9 +9,8 @@ int main() {
     
     std::vector <int> occurrences; //вхождения
     
-    
-    std::string string = "abbabsds",
-                subString = "bsd";
+    std::string string = "abbagbsds",
+                subString = "gbs";
     
     std::cout << "string = " << string << std::endl;
     std::cout << "subString = " << subString << std::endl;
