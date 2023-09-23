@@ -1,3 +1,4 @@
 #pragma once
 
-void helloWorld();
+void printArray(int* array, int size);
+//Выводит массив
