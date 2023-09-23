@@ -1,4 +1,3 @@
 #pragma once
 
-void printArray(int* array, int size);
-//Выводит массив
+int bmSearch(std::string string, std::string subString);
