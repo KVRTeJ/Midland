@@ -161,6 +161,86 @@ std::vector<int> bmSearchAllOccurrences(std::string string, std::string subStrin
 }
 
 
+std::vector<int> bmSearchOccurrencesInDiapason(std::string string, std::string subString, int start, int stop) {
+    
+    std::vector<int> occurrences; // вхождения
+    
+    int sizeString = (int) string.size(), //Размер строки
+        sizeSubString = (int) subString.size(), //Размер подстроки
+        tab[256] = {0}; //Таблица символов
+    
+    /*
+    std::cout << "size s " << sizeString << std::endl;
+    std::cout << "size ss " << sizeSubString << std::endl;
+    */
+    
+    //Генерируем таблицу
+    for(int i = 0; i < sizeSubString - 1; i++) {
+        
+        tab[subString[i]] = sizeSubString - 1 - i;
+        
+    }
+    
+    for(int i = 0; i < 256; i++) {
+        
+        if(!(tab[i])) {
+            
+            tab[i] = sizeSubString;
+            
+        }
+        
+    }
+    
+    {
+        int i = sizeSubString - 1 + start;
+        int j = sizeSubString - 1;
+        int k = i;
+        
+        bool flag = false;
+        bool a = true;
+        
+        while(a) {
+            if(i >= 0 && i < stop) { //при > 2 символах путсой вектор
+                if(j >= 0) {
+                    
+                    if(string[k] == subString[j]) {
+                        
+                        k--;
+                        j--;
+                        
+                        if(j <= 0)
+                            flag = true;
+                        
+                    }
+                    
+                    else {
+                        
+                        if(flag)
+                            occurrences.push_back(i + 1 - sizeSubString);
+                        flag = false;
+                        
+                        i += tab[string[i]];
+                        j = sizeSubString - 1;
+                        k = i;
+                        
+                    }
+                    
+                }
+                else
+                    j = sizeSubString - 1;
+                    //j >= 0 - false
+                
+            }
+            else
+                a = false;
+                //i < sizeString - false
+        }
+        
+    }
+    
+    return occurrences;
+}
+
 void printVector(std::vector<int> nums) {
     
     for(auto it = nums.begin(); it != nums.end(); it++) {
