@@ -195,7 +195,7 @@ std::vector<int> bmSearchOccurrencesInDiapason(const std::string string, const s
              a = true;
         
         while(a) {
-            if(i >= 0 && i < stop) {
+            if( i >= 0 && i < (stop + 1) ) {
                 if(j >= 0) {
                     if(string[k] == subString[j]) {
                         

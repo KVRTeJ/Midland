@@ -6,8 +6,8 @@
 
 int main() {
     //для проверки 3 функции bmSearchOccurrencesInDiapason
-    const int start = 0, stop = 92,
-              start1 = 17, stop1 = 92,
+    const int start = 0, stop = 91,
+              start1 = 17, stop1 = 91,
               start2 = 28, stop2 = 36;
     
     const std::string string = "std::move_iterator is an iterator adaptor which behaves exactly like the underlying iterator",
