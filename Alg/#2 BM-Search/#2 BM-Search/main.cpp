@@ -6,8 +6,8 @@
 
 int main() {
     
-    std::string string = "abbagbsds",
-                subString = "ba";
+    std::string string = "babagbabas",
+                subString = "bab";
     
     std::vector<int> occurrences;
     
@@ -16,12 +16,10 @@ int main() {
     
     
     int answer = bmSearch(string, subString);
-    std::cout << "first - " << answer << std::endl;
-    
-    std::cout << "-=-=-=-=-=-=-=-=-" << std::endl;
+    std::cout << "First occurrences - " << answer << std::endl;
     
     occurrences = bmSearchAllOccurrences(string, subString);
-    
+    std::cout << "All occurrences - ";
     printVector(occurrences);
     
     

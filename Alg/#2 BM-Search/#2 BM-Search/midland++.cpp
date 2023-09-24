@@ -119,9 +119,7 @@ std::vector<int> bmSearchAllOccurrences(std::string string, std::string subStrin
         bool a = true;
         
         while(a) {
-            
-            if(i < sizeString) {
-                
+            if(i >= 0 && i < sizeString) { //при > 2 символах путсой вектор
                 if(j >= 0) {
                     
                     if(string[k] == subString[j]) {
@@ -129,7 +127,7 @@ std::vector<int> bmSearchAllOccurrences(std::string string, std::string subStrin
                         k--;
                         j--;
                         
-                        if(j == 0)
+                        if(j <= 0)
                             flag = true;
                         
                     }
@@ -138,6 +136,7 @@ std::vector<int> bmSearchAllOccurrences(std::string string, std::string subStrin
                         
                         if(flag)
                             occurrences.push_back(i + 1 - sizeSubString);
+                        flag = false;
                         
                         i += tab[string[i]];
                         j = sizeSubString - 1;
@@ -146,13 +145,14 @@ std::vector<int> bmSearchAllOccurrences(std::string string, std::string subStrin
                     }
                     
                 }
-                
-                //j >= 0 - false
+                else
+                    j = sizeSubString - 1;
+                    //j >= 0 - false
                 
             }
-            
-            //i < sizeString - false
-            
+            else
+                a = false;
+                //i < sizeString - false
         }
         
     }
