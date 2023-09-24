@@ -1,12 +1,14 @@
 #pragma once
 
-int bmSearch(std::string string, std::string subString);
+int bmSearch(const std::string string, const std::string subString);
 //БМ-Поиск. Возвращает первое вхождение подстроки в строку
 
-std::vector<int> bmSearchAllOccurrences(std::string string, std::string subString);
+std::vector<int> bmSearchAllOccurrences(const std::string string, const std::string subString);
 //БМ-Поиск. Возвращает все вхождения подстроки в строку
 
-std::vector<int> bmSearchOccurrencesInDiapason(std::string string, std::string subString, int start, int stop);
+std::vector<int> bmSearchOccurrencesInDiapason(const std::string string, const std::string subString,
+                                               const int start, const int stop);
+//БМ-Поиск. Возвращает вхождения подстроки в строку в диапазоне от start до stop
 
-void printVector(std::vector<int> nums);
+void printVector(const std::vector<int> nums);
 //Выводит вектор

@@ -4,11 +4,11 @@
 
 #include "midland++.hpp"
 
-int bmSearch(std::string string, std::string subString) {
+int bmSearch(const std::string string, const std::string subString) {
     
-    int sizeString = (int) string.size(), //Размер строки
-        sizeSubString = (int) subString.size(), //Размер подстроки
-        tab[256] = {0}; //Таблица символов
+    const int sizeString = (int) string.size(), //Размер строки
+              sizeSubString = (int) subString.size(); //Размер подстроки
+    int tab[256] = {0}; //Таблица символов
     
     /*
     std::cout << "size s " << sizeString << std::endl;
@@ -80,13 +80,13 @@ int bmSearch(std::string string, std::string subString) {
     return -1;
 }
 
-std::vector<int> bmSearchAllOccurrences(std::string string, std::string subString) {
+std::vector<int> bmSearchAllOccurrences(const std::string string,const std::string subString) {
     
     std::vector<int> occurrences; // вхождения
     
-    int sizeString = (int) string.size(), //Размер строки
-        sizeSubString = (int) subString.size(), //Размер подстроки
-        tab[256] = {0}; //Таблица символов
+    const int sizeString = (int) string.size(), //Размер строки
+              sizeSubString = (int) subString.size(); //Размер подстроки
+    int tab[256] = {0}; //Таблица символов
     
     /*
     std::cout << "size s " << sizeString << std::endl;
@@ -111,15 +111,15 @@ std::vector<int> bmSearchAllOccurrences(std::string string, std::string subStrin
     }
     
     {
-        int i = sizeSubString - 1;
-        int j = sizeSubString - 1;
-        int k = i;
+        int i = sizeSubString - 1,
+            j = sizeSubString - 1,
+            k = i;
         
-        bool flag = false;
-        bool a = true;
+        bool flag = false,
+             a = true;
         
         while(a) {
-            if(i >= 0 && i < sizeString) { //при > 2 символах путсой вектор
+            if(i >= 0 && i < sizeString) {
                 if(j >= 0) {
                     
                     if(string[k] == subString[j]) {
@@ -161,18 +161,13 @@ std::vector<int> bmSearchAllOccurrences(std::string string, std::string subStrin
 }
 
 
-std::vector<int> bmSearchOccurrencesInDiapason(std::string string, std::string subString, int start, int stop) {
+std::vector<int> bmSearchOccurrencesInDiapason(const std::string string, const std::string subString,
+                                               const int start, const int stop) {
     
     std::vector<int> occurrences; // вхождения
     
-    int sizeString = (int) string.size(), //Размер строки
-        sizeSubString = (int) subString.size(), //Размер подстроки
-        tab[256] = {0}; //Таблица символов
-    
-    /*
-    std::cout << "size s " << sizeString << std::endl;
-    std::cout << "size ss " << sizeSubString << std::endl;
-    */
+    const int sizeSubString = (int) subString.size(); //Размер подстроки
+    int tab[256] = {0}; //Таблица символов
     
     //Генерируем таблицу
     for(int i = 0; i < sizeSubString - 1; i++) {
@@ -192,17 +187,16 @@ std::vector<int> bmSearchOccurrencesInDiapason(std::string string, std::string s
     }
     
     {
-        int i = sizeSubString - 1 + start;
-        int j = sizeSubString - 1;
-        int k = i;
+        int i = sizeSubString - 1 + start, //
+            j = sizeSubString - 1,
+            k = i;
         
-        bool flag = false;
-        bool a = true;
+        bool flag = false,
+             a = true;
         
         while(a) {
-            if(i >= 0 && i < stop) { //при > 2 символах путсой вектор
+            if(i >= 0 && i < stop) {
                 if(j >= 0) {
-                    
                     if(string[k] == subString[j]) {
                         
                         k--;
@@ -229,19 +223,16 @@ std::vector<int> bmSearchOccurrencesInDiapason(std::string string, std::string s
                 else
                     j = sizeSubString - 1;
                     //j >= 0 - false
-                
             }
             else
                 a = false;
                 //i < sizeString - false
         }
-        
     }
-    
     return occurrences;
 }
 
-void printVector(std::vector<int> nums) {
+void printVector(const std::vector<int> nums) {
     
     for(auto it = nums.begin(); it != nums.end(); it++) {
         
