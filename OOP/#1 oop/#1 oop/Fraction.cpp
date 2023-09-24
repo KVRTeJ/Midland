@@ -101,7 +101,7 @@ Fraction Fraction::division(const Fraction b) const {
 
 Fraction Fraction::multiplication(const Fraction b) const {
     
-    Fraction ans; //= {0, 1};
+    Fraction ans;
     
     if(m_denominator * b.m_denominator == 0)
         return ans;
@@ -134,7 +134,16 @@ void Fraction::setNumerator(const int value) {
 
 void Fraction::setDenomirator(const int value) {
     
-    m_denominator = value;
+    if(value != 0) {
+        m_denominator = value;
+    }
+    
+    else {
+        std::cerr << "Fraction::Fraction - Ошибка: denominator = 0" << std::endl;
+        std::cerr << "denominator исправлен на 1" << std::endl;
+        m_denominator = 1;
+    }
+    
     return;
     
 }

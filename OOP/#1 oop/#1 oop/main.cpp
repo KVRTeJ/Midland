@@ -6,7 +6,11 @@
 
 int main() {
     
-    std::cout << "Hello World!" << std::endl;
+    Fraction a(1, 1);
+    
+    a.setDenomirator(0);
+    
+    a.print();
     
     return 0;
 }
