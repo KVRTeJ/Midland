@@ -20,12 +20,12 @@ int main() {
     
     std::cout << std::endl;
     
-    int firstOccurrences = bmSearch(string, subString);
+    int firstOccurrences = bmSearchCorrected(string, subString);
     std::cout << "1) First occurrences - " << firstOccurrences << std::endl;
     
     std::cout << std::endl;
     
-    occurrences = bmSearchAllOccurrences(string, subString);
+    occurrences = bmSearchAllOccurrencesCorrected(string, subString);
     std::cout << "2) All occurrences - ";
     printVector(occurrences);
     
