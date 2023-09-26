@@ -8,7 +8,10 @@ public:
     ~Array();
     
     int getArraySize();
-    void printArray();
+    int getIndexOfElement(int element);
+    
+    void print();
+    void scan(int size);
     
 private:
     int* m_numbers;
