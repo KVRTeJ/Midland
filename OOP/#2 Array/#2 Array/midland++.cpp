@@ -2,8 +2,21 @@
 
 #include "midland++.hpp"
 
-void HelloWorld::printHelloWorld() {
+Array::Array() {
+    m_size = 1;
     
-    std::cout << "Hello World!" << std::endl;
+    m_numbers = new int [m_size];
+    m_numbers = {0};
+    
+}
+Array::~Array() {
+    
+    
+    
+}
+
+int Array::getArraySize() {
+    
+    return m_size;
     
 }

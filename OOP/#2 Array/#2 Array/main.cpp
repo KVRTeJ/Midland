@@ -4,8 +4,5 @@
 
 int main() {
     
-    HelloWorld a;
-    a.printHelloWorld();
-    
     return 0;
 }

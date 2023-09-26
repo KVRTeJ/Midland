@@ -1,7 +1,14 @@
 #pragma once
 
-class HelloWorld {
+class Array {
 public:
-    void printHelloWorld();
+    Array();
+    Array(int* array);
+    ~Array();
     
+    int getArraySize();
+    
+private:
+    int* m_numbers;
+    int m_size;
 };
