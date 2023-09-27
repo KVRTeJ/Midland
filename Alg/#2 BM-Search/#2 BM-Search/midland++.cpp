@@ -47,7 +47,7 @@ void getOccurrences(std::vector<int> &answer,const std::string string,
     }
     
     {
-        int i = sizeSubString - 1 + start, //
+        int i = sizeSubString - 1 + start, 
             j = sizeSubString - 1,
             k = i;
         
@@ -94,20 +94,20 @@ void getOccurrences(std::vector<int> &answer,const std::string string,
 
 int bmSearch(const std::string string, const std::string subString) {
     
-    const int start = 0;
-    int stop = (int) subString.size();
+    int start = 0,
+        stop = (int) subString.size();
     
     std::vector<int> answer;
     
-    while(answer.size() < 1 && stop <= string.size() && stop != 0) {
+    while(answer.size() < 1 && stop < string.size() && stop != 0) {
         getOccurrences(answer, string, subString, start, stop);
+        start = stop;
         stop += stop;
     }
     
     if(!answer.empty())
         return answer[0];
     return -1;
-    
 }
 
 std::vector<int> bmSearchAllOccurrences(const std::string string,const std::string subString) {
@@ -128,3 +128,4 @@ std::vector<int> bmSearchOccurrencesInRange(const std::string string, const std:
     return answer;
     
 }
+
