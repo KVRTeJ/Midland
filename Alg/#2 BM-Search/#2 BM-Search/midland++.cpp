@@ -19,35 +19,32 @@ void printVector(const std::vector<int> nums) {
     
 }
 
+void fillAsciiTab(int* tab, std::string subString){
+    
+    const int sizeSubString = (int) subString.size();
+    
+    for(int i = 0; i < sizeSubString - 1; i++) {
+        tab[subString[i]] = sizeSubString - 1 - i;
+    }
+    
+    for(int i = 0; i < 256; i++) {
+        if(!(tab[i])) {
+            tab[i] = sizeSubString;
+        }
+    }
+    
+}
 
 void getOccurrences(std::vector<int> &answer,const std::string string,
-                    const std::string subString, const int start, const int stop) {
+                    const std::string subString, int* tab, const int start, const int stop) {
     
     if(subString.size() == 0)
         return;
     
     const int sizeSubString = (int) subString.size(); //Размер подстроки
-    int tab[256] = {0}; //Таблица символов
-    
-    //Генерируем таблицу
-    for(int i = 0; i < sizeSubString - 1; i++) {
-        
-        tab[subString[i]] = sizeSubString - 1 - i;
-        
-    }
-    
-    for(int i = 0; i < 256; i++) {
-        
-        if(!(tab[i])) {
-            
-            tab[i] = sizeSubString;
-            
-        }
-        
-    }
     
     {
-        int i = sizeSubString - 1 + start, 
+        int i = sizeSubString - 1 + start,
             j = sizeSubString - 1,
             k = i;
         
@@ -97,10 +94,14 @@ int bmSearch(const std::string string, const std::string subString) {
     int start = 0,
         stop = (int) subString.size();
     
+    int tab[256] = {0};
+    
+    fillAsciiTab(tab, subString);
+    
     std::vector<int> answer;
     
     while(answer.size() < 1 && stop < string.size() && stop != 0) {
-        getOccurrences(answer, string, subString, start, stop);
+        getOccurrences(answer, string, subString, tab, start, stop);
         start = stop;
         stop += stop;
     }
@@ -114,8 +115,12 @@ std::vector<int> bmSearchAllOccurrences(const std::string string,const std::stri
     
     const int start = 0, stop = (int) string.size();
     
+    int tab[256] = {0};
+    
+    fillAsciiTab(tab, subString);
+    
     std::vector<int> answer;
-    getOccurrences(answer, string, subString, start, stop);
+    getOccurrences(answer, string, subString, tab, start, stop);
     return answer;
     
 }
@@ -123,8 +128,12 @@ std::vector<int> bmSearchAllOccurrences(const std::string string,const std::stri
 std::vector<int> bmSearchOccurrencesInRange(const std::string string, const std::string subString,
                                             const int start, const int stop) {
     
+    int tab[256] = {0};
+    
+    fillAsciiTab(tab, subString);
+    
     std::vector<int> answer;
-    getOccurrences(answer, string, subString, start, stop);
+    getOccurrences(answer, string, subString, tab, start, stop);
     return answer;
     
 }

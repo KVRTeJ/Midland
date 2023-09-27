@@ -3,8 +3,11 @@
 void printVector(const std::vector<int> nums);
 //Выводит вектор
 
+void fillAsciiTab(int* tab, std::string subString);
+//Заполняет таблицу символов
+
 void getOccurrences(std::vector<int> &answer, const std::string string,
-                    const std::string subString, const int start, const int stop);
+                    const std::string subString, int* tab, const int start, const int stop);
 //Алгоритм БМ-поиска, который находит все перестаановки в диапазоне, работает с вектором answer
 
 int bmSearch(const std::string string, const std::string subString);
