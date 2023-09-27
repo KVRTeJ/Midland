@@ -4,10 +4,27 @@
 
 #include "midland++.hpp"
 
-std::vector<int> bmSearchOccurrencesInDiapason(const std::string string, const std::string subString,
-                                               const int start, const int stop) {
+void printVector(const std::vector<int> nums) {
     
-    std::vector<int> occurrences; // вхождения
+    for(auto it = nums.begin(); it != nums.end(); it++) {
+        
+        if(it != nums.begin())
+            std::cout << ", ";
+        
+        std::cout << *it;
+        
+    }
+    
+    std::cout << std::endl;
+    
+}
+
+
+void getOccurrences(std::vector<int> &answer,const std::string string,
+                    const std::string subString, const int start, const int stop) {
+    
+    if(subString.size() == 0)
+        return;
     
     const int sizeSubString = (int) subString.size(); //Размер подстроки
     int tab[256] = {0}; //Таблица символов
@@ -53,7 +70,7 @@ std::vector<int> bmSearchOccurrencesInDiapason(const std::string string, const s
                     else {
                         
                         if(flag)
-                            occurrences.push_back(i + 1 - sizeSubString);
+                            answer.push_back(i + 1 - sizeSubString);
                         flag = false;
                         
                         i += tab[string[i]];
@@ -72,37 +89,42 @@ std::vector<int> bmSearchOccurrencesInDiapason(const std::string string, const s
                 //i < sizeString - false
         }
     }
-    return occurrences;
+    return;
 }
 
-int bmSearchCorrected(const std::string string, const std::string subString) {
+int bmSearch(const std::string string, const std::string subString) {
     
-    const int start = 0, stop = (int) string.size(); //Размер строки
+    const int start = 0;
+    int stop = (int) subString.size();
     
-    int answer  = bmSearchOccurrencesInDiapason(string, subString, start, stop)[0];
+    std::vector<int> answer;
+    
+    while(answer.size() < 1 && stop <= string.size() && stop != 0) {
+        getOccurrences(answer, string, subString, start, stop);
+        stop += stop;
+    }
+    
+    if(!answer.empty())
+        return answer[0];
+    return -1;
+    
+}
+
+std::vector<int> bmSearchAllOccurrences(const std::string string,const std::string subString) {
+    
+    const int start = 0, stop = (int) string.size();
+    
+    std::vector<int> answer;
+    getOccurrences(answer, string, subString, start, stop);
     return answer;
     
 }
 
-std::vector<int> bmSearchAllOccurrencesCorrected(const std::string string,const std::string subString) {
+std::vector<int> bmSearchOccurrencesInRange(const std::string string, const std::string subString,
+                                            const int start, const int stop) {
     
-    const int start = 0, stop = (int) string.size();
-    
-    return bmSearchOccurrencesInDiapason(string, subString, start, stop);
-    
-}
-
-void printVector(const std::vector<int> nums) {
-    
-    for(auto it = nums.begin(); it != nums.end(); it++) {
-        
-        if(it != nums.begin())
-            std::cout << ", ";
-        
-        std::cout << *it;
-        
-    }
-    
-    std::cout << std::endl;
+    std::vector<int> answer;
+    getOccurrences(answer, string, subString, start, stop);
+    return answer;
     
 }
