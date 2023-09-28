@@ -1,7 +1,9 @@
 #include <iostream>
+#include <assert.h>
 
 #include "midland++.hpp"
 
+/*
 Array::Array() {
     m_size = 1;
     
@@ -10,6 +12,7 @@ Array::Array() {
     std::cout << "Работает конструктор по умолчанию" << std::endl;
     
 }
+*/
 
 Array::Array(int* array) {
     
@@ -94,3 +97,14 @@ void Array::scan(int size) {
     }
     
 }
+
+
+
+
+int &Array::operator [] (const int index) {
+    
+    assert(index >= 0 && index < m_size);
+    return m_numbers[index];
+    
+}
+

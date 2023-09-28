@@ -4,10 +4,8 @@
 
 int main() {
     
-    int array[3] = {1, 2, 3};
-    int target = 1;
-    Array t;
-    t.scan(3);
+    Array t(10, 0);
+    std::cout << t[1] << std::endl;
     
     return 0;
 }
