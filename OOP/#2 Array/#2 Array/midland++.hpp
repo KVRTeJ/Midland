@@ -18,19 +18,21 @@ public:
         }
         
     }
-    Array(int* array);
-    Array(Array &array);
+    Array(const int* array, const int size);
+    Array(const Array &array);
     ~Array();
     
-    int getArraySize();
-    int getIndexOfElement(const int element);
+    int getArraySize() const;
+    int getIndexOfElement(const int element) const;
     
-    void print();
+    void print() const;
     void scan(int size);
     
     void sort();
     
     int &operator [] (const int index);
+    Array &operator = (const Array &object);
+    
     
 private:
     int* m_numbers;

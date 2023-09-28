@@ -14,44 +14,51 @@ Array::Array() {
 }
 */
 
-Array::Array(int* array) {
+Array::Array(const int* array, int size) {
     
-    m_size = sizeof(array)/sizeof(array[0]) + 1; //выводит на 1 элемент меньше ??????
-    //sizeof (array)' will return the size of the pointer, not the array itself
+    assert(size = 0);
+    
+    if(size < 0) {
+        size = -size;
+        std::cerr << "void Array::scan: размер не может быть отрицательным. Убран минус." << std::endl;
+        std::cout << size << std::endl;
+    }
+    
+    m_size = size;
     
     m_numbers = new int [m_size];
     for(int i = 0; i < m_size; i++)
         m_numbers[i] = array[i];
-    std::cout << "Сработал контруктор с аргументом m_numbers - ";
+    //std::cout << "Сработал контруктор с аргументом m_numbers - ";
     print();
     
     
 }
 
-Array::Array(Array &array) {
+Array::Array(const Array &array) {
     
     m_numbers = new int [array.m_size];
     for(m_size = 0; m_size < array.m_size;
         m_size++)
         m_numbers[m_size] = array.m_numbers[m_size];
-    std::cout << "Работает конструктор копирования" << std::endl;
+    //std::cout << "Работает конструктор копирования" << std::endl;
 }
 
 
 Array::~Array() {
     
     delete [] m_numbers;
-    std::cout << "Работает дeструктор " << std::endl;
+    //std::cout << "Работает дeструктор " << std::endl;
     
 }
 
-int Array::getArraySize() {
+int Array::getArraySize() const{
     
     return m_size;
     
 }
 
-int Array::getIndexOfElement(int element) {
+int Array::getIndexOfElement(int element) const{
     
     for(int i = 0; i < m_size; i++){
         if(m_numbers[i] == element) {
@@ -64,7 +71,7 @@ int Array::getIndexOfElement(int element) {
 }
 
 
-void Array::print() {
+void Array::print() const{
     
     for(int i = 0; i < m_size; i++) {
         if(i != 0){
@@ -98,7 +105,9 @@ void Array::scan(int size) {
     
 }
 
-
+void Array::sort() {
+    
+}
 
 
 int &Array::operator [] (const int index) {
@@ -107,4 +116,23 @@ int &Array::operator [] (const int index) {
     return m_numbers[index];
     
 }
+
+Array &Array::operator = (const Array &object) {
+    
+    if(this == &object) {
+        return *this;
+    }
+    if(m_size != object.m_size) {
+        m_size = object.m_size;
+        delete[] m_numbers;
+        m_numbers = new int[object.m_size];
+    }
+    
+    for(m_size = 0; m_size < object.m_size; m_size++)
+        m_numbers[m_size] = object.m_numbers[m_size];
+    
+    return *this;
+    
+}
+
 
