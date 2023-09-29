@@ -5,26 +5,25 @@
 
 double calculateAvg(Array array) {
     
-    if(array.getArraySize() == 0) {
+    if(array.getSize() == 0) {
         return 0;
     }
     
     double temp = 0;
-    for(int i = 0; i < array.getArraySize(); i++) {
+    for(int i = 0; i < array.getSize(); i++) {
         temp += array[i];
     }
     
-    return temp/array.getArraySize();
+    return temp/array.getSize();
     
 }
 
 int main() {
-    
-    Array t(10, 2), t1(1, 1);
-    t1 = t;
-    t[2] = 10;
+    int temp[5] = {1, 3, 3, 5, 2};
+    Array t(temp, 5);
+    t.sort();
     t.print();
-    t1.print();
-    
+    t.insert(5, 99);
+    t.print();
     return 0;
 }

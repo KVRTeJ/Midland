@@ -18,11 +18,12 @@ public:
         }
         
     }
+    
     Array(const int* array, const int size);
     Array(const Array &array);
     ~Array();
     
-    int getArraySize() const;
+    int getSize() const;
     int getIndexOfElement(const int element) const;
     
     void print() const;
@@ -30,11 +31,14 @@ public:
     
     void sort();
     
+    bool insert(int index, int value); //Добавляет элемент в массив
+    bool remove(int index, int value); //Удаляет элемент в массиве
+    
     int &operator [] (const int index);
     Array &operator = (const Array &object);
     
     
 private:
-    int* m_numbers;
-    int m_size;
+    int* m_numbers = nullptr;
+    int m_size = 0;
 };

@@ -3,20 +3,9 @@
 
 #include "midland++.hpp"
 
-/*
-Array::Array() {
-    m_size = 1;
-    
-    m_numbers = new int [m_size];
-    m_numbers[m_size - 1] = m_size - 1;
-    std::cout << "Работает конструктор по умолчанию" << std::endl;
-    
-}
-*/
-
 Array::Array(const int* array, int size) {
     
-    assert(size = 0);
+    assert(size != 0);
     
     if(size < 0) {
         size = -size;
@@ -52,7 +41,7 @@ Array::~Array() {
     
 }
 
-int Array::getArraySize() const{
+int Array::getSize() const{
     
     return m_size;
     
@@ -107,12 +96,63 @@ void Array::scan(int size) {
 
 void Array::sort() {
     
+    int forSwap;
+    for(int i = 0; i < m_size; i++)
+        for(int j = 0; j < m_size; j++) {
+            
+            if(m_numbers[i] < m_numbers[j]) {
+                
+                forSwap = m_numbers[i];
+                m_numbers[i] = m_numbers[j];
+                m_numbers[j] = forSwap;
+                
+            }
+            
+        }
+    
 }
 
+bool Array::insert(int index, int value) {
+    
+    if(index < 0 || index > m_size) {
+        std::cerr << "bool Array::insert: некорректное значение index. " << std::endl;
+        std::cerr << "Array::insert ended with: false" << std::endl;
+        return false;
+    }
+    
+    int* temp = new int [m_size + 1];
+    
+    for(int i = 0, j = 0; i < m_size + 1; i++, j++) {
+        if(i != index) {
+            temp[i] = m_numbers[j];
+        }
+        else {
+            temp[i] = value;
+            j--;
+        }
+    }
+    delete [] m_numbers;
+    
+    m_size++;
+    m_numbers = new int [m_size];
+    
+    for(int i = 0; i < m_size + 1; i++) {
+        m_numbers[i] = temp[i];
+    }
+        
+    return true;
+    
+}
+
+bool Array::remove(int index, int value) {
+    
+    return false;
+    
+}
 
 int &Array::operator [] (const int index) {
     
-    assert(index >= 0 && index < m_size);
+    assert(index >= 0 || index < m_size);
     return m_numbers[index];
     
 }
@@ -122,6 +162,7 @@ Array &Array::operator = (const Array &object) {
     if(this == &object) {
         return *this;
     }
+    
     if(m_size != object.m_size) {
         m_size = object.m_size;
         delete[] m_numbers;
