@@ -36,12 +36,12 @@ public:
     bool remove(const int value);
     bool removeAll(const int value);
     
-    int getMaxElementIndex();
-    int getMinElementIndex();
+    int getMaxElement();
+    int getMinElement();
     
     void setRandomNumbers(const int min, const int max);
-    void setRandomNumbersIncrease(const int min, const int max);
-    void setRandomNumbersDecrease(const int min, const int max);
+    void setRandomNumbersIncrease();
+    void setRandomNumbersDecrease();
     
     int &operator [] (const int index);
     Array &operator = (const Array &object);

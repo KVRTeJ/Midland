@@ -37,5 +37,8 @@ int main() {
         std::cout << "True1" << std::endl;
     }
     
+    a.setRandomNumbersIncrease();
+    a.print();
+    
     return 0;
 }

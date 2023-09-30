@@ -1,5 +1,6 @@
 #include <iostream>
 #include <assert.h>
+#include <time.h>
 
 #include "midland++.hpp"
 
@@ -233,7 +234,7 @@ bool Array::removeAll(const int value) {
     
 }
 
-int Array::getMaxElementIndex() {
+int Array::getMaxElement() {
     
     int max = m_numbers[0];
     
@@ -246,7 +247,7 @@ int Array::getMaxElementIndex() {
     
 }
 
-int Array::getMinElementIndex() {
+int Array::getMinElement() {
     
     int min = m_numbers[0];
     
@@ -261,13 +262,36 @@ int Array::getMinElementIndex() {
 
 void Array::setRandomNumbers(const int min, const int max) {
     
+    srand( (unsigned int) time(0) );
+    
+    for(int i = 0; i < m_size; i++) {
+        m_numbers[i] = rand() % (max - min + 1) + min;
+    }
+    
+}
+
+void Array::setRandomNumbersIncrease() {
+    
+    srand( (unsigned int) time(0) );
+    m_numbers[0] = rand() % 10;
+    
+    for(int i = 1; i < m_size; i++) {
+        m_numbers[i] = m_numbers[i - 1] + rand() % 5 + 1;
+    }
     
     
 }
 
-//void Array:setRandomNumbersIncrease(const int min, const int max);
-
-//void Array::setRandomNumbersDecrease(const int min, const int max);
+void Array::setRandomNumbersDecrease() {
+    
+    srand( (unsigned int) time(0) );
+    m_numbers[m_size - 1] = rand() % 10;
+    
+    for(int i = m_size - 2; i >= 0; i--) {
+        m_numbers[i] = m_numbers[i + 1] - rand() % 5 + 1;
+    }
+    
+}
 
 int &Array::operator [] (const int index) {
     
