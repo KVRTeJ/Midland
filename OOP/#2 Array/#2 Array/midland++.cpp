@@ -288,7 +288,7 @@ void Array::setRandomNumbersDecrease() {
     m_numbers[m_size - 1] = rand() % 10;
     
     for(int i = m_size - 2; i >= 0; i--) {
-        m_numbers[i] = m_numbers[i + 1] - rand() % 5 + 1;
+        m_numbers[i] = m_numbers[i + 1] + rand() % 5 + 1;
     }
     
 }
