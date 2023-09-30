@@ -52,6 +52,13 @@ public:
     bool operator == (const Array object);
     bool operator != (const Array object);
     
+    //Итераторы v ???
+    int* begin() {
+        return m_numbers;
+    }
+    int* end() {
+        return m_numbers + m_size;
+    }
     
 private:
     int* m_numbers = nullptr;
