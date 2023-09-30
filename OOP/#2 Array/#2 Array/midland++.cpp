@@ -112,7 +112,7 @@ void Array::sort() {
     
 }
 
-bool Array::insert(int index, int value) {
+bool Array::insert(const int index, const int value) {
     
     if(index < 0 || index > m_size) {
         std::cerr << "bool Array::insert: некорректное значение index. " << std::endl;
@@ -144,8 +144,50 @@ bool Array::insert(int index, int value) {
     
 }
 
-bool Array::remove(int index, int value) {
+bool Array::remove(const int value) {
     
+    int* temp = new int [m_size - 1];
+    bool isInArray = false;
+    
+    for(int i = 0, j = 0; i < m_size; i++, j++) {
+        if(m_numbers[j] == value && isInArray == false) {
+            isInArray = true;
+            i--;
+        }
+        else {
+            temp[i] = m_numbers[j];
+        }
+    }
+    
+    if(!isInArray)
+        return false;
+    
+    delete [] m_numbers;
+    
+    m_size--;
+    m_numbers = new int [m_size];
+    
+    for(int i = 0; i < m_size; i++) {
+        m_numbers[i] = temp[i];
+    }
+    
+    return true;
+    
+}
+
+bool Array::removeAll(const int value) {
+    
+    bool isInArray = false;
+    
+    for(int i = 0; i < m_size; i++) {
+        if(m_numbers[i] == value) {
+            isInArray = remove(value);
+            i--;
+        }
+    }
+    
+    if(isInArray)
+        return true;
     return false;
     
 }

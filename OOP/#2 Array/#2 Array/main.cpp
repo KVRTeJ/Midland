@@ -25,5 +25,15 @@ int main() {
     t.print();
     t.insert(5, 99);
     t.print();
+    t.remove(99);
+    t.print();
+    t.removeAll(3);
+    t.print();
+    
+    Array arr(5, 1);
+    arr.print();
+    arr.removeAll(1);
+    arr.print();
+    
     return 0;
 }
