@@ -19,21 +19,13 @@ double calculateAvg(Array array) {
 }
 
 int main() {
-    int temp[5] = {1, 3, 3, 5, 2};
+    int temp[5] = {1, 3, 3, 1, 2};
     Array t(temp, 5);
-    t.sort();
+    //t.sort();
     t.print();
-    t.insert(5, 99);
+    t.removeIndex(2);
     t.print();
-    t.remove(99);
-    t.print();
-    t.removeAll(3);
-    t.print();
-    
-    Array arr(5, 1);
-    arr.print();
-    arr.removeAll(1);
-    arr.print();
+    std::cout << t.getMaxElementIndex() << " - " << t.getMinElementIndex() << std::endl;
     
     return 0;
 }

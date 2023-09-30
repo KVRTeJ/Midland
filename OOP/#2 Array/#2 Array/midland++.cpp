@@ -131,6 +131,7 @@ bool Array::insert(const int index, const int value) {
             j--;
         }
     }
+    
     delete [] m_numbers;
     
     m_size++;
@@ -139,7 +140,46 @@ bool Array::insert(const int index, const int value) {
     for(int i = 0; i < m_size + 1; i++) {
         m_numbers[i] = temp[i];
     }
-        
+    
+    delete [] temp;
+    return true;
+    
+}
+
+bool Array::removeIndex(const int index) {
+    
+    if(index < 0 || index >= m_size) {
+        std::cerr << "bool Array::insert: некорректное значение index. " << std::endl;
+        std::cerr << "Array::insert ended with: false" << std::endl;
+        return false;
+    }
+    
+    int* temp = new int [m_size - 1];
+    
+    {
+        int i = 0, j = 0;
+        while(i < m_size){
+            if(i != index) {
+                temp[j] = m_numbers[i];
+                i++;
+                j++;
+            }
+            else {
+                i++;
+            }
+        }
+    }
+    
+    delete [] m_numbers;
+    
+    m_size--;
+    m_numbers = new int [m_size];
+    
+    for(int i = 0; i < m_size; i++) {
+        m_numbers[i] = temp[i];
+    }
+    
+    delete [] temp;
     return true;
     
 }
@@ -171,6 +211,7 @@ bool Array::remove(const int value) {
         m_numbers[i] = temp[i];
     }
     
+    delete [] temp;
     return true;
     
 }
@@ -189,6 +230,32 @@ bool Array::removeAll(const int value) {
     if(isInArray)
         return true;
     return false;
+    
+}
+
+int Array::getMaxElementIndex() {
+    
+    int max = m_numbers[0];
+    
+    for(int i = 0; i < m_size; i++) {
+        if(m_numbers[i] > max)
+            max = m_numbers[i];
+    }
+    
+    return max;
+    
+}
+
+int Array::getMinElementIndex() {
+    
+    int min = m_numbers[0];
+    
+    for(int i = 0; i < m_size; i++) {
+        if(m_numbers[i] < min)
+            min = m_numbers[i];
+    }
+    
+    return min;
     
 }
 
@@ -218,4 +285,19 @@ Array &Array::operator = (const Array &object) {
     
 }
 
+/*
+Array Array::operator + (const Array &object) {
+    
+    int sizeOfTwoObj = m_size + object.m_size;
+    Array temp(sizeOfTwoObj, 0);
+    
+    for(int i = 0;)
+    
+}
+
+Array &Array::operator += (const Array &object) {
+    
+    return *this;
+}
+*/
 

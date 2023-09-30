@@ -32,11 +32,17 @@ public:
     void sort();
     
     bool insert(const int index, const int value);
+    bool removeIndex(const int index);
     bool remove(const int value);
     bool removeAll(const int value);
     
+    int getMaxElementIndex();
+    int getMinElementIndex();
+    
     int &operator [] (const int index);
     Array &operator = (const Array &object);
+    Array operator + (const Array &object);
+    Array &operator += (const Array &object);
     
     
 private:
