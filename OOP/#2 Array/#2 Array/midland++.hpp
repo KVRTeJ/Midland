@@ -39,10 +39,18 @@ public:
     int getMaxElementIndex();
     int getMinElementIndex();
     
+    void setRandomNumbers(const int min, const int max);
+    void setRandomNumbersIncrease(const int min, const int max);
+    void setRandomNumbersDecrease(const int min, const int max);
+    
     int &operator [] (const int index);
     Array &operator = (const Array &object);
+    Array operator + (const int value);
+    Array &operator += (const int value);
     Array operator + (const Array &object);
     Array &operator += (const Array &object);
+    bool operator == (const Array object);
+    bool operator != (const Array object);
     
     
 private:

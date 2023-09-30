@@ -259,6 +259,16 @@ int Array::getMinElementIndex() {
     
 }
 
+void Array::setRandomNumbers(const int min, const int max) {
+    
+    
+    
+}
+
+//void Array:setRandomNumbersIncrease(const int min, const int max);
+
+//void Array::setRandomNumbersDecrease(const int min, const int max);
+
 int &Array::operator [] (const int index) {
     
     assert(index >= 0 || index < m_size);
@@ -285,19 +295,74 @@ Array &Array::operator = (const Array &object) {
     
 }
 
-/*
+Array Array::operator + (const int value) {
+    
+    insert(m_size, value);
+    return *this;
+    
+}
+
+Array &Array::operator += (const int value) {
+    
+    *this = *this + value;
+    return *this;
+    
+}
+
+
 Array Array::operator + (const Array &object) {
     
     int sizeOfTwoObj = m_size + object.m_size;
     Array temp(sizeOfTwoObj, 0);
     
-    for(int i = 0;)
+    for(int i = 0, j = 0; i < temp.m_size; i++) {
+        if(i < m_size) {
+            temp[i] = m_numbers[i];
+        }
+        else {
+            temp[i] = object.m_numbers[j];
+            j++;
+        }
+    }
+    
+    return temp;
     
 }
 
 Array &Array::operator += (const Array &object) {
     
+    *this = *this + object;
+    
     return *this;
+    
 }
-*/
 
+bool Array::operator == (const Array object) {
+    
+    if(m_size != object.m_size) {
+        return false;
+    }
+    
+    {
+        
+        int i = 0;
+        while(i < m_size) {
+            if(m_numbers[i] == object.m_numbers[i]) {
+                return true;
+            }
+            else {
+                i++;
+            }
+        }
+        
+    }
+    
+    return false;
+    
+}
+
+bool Array::operator != (const Array object) {
+    
+    return !(*this == object);
+    
+}
