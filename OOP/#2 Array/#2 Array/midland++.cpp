@@ -371,8 +371,8 @@ bool Array::operator == (const Array object) {
         
         int i = 0;
         while(i < m_size) {
-            if(m_numbers[i] == object.m_numbers[i]) {
-                return true;
+            if(m_numbers[i] != object.m_numbers[i]) {
+                return false;
             }
             else {
                 i++;
@@ -381,7 +381,7 @@ bool Array::operator == (const Array object) {
         
     }
     
-    return false;
+    return true;
     
 }
 
