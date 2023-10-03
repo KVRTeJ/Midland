@@ -2,7 +2,7 @@
 
 class Array {
 public:
-    Array(int size, const int value) {
+    Array(int size = 1, const int value = -1) {
         
         if(size < 0) {
             size = -size;
@@ -29,36 +29,28 @@ public:
     void print() const;
     void scan(int size);
     
-    void sort();
+    void sort() const;
     
     bool insert(const int index, const int value);
     bool removeIndex(const int index);
     bool remove(const int value);
     bool removeAll(const int value);
     
-    int getMaxElement();
-    int getMinElement();
+    int getMaxElement() const;
+    int getMinElement() const;
     
-    void setRandomNumbers(const int min, const int max);
-    void setRandomNumbersIncrease();
-    void setRandomNumbersDecrease();
+    void setRandomNumbers(const int min, const int max) const;
+    void setRandomNumbersIncrease() const;
+    void setRandomNumbersDecrease() const;
     
-    int &operator [] (const int index);
+    int &operator [] (const int index) const;
     Array &operator = (const Array &object);
-    Array operator + (const int value);
+    Array operator + (const int value) const;
     Array &operator += (const int value);
-    Array operator + (const Array &object);
+    Array operator + (const Array &object) const;
     Array &operator += (const Array &object);
-    bool operator == (const Array object);
-    bool operator != (const Array object);
-    
-    //Итераторы v ???
-    int* begin() {
-        return m_numbers;
-    }
-    int* end() {
-        return m_numbers + m_size;
-    }
+    bool operator == (const Array object) const;
+    bool operator != (const Array object) const;
     
 private:
     int* m_numbers = nullptr;

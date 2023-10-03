@@ -21,25 +21,20 @@ double calculateAvg(Array array) {
 int main() {
     
     int temp[5] = {1, 3, 3, 1, 2};
-    Array t(temp, 5), a(10, 0), b(5, 1), c(1, 10);
-    t.print();
-    t.removeIndex(2);
-    t.print();
+    Array t(temp, 5), a(10, 0), b(5, 1), c(1, 10), tt;
     
-    c += 1;
-    c.print();
+    tt.print();
+    tt = t + 5;
+    tt.print();
+    std::cout << tt.getMinElement() << std::endl;
+    tt.setRandomNumbers(1, 10);
+    tt.print();
+    tt.sort();
+    tt.print();
     
-    if(c == c) {
-        std::cout << "True" << std::endl;
-    }
-    if(c != a) {
-        std::cout << "True1" << std::endl;
-    }
     
-    a.setRandomNumbers(1, 10);
-    a.print();
-    a.sort();
-    a.print();
+    
+
     
     return 0;
 }

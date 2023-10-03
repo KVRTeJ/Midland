@@ -19,9 +19,6 @@ Array::Array(const int* array, int size) {
     m_numbers = new int [m_size];
     for(int i = 0; i < m_size; i++)
         m_numbers[i] = array[i];
-    //std::cout << "Сработал контруктор с аргументом m_numbers - ";
-    print();
-    
     
 }
 
@@ -80,7 +77,7 @@ void Array::scan(int size) {
         std::cout << size << std::endl;
     }
     else if(size == 0) {
-        std::cerr << "void Array::scan: размер не может равен 0. Итоговый массив - {0}" << std::endl;
+        std::cout<< "void Array::scan: размер не может равен 0. Итоговый массив - {0}" << std::endl;
         return;
     }
     
@@ -95,7 +92,7 @@ void Array::scan(int size) {
     
 }
 
-void Array::sort() {
+void Array::sort() const {
     
     int forSwap;
     for(int i = 0; i < m_size; i++)
@@ -136,13 +133,7 @@ bool Array::insert(const int index, const int value) {
     delete [] m_numbers;
     
     m_size++;
-    m_numbers = new int [m_size];
-    
-    for(int i = 0; i < m_size + 1; i++) {
-        m_numbers[i] = temp[i];
-    }
-    
-    delete [] temp;
+    m_numbers = temp;
     return true;
     
 }
@@ -174,13 +165,7 @@ bool Array::removeIndex(const int index) {
     delete [] m_numbers;
     
     m_size--;
-    m_numbers = new int [m_size];
-    
-    for(int i = 0; i < m_size; i++) {
-        m_numbers[i] = temp[i];
-    }
-    
-    delete [] temp;
+    m_numbers = temp;
     return true;
     
 }
@@ -206,13 +191,7 @@ bool Array::remove(const int value) {
     delete [] m_numbers;
     
     m_size--;
-    m_numbers = new int [m_size];
-    
-    for(int i = 0; i < m_size; i++) {
-        m_numbers[i] = temp[i];
-    }
-    
-    delete [] temp;
+    m_numbers = temp;
     return true;
     
 }
@@ -234,7 +213,9 @@ bool Array::removeAll(const int value) {
     
 }
 
-int Array::getMaxElement() {
+int Array::getMaxElement() const {
+    
+    assert(m_size > 0);
     
     int max = m_numbers[0];
     
@@ -247,7 +228,9 @@ int Array::getMaxElement() {
     
 }
 
-int Array::getMinElement() {
+int Array::getMinElement() const {
+    
+    assert(m_size > 0);
     
     int min = m_numbers[0];
     
@@ -260,7 +243,7 @@ int Array::getMinElement() {
     
 }
 
-void Array::setRandomNumbers(const int min, const int max) {
+void Array::setRandomNumbers(const int min, const int max) const {
     
     srand( (unsigned int) time(0) );
     
@@ -270,7 +253,7 @@ void Array::setRandomNumbers(const int min, const int max) {
     
 }
 
-void Array::setRandomNumbersIncrease() {
+void Array::setRandomNumbersIncrease() const {
     
     srand( (unsigned int) time(0) );
     m_numbers[0] = rand() % 10;
@@ -282,7 +265,7 @@ void Array::setRandomNumbersIncrease() {
     
 }
 
-void Array::setRandomNumbersDecrease() {
+void Array::setRandomNumbersDecrease() const {
     
     srand( (unsigned int) time(0) );
     m_numbers[m_size - 1] = rand() % 10;
@@ -293,7 +276,7 @@ void Array::setRandomNumbersDecrease() {
     
 }
 
-int &Array::operator [] (const int index) {
+int &Array::operator [] (const int index) const {
     
     assert(index >= 0 || index < m_size);
     return m_numbers[index];
@@ -319,10 +302,16 @@ Array &Array::operator = (const Array &object) {
     
 }
 
-Array Array::operator + (const int value) {
+Array Array::operator + (const int value) const {
     
-    insert(m_size, value);
-    return *this;
+    Array temp(m_size + 1, 0);
+    
+    for(int i = 0; i <= m_size; i++) {
+        temp.m_numbers[i] = m_numbers[i];
+    }
+    temp.m_numbers[m_size] = value;
+    
+    return temp;
     
 }
 
@@ -334,7 +323,7 @@ Array &Array::operator += (const int value) {
 }
 
 
-Array Array::operator + (const Array &object) {
+Array Array::operator + (const Array &object) const {
     
     int sizeOfTwoObj = m_size + object.m_size;
     Array temp(sizeOfTwoObj, 0);
@@ -361,7 +350,7 @@ Array &Array::operator += (const Array &object) {
     
 }
 
-bool Array::operator == (const Array object) {
+bool Array::operator == (const Array object) const {
     
     if(m_size != object.m_size) {
         return false;
@@ -385,7 +374,7 @@ bool Array::operator == (const Array object) {
     
 }
 
-bool Array::operator != (const Array object) {
+bool Array::operator != (const Array object) const {
     
     return !(*this == object);
     
