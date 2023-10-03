@@ -92,6 +92,16 @@ void Array::scan(int size) {
     
 }
 
+void Array::swap(Array &object) {
+    
+    Array temp;
+    
+    temp = *this;
+    *this = object;
+    object = temp;
+    
+}
+
 void Array::sort() const {
     
     int forSwap;

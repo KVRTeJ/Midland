@@ -23,14 +23,15 @@ int main() {
     int temp[5] = {1, 3, 3, 1, 2};
     Array t(temp, 5), a(10, 0), b(5, 1), c(1, 10), tt;
     
+    tt.setRandomNumbers(1, 5);
+    
     tt.print();
-    tt = t + 5;
+    t.print();
+    
+    t.swap(tt);
+    
     tt.print();
-    std::cout << tt.getMinElement() << std::endl;
-    tt.setRandomNumbers(1, 10);
-    tt.print();
-    tt.sort();
-    tt.print();
+    t.print();
     
     
     

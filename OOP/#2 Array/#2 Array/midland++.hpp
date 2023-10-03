@@ -29,6 +29,8 @@ public:
     void print() const;
     void scan(int size);
     
+    void swap(Array &object);
+    
     void sort() const;
     
     bool insert(const int index, const int value);
