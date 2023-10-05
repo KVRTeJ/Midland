@@ -23,6 +23,12 @@ public:
     Array(const Array &array);
     ~Array();
     
+    class Iterator;
+    Iterator begin();
+    Iterator end();
+    Iterator insertBeforeIterator(Iterator iter, const int value);
+    Iterator remove1(const int);
+    
     int getSize() const;
     int getIndexOfElement(const int element) const;
     
@@ -57,4 +63,34 @@ public:
 private:
     int* m_numbers = nullptr;
     int m_size = 0;
+    
+};
+
+class Array::Iterator {
+public:
+    friend class Array;
+    
+    Iterator(Array *object, const int pos)
+    : m_numbers(object), m_pos(pos)
+    {}
+    
+    bool hasNext() const;
+    int getPosition() const;
+    
+    int &operator * () const;
+    
+    Iterator &operator ++ ();
+    Iterator operator ++ (int);
+    Iterator &operator -- ();
+    Iterator operator -- (int);
+    Iterator &operator += (const int &value);
+    Iterator &operator -= (const int &value);
+    
+    bool operator == (const Iterator &object) const;
+    bool operator != (const Iterator &object) const;
+    
+private:
+    Array* m_numbers = nullptr;
+    int m_pos = 0;
+    
 };

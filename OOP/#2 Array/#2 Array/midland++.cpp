@@ -1,6 +1,7 @@
 #include <iostream>
 #include <assert.h>
 #include <time.h>
+#include <vector>
 
 #include "midland++.hpp"
 
@@ -36,6 +37,26 @@ Array::~Array() {
     
     delete [] m_numbers;
     //std::cout << "Работает дeструктор " << std::endl;
+    
+}
+
+Array::Iterator Array::begin() {
+    
+    return Iterator(this, 0);
+    
+}
+
+Array::Iterator Array::end() {
+    
+    return Iterator(this, getSize());
+    
+}
+
+Array::Iterator Array::insertBeforeIterator(Iterator iterator, const int value) {
+    
+    insert(iterator.m_pos, value);
+    iterator.m_pos++;
+    return iterator;
     
 }
 
@@ -389,3 +410,81 @@ bool Array::operator != (const Array object) const {
     return !(*this == object);
     
 }
+
+bool Array::Iterator::hasNext() const {
+    
+    return (m_pos < m_numbers->getSize());
+    
+}
+
+int Array::Iterator::getPosition() const {
+    
+    return m_pos;
+    
+}
+
+int &Array::Iterator::operator * () const {
+    
+    return (*m_numbers)[m_pos];
+    
+}
+
+
+Array::Iterator &Array::Iterator::operator ++ () {
+    
+    m_pos++;
+    return *this;
+    
+}
+
+Array::Iterator Array::Iterator::operator ++ (int) {
+    
+    Iterator old(*this);
+    m_pos++;
+    return old;
+    
+}
+
+Array::Iterator &Array::Iterator::operator -- () {
+    
+    m_pos--;
+    return *this;
+    
+}
+
+Array::Iterator Array::Iterator::operator -- (int) {
+    
+    Iterator old(*this);
+    m_pos--;
+    return old;
+    
+}
+
+Array::Iterator &Array::Iterator::operator += (const int &value) {
+    
+    m_pos += value;
+    return *this;
+
+}
+
+Array::Iterator &Array::Iterator::operator -= (const int &value) {
+    
+    m_pos -= value;
+    return *this;
+
+}
+
+bool Array::Iterator::operator == (const Iterator &object) const {
+    
+    assert(m_numbers == object.m_numbers);
+    return (m_numbers == object.m_numbers && m_pos == object.m_pos);
+    
+}
+
+bool Array::Iterator::operator != (const Iterator &object) const {
+    
+    return !(object==(object));
+    
+}
+
+
