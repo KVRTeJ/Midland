@@ -32,6 +32,12 @@ Array::Array(const Array &array) {
     //std::cout << "Работает конструктор копирования" << std::endl;
 }
 
+Array::Array(Array &&array) {
+    
+    swap(array);
+    
+}
+
 
 Array::~Array() {
     
@@ -115,12 +121,26 @@ void Array::scan(int size) {
 
 void Array::swap(Array &object) {
     
-    Array temp;
+    std::swap(m_size, object.m_size);
+    std::swap(m_numbers, object.m_numbers);
     
-    temp = *this;
-    *this = object;
-    object = temp;
+}
+
+void Array::resize(int size) {
     
+    if(size < 0) {
+        std::cerr << "Array::resize size = -size" << std::endl;
+        size = -size;
+    }
+    
+    Array resized(size);
+    size = std::min(m_size, size);
+    
+    for(int i = 0; i < size; i++) {
+        resized.m_numbers[i] = m_numbers[i];
+    }
+    
+    swap(resized);
 }
 
 void Array::sort() const {
@@ -328,6 +348,7 @@ Array &Array::operator = (const Array &object) {
     
     for(m_size = 0; m_size < object.m_size; m_size++)
         m_numbers[m_size] = object.m_numbers[m_size];
+
     
     return *this;
     
@@ -488,3 +509,21 @@ bool Array::Iterator::operator != (const Iterator &object) const {
 }
 
 
+/*
+std::ostream &Array::operator << (std::ostream &stream, const Array &object) {
+    
+    stream << "[";
+    for(int i = 0; i < object.getSize(); i++) {
+        if(i != 0){
+            stream  << ", ";
+        }
+        stream << m_numbers[i];
+    }
+    stream << std::endl;
+    
+    return stream;
+    
+}
+
+//std::istream &operator >> (std::istream &stream, const Array &object);
+*/

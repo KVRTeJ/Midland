@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 class Array {
 public:
     Array(int size = 1, const int value = -1) {
@@ -21,6 +23,7 @@ public:
     
     Array(const int* array, const int size);
     Array(const Array &array);
+    Array(Array &&array);
     ~Array();
     
     class Iterator;
@@ -36,6 +39,8 @@ public:
     void scan(int size);
     
     void swap(Array &object);
+    
+    void resize(const int size);
     
     void sort() const;
     
@@ -94,3 +99,6 @@ private:
     int m_pos = 0;
     
 };
+
+std::ostream &operator << (std::ostream &stream, const Array &object);
+std::istream &operator >> (std::istream &stream, const Array &object);
