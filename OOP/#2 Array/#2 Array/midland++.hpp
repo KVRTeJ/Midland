@@ -8,15 +8,17 @@ public:
         
         if(size < 0) {
             size = -size;
-            std::cerr << "void Array::scan: размер не может быть отрицательным. Убран минус." << std::endl;
+            std::cerr << "void Array::Array: размер не может быть отрицательным. Убран минус." << std::endl;
             std::cout << size << std::endl;
         }
         
-        m_numbers = new int [size];
-        m_size = size;
-        
-        for(int i = 0; i < size; i++) {
-            m_numbers[i] = value;
+        else {
+            m_numbers = new int [size];
+            m_size = size;
+            
+            for(int i = 0; i < size; i++) {
+                m_numbers[i] = value;
+            }
         }
         
     }
@@ -30,7 +32,7 @@ public:
     Iterator begin();
     Iterator end();
     Iterator insertBeforeIterator(Iterator iter, const int value);
-    Iterator remove1(const int);
+    Iterator removeInRange(const Iterator begin, const Iterator end);
     
     int getSize() const;
     int getIndexOfElement(const int element) const;
@@ -90,6 +92,7 @@ public:
     Iterator operator -- (int);
     Iterator &operator += (const int &value);
     Iterator &operator -= (const int &value);
+    Iterator &operator = (const int &value);
     
     bool operator == (const Iterator &object) const;
     bool operator != (const Iterator &object) const;

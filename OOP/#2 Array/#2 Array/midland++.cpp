@@ -11,7 +11,7 @@ Array::Array(const int* array, int size) {
     
     if(size < 0) {
         size = -size;
-        std::cerr << "void Array::scan: размер не может быть отрицательным. Убран минус." << std::endl;
+        std::cerr << "void Array::Array(const int*, int size): размер не может быть отрицательным. Убран минус." << std::endl;
         std::cout << size << std::endl;
     }
     
@@ -63,6 +63,30 @@ Array::Iterator Array::insertBeforeIterator(Iterator iterator, const int value) 
     insert(iterator.m_pos, value);
     iterator.m_pos++;
     return iterator;
+    
+}
+
+Array::Iterator Array::removeInRange(const Iterator begin, const Iterator end) {
+    
+    assert(end.m_pos >= begin.m_pos);
+    
+    const int newSize = m_size - (end.m_pos - begin.m_pos);
+    Array temp(newSize, -1);
+    Iterator itTemp = temp.begin();
+    
+    for(auto it = this->begin(); it != this->end(); it++) {
+        if(it.m_pos < begin.m_pos || it.m_pos >= end.m_pos) {
+            (*itTemp) = (*this)[it.m_pos];
+            itTemp++;
+        }
+        else {
+            it += end.m_pos - begin.m_pos - 1;
+        }
+    }
+    
+    swap(temp);
+    
+    return itTemp;
     
 }
 
@@ -192,7 +216,7 @@ bool Array::insert(const int index, const int value) {
 bool Array::removeIndex(const int index) {
     
     if(index < 0 || index >= m_size) {
-        std::cerr << "bool Array::insert: некорректное значение index. " << std::endl;
+        std::cerr << "bool Array::removeIndex: некорректное значение index. " << std::endl;
         std::cerr << "Array::insert ended with: false" << std::endl;
         return false;
     }
@@ -483,6 +507,7 @@ Array::Iterator Array::Iterator::operator -- (int) {
 
 Array::Iterator &Array::Iterator::operator += (const int &value) {
     
+    
     m_pos += value;
     return *this;
 
@@ -504,26 +529,43 @@ bool Array::Iterator::operator == (const Iterator &object) const {
 
 bool Array::Iterator::operator != (const Iterator &object) const {
     
-    return !(object==(object));
+    return !(*this == (object));
+    
+}
+
+Array::Iterator &Array::Iterator::operator = (const int &value) {
+    
+    m_pos = value;
+    return *this;
     
 }
 
 
-/*
-std::ostream &Array::operator << (std::ostream &stream, const Array &object) {
+
+
+std::ostream &operator << (std::ostream &stream, const Array &object) {
     
     stream << "[";
     for(int i = 0; i < object.getSize(); i++) {
         if(i != 0){
             stream  << ", ";
         }
-        stream << m_numbers[i];
+        stream << object[i];
     }
-    stream << std::endl;
+    stream << "]" << std::endl;
     
     return stream;
     
 }
 
-//std::istream &operator >> (std::istream &stream, const Array &object);
-*/
+
+std::istream &operator >> (std::istream &stream, const Array &object) {
+    
+    for(int i = 0; i < object.getSize(); i++) {
+        std::cout << "Array[" << i << "] = ";
+        stream >> object[i];
+    }
+    
+    return stream;
+}
+
