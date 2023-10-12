@@ -1,11 +1,11 @@
-#include <iostream>
-#include <assert.h>
-#include <time.h>
-#include <vector>
+#ifndef ARE_TEMPLATE_ARRAY_METHODS_DEFINED
+#define ARE_TEMPLATE_ARRAY_METHODS_DEFINED
 
 #include "midland++.hpp"
 
-Array::Array(const int* array, int size) {
+
+template <typename Type>
+Array<Type>::Array(const Type* array, int size) {
     
     assert(size != 0);
     
@@ -17,48 +17,65 @@ Array::Array(const int* array, int size) {
     
     m_size = size;
     
-    m_numbers = new int [m_size];
+    m_numbers = new Type [m_size];
     for(int i = 0; i < m_size; i++)
         m_numbers[i] = array[i];
     
 }
 
-Array::Array(const Array &array) {
+template <typename Type>
+Array<Type>::Array(const Array &array) {
     
-    m_numbers = new int [array.m_size];
+    m_numbers = new Type [array.m_size];
     for(m_size = 0; m_size < array.m_size;
         m_size++)
         m_numbers[m_size] = array.m_numbers[m_size];
     //std::cout << "Работает конструктор копирования" << std::endl;
 }
 
-Array::Array(Array &&array) {
+template <typename Type>
+Array<Type>::Array(Array &&array) {
     
     swap(array);
     
 }
 
-
-Array::~Array() {
+template <typename Type>
+Array<Type>::~Array() {
     
     delete [] m_numbers;
     //std::cout << "Работает дeструктор " << std::endl;
     
 }
 
-Array::Iterator Array::begin() {
+template<typename Type> typename
+Array<Type>::Iterator Array<Type>::begin() {
     
     return Iterator(this, 0);
     
 }
-
-Array::Iterator Array::end() {
+template <typename  Type> typename
+Array<Type>::Iterator Array<Type>::end() {
     
     return Iterator(this, getSize());
     
 }
 
-Array::Iterator Array::insertBeforeIterator(Iterator iterator, const int value) {
+template<typename Type> typename
+Array<Type>::ConstIterator Array<Type>::begin() const {
+    
+    return ConstIterator(this, 0);
+    
+}
+template <typename  Type> typename
+Array<Type>::ConstIterator Array<Type>::end() const {
+    
+    return ConstIterator(this, getSize());
+    
+}
+
+template <typename Type> typename
+Array<Type>::Iterator Array<Type>::insertBeforeIterator(Iterator iterator, const Type value) {
     
     insert(iterator.m_pos, value);
     iterator.m_pos++;
@@ -66,13 +83,14 @@ Array::Iterator Array::insertBeforeIterator(Iterator iterator, const int value) 
     
 }
 
-Array::Iterator Array::removeInRange(const Iterator begin, const Iterator end) {
+template <typename Type> typename
+Array<Type>::Iterator Array<Type>::removeInRange(const Iterator begin, const Iterator end) {
     
     assert(end.m_pos >= begin.m_pos);
     
     const int newSize = m_size - (end.m_pos - begin.m_pos);
     Array temp(newSize, -1);
-    Iterator itTemp = temp.begin();
+    TemplateIterator itTemp = temp.begin();
     
     for(auto it = this->begin(); it != this->end(); it++) {
         if(it.m_pos < begin.m_pos || it.m_pos >= end.m_pos) {
@@ -90,13 +108,15 @@ Array::Iterator Array::removeInRange(const Iterator begin, const Iterator end) {
     
 }
 
-int Array::getSize() const{
+template <typename Type>
+int Array<Type>::getSize() const{
     
     return m_size;
     
 }
 
-int Array::getIndexOfElement(int element) const{
+template <typename Type>
+int Array<Type>::getIndexOfElement(const Type element) const{
     
     for(int i = 0; i < m_size; i++){
         if(m_numbers[i] == element) {
@@ -108,8 +128,8 @@ int Array::getIndexOfElement(int element) const{
     
 }
 
-
-void Array::print() const{
+template <typename Type>
+void Array<Type>::print() const{
     
     for(int i = 0; i < m_size; i++) {
         if(i != 0){
@@ -120,7 +140,8 @@ void Array::print() const{
     std::cout << std::endl;
 }
 
-void Array::scan(int size) {
+template <typename Type>
+void Array<Type>::scan(int size) {
     
     if(size < 0) {
         size = -size;
@@ -132,7 +153,7 @@ void Array::scan(int size) {
         return;
     }
     
-    m_numbers = new int [size];
+    m_numbers = new Type [size];
     m_size = size;
         
     for(int i = 0; i < size; i++) {
@@ -143,14 +164,16 @@ void Array::scan(int size) {
     
 }
 
-void Array::swap(Array &object) {
+template <typename Type>
+void Array<Type>::swap(Array &object) {
     
     std::swap(m_size, object.m_size);
     std::swap(m_numbers, object.m_numbers);
     
 }
 
-void Array::resize(int size) {
+template <typename Type>
+void Array<Type>::resize(int size) {
     
     if(size < 0) {
         std::cerr << "Array::resize size = -size" << std::endl;
@@ -167,7 +190,8 @@ void Array::resize(int size) {
     swap(resized);
 }
 
-void Array::sort() const {
+template <typename Type>
+void Array<Type>::sort() const {
     
     int forSwap;
     for(int i = 0; i < m_size; i++)
@@ -185,7 +209,8 @@ void Array::sort() const {
     
 }
 
-bool Array::insert(const int index, const int value) {
+template <typename Type>
+bool Array<Type>::insert(const int index, const Type value) {
     
     if(index < 0 || index > m_size) {
         std::cerr << "bool Array::insert: некорректное значение index. " << std::endl;
@@ -193,7 +218,7 @@ bool Array::insert(const int index, const int value) {
         return false;
     }
     
-    int* temp = new int [m_size + 1];
+    int* temp = new Type [m_size + 1];
     
     for(int i = 0, j = 0; i < m_size + 1; i++, j++) {
         if(i != index) {
@@ -213,7 +238,8 @@ bool Array::insert(const int index, const int value) {
     
 }
 
-bool Array::removeIndex(const int index) {
+template <typename Type>
+bool Array<Type>::removeIndex(const int index) {
     
     if(index < 0 || index >= m_size) {
         std::cerr << "bool Array::removeIndex: некорректное значение index. " << std::endl;
@@ -221,7 +247,7 @@ bool Array::removeIndex(const int index) {
         return false;
     }
     
-    int* temp = new int [m_size - 1];
+    int* temp = new Type [m_size - 1];
     
     {
         int i = 0, j = 0;
@@ -245,9 +271,10 @@ bool Array::removeIndex(const int index) {
     
 }
 
-bool Array::remove(const int value) {
+template <typename Type>
+bool Array<Type>::remove(const Type value) {
     
-    int* temp = new int [m_size - 1];
+    int* temp = new Type [m_size - 1];
     bool isInArray = false;
     
     for(int i = 0, j = 0; i < m_size; i++, j++) {
@@ -271,7 +298,8 @@ bool Array::remove(const int value) {
     
 }
 
-bool Array::removeAll(const int value) {
+template <typename Type>
+bool Array<Type>::removeAll(const Type value) {
     
     bool isInArray = false;
     
@@ -288,7 +316,8 @@ bool Array::removeAll(const int value) {
     
 }
 
-int Array::getMaxElement() const {
+template <typename Type>
+int Array<Type>::getMaxElement() const {
     
     assert(m_size > 0);
     
@@ -303,7 +332,8 @@ int Array::getMaxElement() const {
     
 }
 
-int Array::getMinElement() const {
+template <typename Type>
+int Array<Type>::getMinElement() const {
     
     assert(m_size > 0);
     
@@ -318,7 +348,8 @@ int Array::getMinElement() const {
     
 }
 
-void Array::setRandomNumbers(const int min, const int max) const {
+template <typename Type>
+void Array<Type>::setRandomNumbers(const int min, const int max) const {
     
     srand( (unsigned int) time(0) );
     
@@ -328,7 +359,8 @@ void Array::setRandomNumbers(const int min, const int max) const {
     
 }
 
-void Array::setRandomNumbersIncrease() const {
+template <> inline
+void Array<int>::setRandomNumbersIncrease() const {
     
     srand( (unsigned int) time(0) );
     m_numbers[0] = rand() % 10;
@@ -337,10 +369,10 @@ void Array::setRandomNumbersIncrease() const {
         m_numbers[i] = m_numbers[i - 1] + rand() % 5 + 1;
     }
     
-    
 }
 
-void Array::setRandomNumbersDecrease() const {
+template <> inline
+void Array<int>::setRandomNumbersDecrease() const {
     
     srand( (unsigned int) time(0) );
     m_numbers[m_size - 1] = rand() % 10;
@@ -351,14 +383,16 @@ void Array::setRandomNumbersDecrease() const {
     
 }
 
-int &Array::operator [] (const int index) const {
+template <typename Type>
+int &Array<Type>::operator [] (const int index) const {
     
     assert(index >= 0 || index < m_size);
     return m_numbers[index];
     
 }
 
-Array &Array::operator = (const Array &object) {
+template <typename Type>
+Array<Type> &Array<Type>::operator = (const Array &object) {
     
     if(this == &object) {
         return *this;
@@ -367,7 +401,7 @@ Array &Array::operator = (const Array &object) {
     if(m_size != object.m_size) {
         m_size = object.m_size;
         delete[] m_numbers;
-        m_numbers = new int[object.m_size];
+        m_numbers = new Type[object.m_size];
     }
     
     for(m_size = 0; m_size < object.m_size; m_size++)
@@ -378,7 +412,8 @@ Array &Array::operator = (const Array &object) {
     
 }
 
-Array Array::operator + (const int value) const {
+template <typename Type>
+Array<Type> Array<Type>::operator + (const Type value) const {
     
     Array temp(m_size + 1, 0);
     
@@ -391,15 +426,16 @@ Array Array::operator + (const int value) const {
     
 }
 
-Array &Array::operator += (const int value) {
+template <typename Type>
+Array<Type> &Array<Type>::operator += (const Type value) {
     
     *this = *this + value;
     return *this;
     
 }
 
-
-Array Array::operator + (const Array &object) const {
+template <typename Type>
+Array<Type> Array<Type>::operator + (const Array &object) const {
     
     int sizeOfTwoObj = m_size + object.m_size;
     Array temp(sizeOfTwoObj, 0);
@@ -418,7 +454,8 @@ Array Array::operator + (const Array &object) const {
     
 }
 
-Array &Array::operator += (const Array &object) {
+template <typename Type>
+Array<Type> &Array<Type>::operator += (const Array &object) {
     
     *this = *this + object;
     
@@ -426,7 +463,8 @@ Array &Array::operator += (const Array &object) {
     
 }
 
-bool Array::operator == (const Array object) const {
+template <typename Type>
+bool Array<Type>::operator == (const Array object) const {
     
     if(m_size != object.m_size) {
         return false;
@@ -450,39 +488,49 @@ bool Array::operator == (const Array object) const {
     
 }
 
-bool Array::operator != (const Array object) const {
+template <typename Type>
+bool Array<Type>::operator != (const Array object) const {
     
     return !(*this == object);
     
 }
 
-bool Array::Iterator::hasNext() const {
+template <typename Type>
+template <typename IterType, typename ArrType>
+bool Array<Type>::TemplateIterator<IterType, ArrType>::hasNext() const {
     
     return (m_pos < m_numbers->getSize());
     
 }
 
-int Array::Iterator::getPosition() const {
+template <typename Type>
+template <typename IterType, typename ArrType>
+int Array<Type>::TemplateIterator<IterType, ArrType>::getPosition() const {
     
     return m_pos;
     
 }
 
-int &Array::Iterator::operator * () const {
-    
-    return (*m_numbers)[m_pos];
-    
+
+template <typename Type>
+template <typename IterType, typename ArrType>
+IterType &Array<Type>::TemplateIterator<IterType, ArrType>::operator * ()
+{
+    return m_numbers->operator [] (m_pos);
 }
 
-
-Array::Iterator &Array::Iterator::operator ++ () {
+template <typename Type>
+template <typename IterType, typename ArrType> typename
+Array<Type>::template TemplateIterator<IterType, ArrType> &Array<Type>::TemplateIterator<IterType, ArrType>::operator ++ () {
     
     m_pos++;
     return *this;
     
 }
 
-Array::Iterator Array::Iterator::operator ++ (int) {
+template <typename Type>
+template <typename IterType, typename ArrType> typename
+Array<Type>::template TemplateIterator<IterType, ArrType> Array<Type>::TemplateIterator<IterType, ArrType>::operator ++ (int) {
     
     Iterator old(*this);
     m_pos++;
@@ -490,14 +538,18 @@ Array::Iterator Array::Iterator::operator ++ (int) {
     
 }
 
-Array::Iterator &Array::Iterator::operator -- () {
+template <typename Type>
+template <typename IterType, typename ArrType> typename
+Array<Type>::template TemplateIterator<IterType, ArrType> &Array<Type>::TemplateIterator<IterType, ArrType>::operator -- () {
     
     m_pos--;
     return *this;
     
 }
 
-Array::Iterator Array::Iterator::operator -- (int) {
+template <typename Type>
+template <typename IterType, typename ArrType> typename
+Array<Type>:: template TemplateIterator<IterType, ArrType> Array<Type>::TemplateIterator<IterType, ArrType>::operator -- (int) {
     
     Iterator old(*this);
     m_pos--;
@@ -505,7 +557,9 @@ Array::Iterator Array::Iterator::operator -- (int) {
     
 }
 
-Array::Iterator &Array::Iterator::operator += (const int &value) {
+template <typename Type>
+template <typename IterType, typename ArrType> typename
+Array<Type>::template TemplateIterator<IterType, ArrType> &Array<Type>::TemplateIterator<IterType, ArrType>::operator += (const int &value) {
     
     
     m_pos += value;
@@ -513,37 +567,43 @@ Array::Iterator &Array::Iterator::operator += (const int &value) {
 
 }
 
-Array::Iterator &Array::Iterator::operator -= (const int &value) {
+template <typename Type>
+template <typename IterType, typename ArrType> typename
+Array<Type>:: template TemplateIterator<IterType, ArrType> &Array<Type>::TemplateIterator<IterType, ArrType>::operator -= (const int &value) {
     
     m_pos -= value;
     return *this;
 
 }
 
-bool Array::Iterator::operator == (const Iterator &object) const {
+template <typename Type>
+template <typename IterType, typename ArrType>
+bool Array<Type>::TemplateIterator<IterType, ArrType>::operator == (const TemplateIterator &object) const {
     
     assert(m_numbers == object.m_numbers);
     return (m_numbers == object.m_numbers && m_pos == object.m_pos);
     
 }
 
-bool Array::Iterator::operator != (const Iterator &object) const {
+template <typename Type>
+template <typename IterType, typename ArrType>
+bool Array<Type>::TemplateIterator<IterType, ArrType>::operator != (const TemplateIterator &object) const {
     
     return !(*this == (object));
     
 }
 
-Array::Iterator &Array::Iterator::operator = (const int &value) {
+template <typename Type>
+template <typename IterType, typename ArrType> typename
+Array<Type>:: template TemplateIterator<IterType, ArrType> &Array<Type>::TemplateIterator<IterType, ArrType>::operator = (const int &value) {
     
     m_pos = value;
     return *this;
     
 }
 
-
-
-
-std::ostream &operator << (std::ostream &stream, const Array &object) {
+template <typename Type>
+std::ostream &operator << (std::ostream &stream, const Array<Type> &object) {
     
     stream << "[";
     for(int i = 0; i < object.getSize(); i++) {
@@ -558,8 +618,8 @@ std::ostream &operator << (std::ostream &stream, const Array &object) {
     
 }
 
-
-std::istream &operator >> (std::istream &stream, const Array &object) {
+template <typename Type>
+std::istream &operator >> (std::istream &stream, const Array<Type> &object) {
     
     for(int i = 0; i < object.getSize(); i++) {
         std::cout << "Array[" << i << "] = ";
@@ -569,3 +629,4 @@ std::istream &operator >> (std::istream &stream, const Array &object) {
     return stream;
 }
 
+#endif

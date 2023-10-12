@@ -2,8 +2,8 @@
 
 #include "midland++.hpp"
 
-
-double calculateAvg(Array array) {
+template <typename Type>
+double calculateAvg(Array<Type> array) {
     
     if(array.getSize() == 0) {
         return 0;
@@ -21,13 +21,13 @@ double calculateAvg(Array array) {
 int main() {
     
     int temp[5] = {1, 2, 3, 4, 5};
-    Array t(temp, 5), a(10, 0), b(5, 1), c(1, 10), tt(5, 10);
+    Array<int> t(temp, 5), a(10, 0), b(5, 1), c(1, 10), tt(5, 10);
     
     tt.setRandomNumbers(1, 5);
     
     //tt += tt;
     
-    Array::Iterator it = tt.begin();
+    Array<int>::Iterator it = tt.begin();
     
     it = 2;
     std::cout << it.getPosition() << std::endl;
@@ -35,7 +35,7 @@ int main() {
     //std::cin >> tt;
     tt.print();
     
-    Array::Iterator begin = tt.begin(), end = tt.begin();
+    Array<int>::Iterator begin = tt.begin(), end = tt.begin();
     
     begin = 1;
     end = 3;
@@ -44,13 +44,6 @@ int main() {
     
     std::cout << tt;
     
-    /**
-    end = tt.removeInRange(begin, end);
-    end.getPosition();
-         void Array::Array: размер не может быть отрицательным. Убран минус.
-         5
-    ???????????
-     */
     
     return 0;
 }
