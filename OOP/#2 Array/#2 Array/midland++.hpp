@@ -8,7 +8,13 @@
 template <typename Type>
 class Array {
 public:
-    Array(int size = 1, const Type value = Type()) {
+    template <typename IterType, typename ArrType>
+    class TemplateIterator;
+    using Iterator = TemplateIterator<Type, Array>;
+    using ConstIterator = TemplateIterator<const Type, const Array>;
+    
+public:
+    Array(int size = 1, const Type& value = Type()) {
         
         if(size < 0) {
             size = -size;
@@ -32,22 +38,17 @@ public:
     Array(Array &&array);
     ~Array();
     
-    template <typename IterType, typename ArrType>
-    class TemplateIterator;
-    using Iterator = TemplateIterator<Type, Array>;
-    using ConstIterator = TemplateIterator<const Type, const Array>;
-    
     Iterator begin();
     Iterator end();
     
     ConstIterator begin() const;
     ConstIterator end() const;
     
-    Iterator insertBeforeIterator(Iterator iter, const Type value);
+    Iterator insertBeforeIterator(Iterator iter, const Type& value);
     Iterator removeInRange(const Iterator begin, const Iterator end);
     
     int getSize() const;
-    int getIndexOfElement(const Type element) const;
+    int getIndexOfElement(const Type& element) const;
     
     void print() const;
     void scan(int size);
@@ -58,10 +59,11 @@ public:
     
     void sort() const;
     
-    bool insert(const int index, const Type value);
+    bool insert(const int index, const Type& value);
     bool removeIndex(const int index);
-    bool remove(const Type value);
-    bool removeAll(const Type value);
+    bool remove(const Type& value);
+    bool removeAll(const Type& value);
+    //добавить ссылки
     
     Type getMaxElement() const;
     Type getMinElement() const;
@@ -72,8 +74,8 @@ public:
     
     Type &operator [] (const int index) const;
     Array &operator = (const Array &object);
-    Array operator + (const Type value) const;
-    Array &operator += (const Type value);
+    Array operator + (const Type& value) const;
+    Array &operator += (const Type& value);
     Array operator + (const Array &object) const;
     Array &operator += (const Array &object);
     bool operator == (const Array object) const;

@@ -75,7 +75,7 @@ Array<Type>::ConstIterator Array<Type>::end() const {
 }
 
 template <typename Type> typename
-Array<Type>::Iterator Array<Type>::insertBeforeIterator(Iterator iterator, const Type value) {
+Array<Type>::Iterator Array<Type>::insertBeforeIterator(Iterator iterator, const Type& value) {
     
     insert(iterator.m_pos, value);
     iterator.m_pos++;
@@ -90,7 +90,7 @@ Array<Type>::Iterator Array<Type>::removeInRange(const Iterator begin, const Ite
     
     const int newSize = m_size - (end.m_pos - begin.m_pos);
     Array temp(newSize, -1);
-    TemplateIterator itTemp = temp.begin();
+    Iterator itTemp = temp.begin();
     
     for(auto it = this->begin(); it != this->end(); it++) {
         if(it.m_pos < begin.m_pos || it.m_pos >= end.m_pos) {
@@ -116,7 +116,7 @@ int Array<Type>::getSize() const{
 }
 
 template <typename Type>
-int Array<Type>::getIndexOfElement(const Type element) const{
+int Array<Type>::getIndexOfElement(const Type& element) const{
     
     for(int i = 0; i < m_size; i++){
         if(m_numbers[i] == element) {
@@ -193,7 +193,7 @@ void Array<Type>::resize(int size) {
 template <typename Type>
 void Array<Type>::sort() const {
     
-    int forSwap;
+    Type forSwap;
     for(int i = 0; i < m_size; i++)
         for(int j = 0; j < m_size; j++) {
             
@@ -210,7 +210,7 @@ void Array<Type>::sort() const {
 }
 
 template <typename Type>
-bool Array<Type>::insert(const int index, const Type value) {
+bool Array<Type>::insert(const int index, const Type& value) {
     
     if(index < 0 || index > m_size) {
         std::cerr << "bool Array::insert: некорректное значение index. " << std::endl;
@@ -272,7 +272,7 @@ bool Array<Type>::removeIndex(const int index) {
 }
 
 template <typename Type>
-bool Array<Type>::remove(const Type value) {
+bool Array<Type>::remove(const Type& value) {
     
     Type* temp = new Type [m_size - 1];
     bool isInArray = false;
@@ -301,7 +301,7 @@ bool Array<Type>::remove(const Type value) {
 }
 
 template <typename Type>
-bool Array<Type>::removeAll(const Type value) {
+bool Array<Type>::removeAll(const Type& value) {
     
     bool isInArray = false;
     
@@ -415,7 +415,7 @@ Array<Type> &Array<Type>::operator = (const Array &object) {
 }
 
 template <typename Type>
-Array<Type> Array<Type>::operator + (const Type value) const {
+Array<Type> Array<Type>::operator + (const Type& value) const {
     
     Array temp(m_size + 1, 0);
     
@@ -429,7 +429,7 @@ Array<Type> Array<Type>::operator + (const Type value) const {
 }
 
 template <typename Type>
-Array<Type> &Array<Type>::operator += (const Type value) {
+Array<Type> &Array<Type>::operator += (const Type& value) {
     
     *this = *this + value;
     return *this;

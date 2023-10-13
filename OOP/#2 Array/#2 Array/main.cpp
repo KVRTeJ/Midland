@@ -20,10 +20,9 @@ double calculateAvg(Array<Type> array) {
 
 int main() {
     char  s[5] = "hllo";
-    Array<char> string(1, 10), tString(s, 5);
+    Array<std::string> string(9, s);
     
     std::cout << string << std::endl;
-    std::cout << tString << std::endl;
     
     
     return 0;
