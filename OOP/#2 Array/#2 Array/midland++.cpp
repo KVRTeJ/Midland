@@ -287,8 +287,10 @@ bool Array<Type>::remove(const Type value) {
         }
     }
     
-    if(!isInArray)
+    if(!isInArray) {
+        delete [] temp;
         return false;
+    }
     
     delete [] m_numbers;
     
@@ -305,7 +307,7 @@ bool Array<Type>::removeAll(const Type value) {
     
     for(int i = 0; i < m_size; i++) {
         if(m_numbers[i] == value) {
-            isInArray = remove(value);
+            isInArray = removeIndex(i);
             i--;
         }
     }
@@ -317,7 +319,7 @@ bool Array<Type>::removeAll(const Type value) {
 }
 
 template <typename Type>
-int Array<Type>::getMaxElement() const {
+Type Array<Type>::getMaxElement() const {
     
     assert(m_size > 0);
     
@@ -333,7 +335,7 @@ int Array<Type>::getMaxElement() const {
 }
 
 template <typename Type>
-int Array<Type>::getMinElement() const {
+Type Array<Type>::getMinElement() const {
     
     assert(m_size > 0);
     
@@ -384,7 +386,7 @@ void Array<int>::setRandomNumbersDecrease() const {
 }
 
 template <typename Type>
-int &Array<Type>::operator [] (const int index) const {
+Type &Array<Type>::operator [] (const int index) const {
     
     assert(index >= 0 || index < m_size);
     return m_numbers[index];

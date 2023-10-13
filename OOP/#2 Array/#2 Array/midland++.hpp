@@ -8,7 +8,7 @@
 template <typename Type>
 class Array {
 public:
-    Array(int size = 1, const Type value = -1) {
+    Array(int size = 1, const Type value = Type()) {
         
         if(size < 0) {
             size = -size;
@@ -63,14 +63,14 @@ public:
     bool remove(const Type value);
     bool removeAll(const Type value);
     
-    int getMaxElement() const;
-    int getMinElement() const;
+    Type getMaxElement() const;
+    Type getMinElement() const;
     
     void setRandomNumbers(const int min, const int max) const;
     void setRandomNumbersIncrease() const;
     void setRandomNumbersDecrease() const;
     
-    int &operator [] (const int index) const;
+    Type &operator [] (const int index) const;
     Array &operator = (const Array &object);
     Array operator + (const Type value) const;
     Array &operator += (const Type value);
