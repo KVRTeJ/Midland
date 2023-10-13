@@ -218,7 +218,7 @@ bool Array<Type>::insert(const int index, const Type value) {
         return false;
     }
     
-    int* temp = new Type [m_size + 1];
+    Type* temp = new Type [m_size + 1];
     
     for(int i = 0, j = 0; i < m_size + 1; i++, j++) {
         if(i != index) {
@@ -247,7 +247,7 @@ bool Array<Type>::removeIndex(const int index) {
         return false;
     }
     
-    int* temp = new Type [m_size - 1];
+    Type* temp = new Type [m_size - 1];
     
     {
         int i = 0, j = 0;
@@ -274,7 +274,7 @@ bool Array<Type>::removeIndex(const int index) {
 template <typename Type>
 bool Array<Type>::remove(const Type value) {
     
-    int* temp = new Type [m_size - 1];
+    Type* temp = new Type [m_size - 1];
     bool isInArray = false;
     
     for(int i = 0, j = 0; i < m_size; i++, j++) {
@@ -321,7 +321,7 @@ int Array<Type>::getMaxElement() const {
     
     assert(m_size > 0);
     
-    int max = m_numbers[0];
+    Type max = m_numbers[0];
     
     for(int i = 0; i < m_size; i++) {
         if(m_numbers[i] > max)
@@ -337,7 +337,7 @@ int Array<Type>::getMinElement() const {
     
     assert(m_size > 0);
     
-    int min = m_numbers[0];
+    Type min = m_numbers[0];
     
     for(int i = 0; i < m_size; i++) {
         if(m_numbers[i] < min)
@@ -348,8 +348,8 @@ int Array<Type>::getMinElement() const {
     
 }
 
-template <typename Type>
-void Array<Type>::setRandomNumbers(const int min, const int max) const {
+template <> inline
+void Array<int>::setRandomNumbers(const int min, const int max) const {
     
     srand( (unsigned int) time(0) );
     
@@ -401,7 +401,7 @@ Array<Type> &Array<Type>::operator = (const Array &object) {
     if(m_size != object.m_size) {
         m_size = object.m_size;
         delete[] m_numbers;
-        m_numbers = new Type[object.m_size];
+        m_numbers = new Type [object.m_size];
     }
     
     for(m_size = 0; m_size < object.m_size; m_size++)

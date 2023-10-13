@@ -54,7 +54,7 @@ public:
     
     void swap(Array &object);
     
-    void resize(const int size);
+    void resize(int size);
     
     void sort() const;
     
