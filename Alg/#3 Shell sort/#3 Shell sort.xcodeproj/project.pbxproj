@@ -25,7 +25,7 @@
 
 /* Begin PBXFileReference section */
 		2CD190BD2AD8FB5000577CDB /* #3 Shell sort */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "#3 Shell sort"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2CD190C02AD8FB5000577CDB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		2CD190C02AD8FB5000577CDB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; wrapsLines = 1; };
 		2CD190C72AD8FB8200577CDB /* midland++.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "midland++.cpp"; sourceTree = "<group>"; };
 		2CD190C82AD8FB8200577CDB /* midland++.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = "midland++.hpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */

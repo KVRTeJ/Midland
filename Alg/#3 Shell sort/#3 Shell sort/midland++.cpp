@@ -10,7 +10,7 @@ bool fillRandomNums(std::vector<int>& vector, const int size,
     
     assert(min < max && size >= 0);
     
-    srand( (unsigned int) time(0));
+    srand((unsigned int) time(0));
     
     for(int i = 0; i < size; ++i) {
         vector.push_back(rand() % (max - min + 1) + min);
@@ -20,11 +20,9 @@ bool fillRandomNums(std::vector<int>& vector, const int size,
     
 }
 
-void insertionSort(std::vector<int>& nums, const int step) {
+void insertionSortWithStep(std::vector<int>& nums, const int step) {
     
     assert(step > 0);
-    
-    //unsigned int size = (unsigned int) nums.size();
     
     for(unsigned int i = 0; i < nums.size(); i += step) {
         for(int j = i; j > 0 && nums[j - step] > nums[j]; j -= step) {

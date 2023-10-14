@@ -11,9 +11,8 @@ int main() {
     
     printVector(temp);
     
-    insertionSort(temp, 2);
-    
-    //temp.push_back(0);
+    insertionSortWithStep(temp, 2);
+
     printVector(temp);
     
     std::cout << checkIncrease(temp) << std::endl;
