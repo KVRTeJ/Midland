@@ -7,19 +7,16 @@ int main() {
     
     std::vector<int> temp;
     
-    temp.push_back(2);
-    temp.push_back(3);
-    temp.push_back(4);
-    temp.push_back(5);
-    temp.push_back(1);
+    fillRandomNums(temp);
     
     printVector(temp);
     
-    insertionSort(temp);
+    insertionSort(temp, 2);
     
+    //temp.push_back(0);
     printVector(temp);
     
-    
+    std::cout << checkIncrease(temp) << std::endl;
     
     return 0;
 }

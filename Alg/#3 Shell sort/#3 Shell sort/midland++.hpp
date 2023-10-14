@@ -16,5 +16,10 @@ void printVector(const std::vector<Type>& vector) {
     
 }
 
-void insertionSort(std::vector<int>& nums);
+bool fillRandomNums(std::vector<int>& vector, const int size = 5,
+                    const int min = 1, const int max = 10);
+
+void insertionSort(std::vector<int>& nums, const  int step = 1);
+
+bool checkIncrease(const std::vector<int> nums, const int step = 1);
 
