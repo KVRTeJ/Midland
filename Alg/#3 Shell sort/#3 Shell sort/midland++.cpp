@@ -5,7 +5,7 @@
 
 #include "midland++.hpp"
 
-bool fillRandomNums(std::vector<int>& vector, const int size,
+bool fillRandomNums(std::vector<int>& vector, const long int size,
                     const int min, const int max) {
     
     assert(min < max && size >= 0);
@@ -20,7 +20,7 @@ bool fillRandomNums(std::vector<int>& vector, const int size,
     
 }
 
-void insertionSortWithStep(std::vector<int>& nums, const int step) {
+void insertionSortWithStep(std::vector<int>& nums, const long int step) {
     
     assert(step > 0 && step <= nums.size());
     
@@ -35,7 +35,7 @@ void insertionSortWithStep(std::vector<int>& nums, const int step) {
     
 }
 
-bool checkIncrease(const std::vector<int> nums, const int step) {
+bool checkIncrease(const std::vector<int> nums) {
     
     for(auto it = nums.begin() + 1; it != nums.end(); ++it) {
         if(*(it - 1) > *it) {
@@ -47,4 +47,3 @@ bool checkIncrease(const std::vector<int> nums, const int step) {
     return true;
     
 }
-
