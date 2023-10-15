@@ -23,7 +23,7 @@ int main() {
             double seconds = (double)(end - start) / CLOCKS_PER_SEC;
             std::cout << "Time ShellSort - " << seconds << "s" << std::endl;
         }
-        checkIncrease(temp);
+        assert(checkIncrease(temp));
         
         /* Шаги Хиббарда */
         {
@@ -33,7 +33,7 @@ int main() {
             double seconds = (double)(end - start) / CLOCKS_PER_SEC;
             std::cout << "Time ShellSortHibbard - " << seconds << "s" << std::endl;
         }
-        checkIncrease(temp1);
+        assert(checkIncrease(temp1));
         
         /* Шаги Кнута */
         {
@@ -43,7 +43,7 @@ int main() {
             double seconds = (double)(end - start) / CLOCKS_PER_SEC;
             std::cout << "Time ShellSortKnuth - " << seconds << "s" << std::endl;
         }
-        checkIncrease(temp2);
+        assert(checkIncrease(temp2));
         
     }
     
