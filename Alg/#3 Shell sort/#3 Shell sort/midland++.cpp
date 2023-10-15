@@ -47,3 +47,38 @@ bool checkIncrease(const std::vector<int> nums) {
     return true;
     
 }
+
+void ShellSort(std::vector<int>& nums) {
+    
+    for( int step = ((unsigned int) nums.size()) / 2; step > 0; step /= 2) {
+        insertionSortWithStep(nums, step);
+    }
+    
+}
+
+void ShellSortHibbard(std::vector<int>& nums) {
+    
+    int step = 1;
+    while(step < nums.size()) {
+        step *= 2;
+    }
+    step /= 2;
+    --step;
+    
+    for(;step > 0; step /= 2) {
+        insertionSortWithStep(nums, step);
+    }
+    
+}
+
+void ShellSortKnuth(std::vector<int>& nums) {
+    
+    int step = 1;
+    while(step < nums.size() / 3) {
+        step = (step * 3 + 1);
+    }
+    for(;step > 0; step /= 3) {
+        insertionSortWithStep(nums, step);
+    }
+    
+}

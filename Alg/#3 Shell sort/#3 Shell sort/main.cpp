@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <math.h>
 #include <time.h>
 
 #include "midland++.hpp"
@@ -9,47 +8,43 @@ int main() {
     
     std::vector<int> temp, temp1, temp2;
     
-    fillRandomNums(temp, 1000000);
+    fillRandomNums(temp, 10000000);
     temp1 = temp;
     temp2 = temp;
     
     {
     //Источник https://en.wikipedia.org/wiki/Shellsort#Applications
+        
         /* Шаги Шелла */
         {
-            for( int step = ((unsigned int) temp.size()) / 2; step > 0; step /= 2) {
-                insertionSortWithStep(temp, step);
-            }
+            clock_t start = clock();
+            ShellSort(temp);
+            clock_t end = clock();
+            double seconds = (double)(end - start) / CLOCKS_PER_SEC;
+            std::cout << "Time ShellSort - " << seconds << "s" << std::endl;
         }
         checkIncrease(temp);
         
         /* Шаги Хиббарда */
         {
-            int step = 1;
-            while(step < temp1.size()) {
-                step *= 2;
-            }
-            step /= 2;
-            --step;
-            
-            for(;step > 0; step /= 2) {
-                insertionSortWithStep(temp1, step);
-            }
+            clock_t start = clock();
+            ShellSortHibbard(temp1);
+            clock_t end = clock();
+            double seconds = (double)(end - start) / CLOCKS_PER_SEC;
+            std::cout << "Time ShellSortHibbard - " << seconds << "s" << std::endl;
         }
         checkIncrease(temp1);
         
-        
         /* Шаги Кнута */
         {
-            int step = 1;
-            while(step < temp2.size() / 3) {
-                step = (step * 3 + 1);
-            }
-            for(;step > 0; step /= 3) {
-                insertionSortWithStep(temp2, step);
-            }
+            clock_t start = clock();
+            ShellSortKnuth(temp2);
+            clock_t end = clock();
+            double seconds = (double)(end - start) / CLOCKS_PER_SEC;
+            std::cout << "Time ShellSortKnuth - " << seconds << "s" << std::endl;
         }
         checkIncrease(temp2);
+        
     }
     
     return 0;

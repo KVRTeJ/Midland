@@ -22,3 +22,9 @@ bool fillRandomNums(std::vector<int>& vector, const long int size = 5,
 void insertionSortWithStep(std::vector<int>& nums, const long int step = 1);
 
 bool checkIncrease(const std::vector<int> nums);
+
+void ShellSort(std::vector<int>& nums);
+
+void ShellSortHibbard(std::vector<int>& nums);
+
+void ShellSortKnuth(std::vector<int>& nums);
