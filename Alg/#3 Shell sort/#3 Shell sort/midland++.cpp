@@ -22,17 +22,15 @@ bool fillRandomNums(std::vector<int>& vector, const int size,
 
 void insertionSortWithStep(std::vector<int>& nums, const int step) {
     
-    assert(step > 0);
-    int j;
+    assert(step > 0 && step <= nums.size());
     
+    int j;
     for(int i = 0; i < nums.size() - step; ++i) {
         j = i;
         while(j >= 0 && nums[j] > nums[j + step]) {
-            //std::cout << "nums[j] - " << nums[j] << "\nnums[j + step] - " << nums[j + step] << std::endl;
             std::swap(nums[j], nums[j + step]);
             j -= step;
         }
-        //printVector(nums);
     }
     
 }
