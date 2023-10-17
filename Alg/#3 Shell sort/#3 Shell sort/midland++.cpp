@@ -22,8 +22,9 @@ void readFileToVector(const char *name, std::vector<int>& nums) {
     
     FILE *f;
     f = fopen (name, "r");
-    
     assert(f != NULL);
+    
+    nums.clear();
     
     {
         int x;
