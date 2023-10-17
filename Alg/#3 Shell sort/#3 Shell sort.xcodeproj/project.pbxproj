@@ -28,6 +28,7 @@
 		2CD190C02AD8FB5000577CDB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; wrapsLines = 1; };
 		2CD190C72AD8FB8200577CDB /* midland++.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "midland++.cpp"; sourceTree = "<group>"; };
 		2CD190C82AD8FB8200577CDB /* midland++.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = "midland++.hpp"; sourceTree = "<group>"; };
+		2CD190CA2ADE4C8800577CDB /* midland.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = midland.h; path = "../../../../2 семестр/Информатика/Лабы/mylib/mylib/midland.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +61,7 @@
 		2CD190BF2AD8FB5000577CDB /* #3 Shell sort */ = {
 			isa = PBXGroup;
 			children = (
+				2CD190CA2ADE4C8800577CDB /* midland.h */,
 				2CD190C02AD8FB5000577CDB /* main.cpp */,
 				2CD190C72AD8FB8200577CDB /* midland++.cpp */,
 				2CD190C82AD8FB8200577CDB /* midland++.hpp */,

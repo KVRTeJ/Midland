@@ -2,6 +2,10 @@
 
 #include <iostream>
 
+void createFileWithVector (const char *name, const std::vector<int>& nums);
+
+void readFileToVector(const char *name, std::vector<int>& nums);
+
 template <typename Type>
 void printVector(const std::vector<Type>& vector) {
     
@@ -28,3 +32,5 @@ void ShellSort(std::vector<int>& nums);
 void ShellSortHibbard(std::vector<int>& nums);
 
 void ShellSortKnuth(std::vector<int>& nums);
+
+

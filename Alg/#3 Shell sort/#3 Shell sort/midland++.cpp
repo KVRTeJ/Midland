@@ -5,6 +5,36 @@
 
 #include "midland++.hpp"
 
+void createFileWithVector(const char *name, const std::vector<int>& nums) {
+    
+    FILE *f = fopen (name, "w");
+    assert(f != NULL);
+    
+    for(auto it = nums.begin(); it != nums.end(); ++it) {
+        fprintf(f, "%d ", *it);
+    }
+    
+    fclose (f);
+    
+}
+
+void readFileToVector(const char *name, std::vector<int>& nums) {
+    
+    FILE *f;
+    f = fopen (name, "r");
+    
+    assert(f != NULL);
+    
+    {
+        int x;
+        while (fscanf (f, "%d", &x) != EOF)
+            nums.push_back(x);
+    }
+    
+    fclose (f);
+}
+
+
 bool fillRandomNums(std::vector<int>& vector, const long int size,
                     const int min, const int max) {
     
