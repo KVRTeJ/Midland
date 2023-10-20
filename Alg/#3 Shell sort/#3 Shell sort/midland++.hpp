@@ -27,10 +27,10 @@ void insertionSortWithStep(std::vector<int>& nums, const long int step = 1);
 
 bool checkIncrease(const std::vector<int> nums);
 
-void ShellSort(std::vector<int>& nums);
+void shellSort(std::vector<int>& nums);
 
-void ShellSortHibbard(std::vector<int>& nums);
+void shellSortHibbard(std::vector<int>& nums);
 
-void ShellSortKnuth(std::vector<int>& nums);
+void shellSortKnuth(std::vector<int>& nums);
 
 

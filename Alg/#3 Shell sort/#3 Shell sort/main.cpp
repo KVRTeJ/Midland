@@ -12,35 +12,52 @@ std::string generateFileName(int numsSize, int numsRange) {
     
 }
 
+enum EnumeratorsAlgoritms {
+    ShellSort = 0,
+    ShellSortHibbard,
+    ShellSortKnuth,
+};
+
+std::string getNameAlgoritm(const int &i) {
+    switch (i) {
+        case 0:
+            return "ShellSort";
+            break;
+        case 1:
+            return "ShellSortHibbard";
+            break;
+        case 2:
+            return "ShellSortKnuth";
+            break;
+        default:
+            assert(false);
+            break;
+    }
+}
+
 typedef void (*algoritm)(std::vector<int>& nums);
 
 int main() {
-
-    const int AMOUNT_ALGORYTMS = 3, TIMES_ALGORYTM = 3;
-    double totalTime = 0;
-    clock_t start, end;
     
     std::vector<int> origin, copy;
     algoritm typeAlg[3];
-    typeAlg[0] = ShellSort;
-    typeAlg[1] = ShellSortHibbard;
-    typeAlg[2] = ShellSortKnuth;
+    typeAlg[0] = shellSort;
+    typeAlg[1] = shellSortHibbard;
+    typeAlg[2] = shellSortKnuth;
+
+    origin.push_back(1);//Temp
     
-    /** для вывода
-     emun EnumeratorsAlgoritms {
-        ShellSort = 0;
-        ShellSortHibbard//= 0+1
-        ShellSortKnuth
-     }
-     
-     */
+    const int AMOUNT_ALGORYTHMS = 3, TIMES_ALGORYTHM = 3;
+    double totalTime = 0;
+    clock_t start, end;
     
     for(int size = 10'000; size <= 1'000'000; size *= 10) {
         for(int range = 10; range <= 100'000; range *= 100) {
             //fileName = generateFileName
             //readFileToVector(fileName, origin);
-            for(int i = 0; i < AMOUNT_ALGORYTMS; ++i) {
-                for(int i = 0; i < TIMES_ALGORYTM; ++i) {
+            for(int i = 0; i < AMOUNT_ALGORYTHMS; ++i) {
+                std::cout << getNameAlgoritm(i) << "\n-size: " << size << "\n-range: " << range << std::endl;
+                for(int i = 0; i < TIMES_ALGORYTHM; ++i) {
                     copy = origin;
                     start = clock();
                     typeAlg[i](copy);
@@ -49,7 +66,7 @@ int main() {
                     totalTime += (double)(end - start) / CLOCKS_PER_SEC;
                 }
                 /**std::cout EnumeratorsAlgoritms **/
-                std::cout << "-Medium time - " << totalTime/TIMES_ALGORYTM << std::endl;
+                std::cout << "-Medium time - " << totalTime/TIMES_ALGORYTHM << std::endl;
                 totalTime = 0;
             
             }

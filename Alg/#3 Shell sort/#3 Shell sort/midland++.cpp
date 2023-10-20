@@ -81,7 +81,7 @@ bool checkIncrease(const std::vector<int> nums) {
     
 }
 
-void ShellSort(std::vector<int>& nums) {
+void shellSort(std::vector<int>& nums) {
     
     for( int step = ((unsigned int) nums.size()) / 2; step > 0; step /= 2) {
         insertionSortWithStep(nums, step);
@@ -89,7 +89,7 @@ void ShellSort(std::vector<int>& nums) {
     
 }
 
-void ShellSortHibbard(std::vector<int>& nums) {
+void shellSortHibbard(std::vector<int>& nums) {
     
     int step = 1;
     while(step < nums.size()) {
@@ -104,7 +104,7 @@ void ShellSortHibbard(std::vector<int>& nums) {
     
 }
 
-void ShellSortKnuth(std::vector<int>& nums) {
+void shellSortKnuth(std::vector<int>& nums) {
     
     int step = 1;
     while(step < nums.size() / 3) {
