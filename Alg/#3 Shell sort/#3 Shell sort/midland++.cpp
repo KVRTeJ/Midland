@@ -2,12 +2,12 @@
 #include <vector>
 #include <algorithm>
 #include <time.h>
-
+#include <string>
 #include "midland++.hpp"
 
-void createFileWithVector(const char *name, const std::vector<int>& nums) {
+void createFileWithVector(const std::string name, const std::vector<int>& nums) {
     
-    FILE *f = fopen (name, "w");
+    FILE *f = fopen (name.c_str(), "w");
     assert(f != NULL);
     
     for(auto it = nums.begin(); it != nums.end(); ++it) {
@@ -67,6 +67,8 @@ void insertionSortWithStep(std::vector<int>& nums, const long int step) {
 }
 
 bool checkIncrease(const std::vector<int> nums) {
+    
+    assert(!nums.empty());
     
     for(auto it = nums.begin() + 1; it != nums.end(); ++it) {
         if(*(it - 1) > *it) {

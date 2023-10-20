@@ -4,30 +4,59 @@
 
 #include "midland++.hpp"
 
-int main() {
+std::string generateFileName(int numsSize, int numsRange) {
     
-    std::vector<int> nums_10k_10;
-    std::vector<int> nums_10k_1000;
-    std::vector<int> nums_10k_100000;
-    //readFileToVector("nums_10k_10.txt", nums_10k_10);
-    //readFileToVector("nums_10k_1000.txt", nums_10k_1000);
-    //readFileToVector("nums_10k_100000.txt", nums_10k_100000);
+    std::string fileName;
+    ;;;
+    return fileName;
     
-    std::vector<int> nums_100k_10;
-    std::vector<int> nums_100k_1000;
-    std::vector<int> nums_100k_100000;
-    //readFileToVector("nums_100k_10.txt", nums_100k_10);
-    //readFileToVector("nums_100k_1000.txt", nums_100k_1000);
-    //readFileToVector("nums_100k_100000.txt", nums_100k_100000);
-    
-    std::vector<int> nums_1kk_10;
-    std::vector<int> nums_1kk_1000;
-    std::vector<int> nums_1kk_100000;
-    //readFileToVector("nums_1kk_10.txt", nums_1kk_10);
-    //readFileToVector("nums_1kk_1000.txt", nums_1kk_1000);
-    //readFileToVector("nums_1kk_100000.txt", nums_1kk_100000);
-    
+}
 
+typedef void (*algoritm)(std::vector<int>& nums);
+
+int main() {
+
+    const int AMOUNT_ALGORYTMS = 3, TIMES_ALGORYTM = 3;
+    double totalTime = 0;
+    clock_t start, end;
+    
+    std::vector<int> origin, copy;
+    algoritm typeAlg[3];
+    typeAlg[0] = ShellSort;
+    typeAlg[1] = ShellSortHibbard;
+    typeAlg[2] = ShellSortKnuth;
+    
+    /** для вывода
+     emun EnumeratorsAlgoritms {
+        ShellSort = 0;
+        ShellSortHibbard//= 0+1
+        ShellSortKnuth
+     }
+     
+     */
+    
+    for(int size = 10'000; size <= 1'000'000; size *= 10) {
+        for(int range = 10; range <= 100'000; range *= 100) {
+            //fileName = generateFileName
+            //readFileToVector(fileName, origin);
+            for(int i = 0; i < AMOUNT_ALGORYTMS; ++i) {
+                for(int i = 0; i < TIMES_ALGORYTM; ++i) {
+                    copy = origin;
+                    start = clock();
+                    typeAlg[i](copy);
+                    end = clock();
+                    assert(checkIncrease(copy));
+                    totalTime += (double)(end - start) / CLOCKS_PER_SEC;
+                }
+                /**std::cout EnumeratorsAlgoritms **/
+                std::cout << "-Medium time - " << totalTime/TIMES_ALGORYTM << std::endl;
+                totalTime = 0;
+            
+            }
+        }
+    }
+
+/*
     {
     //Источник алгоритмов выбора шага: https://en.wikipedia.org/wiki/Shellsort#Applications
         
@@ -849,6 +878,7 @@ int main() {
         }
         
     }
+    */
     
     return 0;
 }

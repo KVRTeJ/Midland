@@ -4,7 +4,7 @@
 
 void createFileWithVector (const char *name, const std::vector<int>& nums);
 
-void readFileToVector(const char *name, std::vector<int>& nums);
+void readFileToVector(const std::string name, std::vector<int>& nums);
 
 template <typename Type>
 void printVector(const std::vector<Type>& vector) {
