@@ -18,10 +18,13 @@ void createFileWithVector(const std::string name, const std::vector<int>& nums) 
     
 }
 
-void readFileToVector(const char *name, std::vector<int>& nums) {
+void readFileToVector(const std::string name, std::vector<int>& nums) {
+    
+    char* fileName = new char [name.length() + 1];
+    std::strcpy(fileName, name.c_str());
     
     FILE *f;
-    f = fopen (name, "r");
+    f = fopen (fileName, "r");
     assert(f != NULL);
     
     nums.clear();
@@ -32,6 +35,7 @@ void readFileToVector(const char *name, std::vector<int>& nums) {
             nums.push_back(x);
     }
     
+    delete [] fileName;
     fclose (f);
 }
 
@@ -80,6 +84,8 @@ bool checkIncrease(const std::vector<int> nums) {
     return true;
     
 }
+
+//Источник алгоритмов выбора шага: https://en.wikipedia.org/wiki/Shellsort#Applications
 
 void shellSort(std::vector<int>& nums) {
     
