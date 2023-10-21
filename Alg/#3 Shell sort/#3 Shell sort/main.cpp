@@ -59,16 +59,16 @@ typedef void (*algoritm)(std::vector<int>& nums);
 
 int main() {
     
+    const int AMOUNT_ALGORYTHMS = 3, TIMES_ALGORYTHM = 3;
+    
     std::vector<int> origin, copy;
-    algoritm typeAlg[3];
+    algoritm typeAlg[AMOUNT_ALGORYTHMS];
     typeAlg[0] = shellSort;
     typeAlg[1] = shellSortHibbard;
     typeAlg[2] = shellSortKnuth;
     
-    const int AMOUNT_ALGORYTHMS = 3, TIMES_ALGORYTHM = 3;
     double totalTime = 0;
     clock_t start, end;
-    
     for(int size = 10'000; size <= 1'000'000; size *= 10) {
         std::cout << "=-=-=-= Size = " << size << " -=-=-=-"<< std::endl;
         for(int range = 10; range <= 100'000; range *= 100) {

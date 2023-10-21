@@ -7,13 +7,17 @@
 
 void createFileWithVector(const std::string name, const std::vector<int>& nums) {
     
-    FILE *f = fopen (name.c_str(), "w");
+    char* fileName = new char [name.length() + 1];
+    std::strcpy(fileName, name.c_str());
+    
+    FILE *f = fopen (fileName, "w");
     assert(f != NULL);
     
     for(auto it = nums.begin(); it != nums.end(); ++it) {
         fprintf(f, "%d ", *it);
     }
     
+    delete [] fileName;
     fclose (f);
     
 }
