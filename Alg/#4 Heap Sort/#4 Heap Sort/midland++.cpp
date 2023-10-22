@@ -62,33 +62,56 @@ bool checkIncrease(const std::vector<int> nums) {
     
 }
 
-void sift(std::vector<int>& nums, int size, int index) {
+void sift(std::vector<int>& nums, const int size, int index) {
     
-    int i = index, j = 2*i + 1;
-    while(i < size) {
-        //j = 2*i + 1;
+    int j = 2 * index + 1;
+    
+    while(index < size) {
         
         if(j < size) {
             if((j + 1) < size)
                 if(nums[j + 1] > nums[j])
                     j = j + 1;
-            if(nums[i] <= nums[j]) {
-                //std::cout << "i = " << i << " j = " << j << std::endl;
-                //std::cout << "nums[i] = " << nums[i] << " nums[j] = " << nums[j] << std::endl;
-                std::swap(nums[i], nums[j]);
-                i = j;
-                j = 2*i + 1;
+            if(nums[index] < nums[j]) {
+                std::swap(nums[index], nums[j]);
+                index = j;
+                j = 2 * index + 1;
             }
             else {
-                i += size;
+                index += size;
             }
         }
         else { //j > nums.size()
-            i += size;
+            index += size;
         }
         
     }
     
 }
 
-
+void heapSort(std::vector<int>& nums) {
+    
+    const int size = (int) nums.size();
+    
+    //Построение максимальной и упорядочной пирамиды(корень - максимальный элемент)
+    //Начало - элементы, которые имеют потомков
+    for(int i = size/2 - 1; i >= 0; i--) {
+        sift(nums, size, i);
+    }
+    
+    //i = size - 1
+    //nums[0] - максимальный, nums[i] - минимальный.
+    //Исходя из этих данных:
+    //Меняем местами nums[0] и nums[i].
+    //Получаем максимальный элемент на i позции.
+    //Так как нету элементов больше этого, понижаем i на 1
+    //и получаем отсортированную часть
+    //размером (size - 1) - (i - 1)
+    
+    //i - количество неупорядочных элементов
+    for(int i = size - 1; i > 0; --i) {
+        std::swap(nums[0], nums[i]);
+        sift(nums, i);
+    }
+    
+}

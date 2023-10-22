@@ -9,4 +9,6 @@ bool fillRandomNums(std::vector<int>& vector, const long int size = 5,
 
 bool checkIncrease(const std::vector<int> nums);
 
-void sift(std::vector<int>& nums, int size, int index = 0);
+void sift(std::vector<int>& nums, const int size, int index = 0);
+
+void heapSort(std::vector<int>& nums);
