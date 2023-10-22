@@ -32,12 +32,6 @@ std::string generateFileName(int numsSize, int numsRange) {
     
 }
 
-enum EnumeratorsAlgoritms {
-    ShellSort = 0,
-    ShellSortHibbard,
-    ShellSortKnuth,
-};
-
 std::string getNameAlgoritm(const int &i) {
     switch (i) {
         case 0:
