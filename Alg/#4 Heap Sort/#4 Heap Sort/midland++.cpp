@@ -62,4 +62,33 @@ bool checkIncrease(const std::vector<int> nums) {
     
 }
 
+void sift(std::vector<int>& nums, int size, int index) {
+    
+    int i = index, j = 2*i + 1;
+    while(i < size) {
+        //j = 2*i + 1;
+        
+        if(j < size) {
+            if((j + 1) < size)
+                if(nums[j + 1] > nums[j])
+                    j = j + 1;
+            if(nums[i] <= nums[j]) {
+                //std::cout << "i = " << i << " j = " << j << std::endl;
+                //std::cout << "nums[i] = " << nums[i] << " nums[j] = " << nums[j] << std::endl;
+                std::swap(nums[i], nums[j]);
+                i = j;
+                j = 2*i + 1;
+            }
+            else {
+                i += size;
+            }
+        }
+        else { //j > nums.size()
+            i += size;
+        }
+        
+    }
+    
+}
+
 

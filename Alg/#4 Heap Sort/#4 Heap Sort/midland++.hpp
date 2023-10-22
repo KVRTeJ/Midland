@@ -8,3 +8,5 @@ bool fillRandomNums(std::vector<int>& vector, const long int size = 5,
                     const int min = 1, const int max = 10);
 
 bool checkIncrease(const std::vector<int> nums);
+
+void sift(std::vector<int>& nums, int size, int index = 0);
