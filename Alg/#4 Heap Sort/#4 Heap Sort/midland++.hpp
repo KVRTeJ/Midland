@@ -1,6 +1,6 @@
 #pragma once
 
-void readFileToVector(const char *name, std::vector<int>& nums);
+void readFileToVector(const std::string& name, std::vector<int>& nums);
 
 bool printVectorInt(const std::vector<int>& nums);
 

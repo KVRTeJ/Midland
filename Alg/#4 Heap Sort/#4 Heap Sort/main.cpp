@@ -4,33 +4,58 @@
 #include "midland++.hpp"
 #include <time.h>
 
+std::string generateFileName(const int numsSize, const int numsRange) {
+    
+    std::string fileName = "nums_";
+    
+    int counterK = 0;
+    int i = numsSize;
+    
+    while(i % 1000 == 0) {
+        if((i % 1000) == 0) {
+            ++counterK;
+        }
+        i /= 1000;
+    }
+    
+    fileName += std::to_string(i);
+    while(counterK > 0) {
+        fileName += "k";
+        --counterK;
+    }
+    
+    fileName += "_" + std::to_string(numsRange) + ".txt";
+
+    return fileName;
+    
+}
+
 int main() {
     
-    std::vector<int> nums;
+    const int TIMES_ALGORYTHM = 3;
     
-    /*
-    nums.push_back(5);
-    nums.push_back(9);
-    nums.push_back(1);
-    nums.push_back(9);
-    nums.push_back(8);
-    nums.push_back(1);
-    nums.push_back(10);
-    nums.push_back(5);
-    nums.push_back(5);
-    nums.push_back(9);
-    */
+    std::vector<int> origin, copy;
     
-    fillRandomNums(nums, 1'000'000, -100'000, 100'000);
-    //printVectorInt(nums);
-    
-    clock_t start = clock();
-    heapSort(nums);
-    clock_t end = clock();
-    double seconds = (double) (end - start)/CLOCKS_PER_SEC;
-    std::cout << "Time - " << seconds << "s." << std::endl;
-    //printVectorInt(nums);
-    assert(checkIncrease(nums));
+    double totalTime = 0;
+    clock_t start, end;
+    for(int size = 10'000; size <= 1'000'000; size *= 10) {
+        std::cout << "Size = " << size << std::endl;
+        for(int range = 10; range <= 100'000; range *= 100) {
+            std::cout << " Range [-" << range << ";" << range << "]" << std::endl;
+            readFileToVector(generateFileName(size, range), origin);
+                for(int i = 0; i < TIMES_ALGORYTHM; ++i) {
+                    copy = origin;
+                    start = clock();
+                    heapSort(copy);
+                    end = clock();
+                    assert(checkIncrease(copy));
+                    totalTime += (double)(end - start) / CLOCKS_PER_SEC;
+                }
+                std::cout << "   Medium time - " << totalTime/TIMES_ALGORYTHM << std::endl;
+                totalTime = 0;
+        }
+        std::cout << std::endl;
+    }
     
     return 0;
 }

@@ -3,10 +3,13 @@
 
 #include "midland++.hpp"
 
-void readFileToVector(const char *name, std::vector<int>& nums) {
+void readFileToVector(const std::string& name, std::vector<int>& nums) {
+    
+    char* fileName = new char [name.length() + 1];
+    std::strcpy(fileName, name.c_str());
     
     FILE *f;
-    f = fopen (name, "r");
+    f = fopen (fileName, "r");
     assert(f != NULL);
     
     nums.clear();
@@ -17,8 +20,10 @@ void readFileToVector(const char *name, std::vector<int>& nums) {
             nums.push_back(x);
     }
     
+    delete [] fileName;
     fclose (f);
 }
+
 
 bool printVectorInt(const std::vector<int>& nums) {
     
@@ -93,22 +98,10 @@ void heapSort(std::vector<int>& nums) {
     
     const int size = (int) nums.size();
     
-    //Построение максимальной и упорядочной пирамиды(корень - максимальный элемент)
-    //Начало - элементы, которые имеют потомков
     for(int i = size/2 - 1; i >= 0; i--) {
         sift(nums, size, i);
     }
-    
-    //i = size - 1
-    //nums[0] - максимальный, nums[i] - минимальный.
-    //Исходя из этих данных:
-    //Меняем местами nums[0] и nums[i].
-    //Получаем максимальный элемент на i позции.
-    //Так как нету элементов больше этого, понижаем i на 1
-    //и получаем отсортированную часть
-    //размером (size - 1) - (i - 1)
-    
-    //i - количество неупорядочных элементов
+
     for(int i = size - 1; i > 0; --i) {
         std::swap(nums[0], nums[i]);
         sift(nums, i);
