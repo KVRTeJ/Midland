@@ -8,18 +8,22 @@ public:
     HoareSort(const int& size = 9, const int& value = 0);
     HoareSort(std::vector<int>& nums);
     
-    bool fillRandom(const int& max = 1, const int& min = 10);
+    unsigned int getSize() {
+        return m_nums.size();
+    }
+    
+    bool fillRandom(const int& min, const int& max);
     bool readFromFile(std::string name);
     bool checkIncrease() const;
     
-    void QuickSort();
+    int partition(int left, int right);
+    void QuickSort(int left, int right);
     
     HoareSort &operator = (HoareSort& nums);
     
 private:
     std::vector<int> m_nums;
     std::vector<int> m_sortedNums;
-    int min, max;
 };
 
 std::istream &operator >> (std::istream& stream, HoareSort& object);
