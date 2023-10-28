@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2CC18E552AECCE3700A23AEE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CC18E542AECCE3700A23AEE /* main.cpp */; };
 		2CC18E5D2AECCE9A00A23AEE /* midland++.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CC18E5B2AECCE9A00A23AEE /* midland++.cpp */; };
+		2CC18E5F2AECD98700A23AEE /* midland++.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CC18E5E2AECD98700A23AEE /* midland++.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,7 @@
 		2CC18E542AECCE3700A23AEE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2CC18E5B2AECCE9A00A23AEE /* midland++.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "midland++.cpp"; sourceTree = "<group>"; };
 		2CC18E5C2AECCE9A00A23AEE /* midland++.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = "midland++.hpp"; sourceTree = "<group>"; };
+		2CC18E5E2AECD98700A23AEE /* midland++.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "midland++.cpp"; path = "../../#3 Shell sort/#3 Shell sort/midland++.cpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 		2CC18E532AECCE3700A23AEE /* #5 Hoare Sort(Quick Sort) */ = {
 			isa = PBXGroup;
 			children = (
+				2CC18E5E2AECD98700A23AEE /* midland++.cpp */,
 				2CC18E542AECCE3700A23AEE /* main.cpp */,
 				2CC18E5B2AECCE9A00A23AEE /* midland++.cpp */,
 				2CC18E5C2AECCE9A00A23AEE /* midland++.hpp */,
@@ -126,6 +129,7 @@
 			files = (
 				2CC18E552AECCE3700A23AEE /* main.cpp in Sources */,
 				2CC18E5D2AECCE9A00A23AEE /* midland++.cpp in Sources */,
+				2CC18E5F2AECD98700A23AEE /* midland++.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
