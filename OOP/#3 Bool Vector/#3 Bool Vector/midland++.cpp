@@ -12,12 +12,12 @@ BoolVector::BoolVector(int lenth, bool value) {
     
     if(value) {
         for(unsigned int i = 0; i < m_lenth; ++i) {
-            set(i);
+            set(i, value);
         }
     }
     else
         for(unsigned int i = 0; i < m_lenth; ++i) {
-            unSet(i);
+            set(i, value);
         }
 }
 
@@ -31,9 +31,9 @@ BoolVector::BoolVector(const char* string) {
     
     for(unsigned int i = 0; i < m_lenth; ++i) {
         if(string[i] != '0')
-            set(i);
+            set(i, 1);
         else
-            unSet(i);
+            set(i, 0);
     }
     
 }
@@ -70,8 +70,14 @@ void BoolVector::print() const {
 
 void BoolVector::scan() {
     
-    /****/
+    std::cout << "Булев вектор(lenth = " << m_lenth << "): ";
+    char* string = new char [m_lenth];
+    for(int i = 0; i < m_lenth; ++i) {
+        std::cin >> string[i];
+    }
+    *this = string;
     
+    delete [] string;
 }
 
 void twich() {
@@ -81,21 +87,44 @@ void twich() {
     
 }
 
-void BoolVector::set(unsigned int& position) {
-    assert(position >= 0 && position < m_lenth);
+void BoolVector::swap(BoolVector& other) {
     
-    const unsigned int currentCell = position / 8, currentPosition = position % 8;
-    
-    m_setInCell(currentCell, currentPosition);
+    std::swap(m_lenth, other.m_lenth);
+    std::swap(m_cellCount, other.m_cellCount);
+    std::swap(m_significantRankCount, other.m_significantRankCount);
+    std::swap(m_cells, other.m_cells);
     
 }
 
-void BoolVector::unSet(unsigned int& position) {
+void BoolVector::set(const int& position, const bool value) {
     assert(position >= 0 && position < m_lenth);
     
     const unsigned int currentCell = position / 8, currentPosition = position % 8;
     
-    m_unSetInCell(currentCell, currentPosition);
+    if(value) {
+        m_setInCell(currentCell, currentPosition);
+    }
+    else {
+        m_unSetInCell(currentCell, currentPosition);
+    }
+    
+}
+
+BoolVector& BoolVector::operator = (const BoolVector& other) {
+    
+    if(this != &other) {
+        delete [] m_cells;
+        m_lenth = other.m_lenth;
+        m_cellCount = other.m_cellCount;
+        m_significantRankCount = other.m_significantRankCount;
+        m_cells = new unsigned char [other.m_cellCount];
+        
+        for(int i = 0; i < m_cellCount; ++i) {
+            m_cells[i] = other.m_cells[i];
+        }
+    }
+    
+    return *this;
     
 }
 
@@ -135,8 +164,7 @@ void BoolVector::m_unSetInCell(const int& cellNumber, const int& position) {
     
     uint8_t mask = 1;
     mask <<= 7 - position;
-    m_setInCell(cellNumber, position);
-    m_cells[cellNumber] ^= mask;
+    m_cells[cellNumber] = m_cells[cellNumber] & ~mask;
 
 }
 

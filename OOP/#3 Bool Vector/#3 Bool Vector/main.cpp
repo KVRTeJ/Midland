@@ -3,14 +3,9 @@
 #include "midland++.hpp"
 
 int main() {
-    //BoolVector a(17, 11);
-    //a.set(t);
-    //a.unSet(t);
-    //a.scan();
-    BoolVector a = "111111111";
+    BoolVector a = "1111111111", b(8);
     a.print();
-    
-    BoolVector b = a;
+    b.scan();
     b.print();
     
     return 0;

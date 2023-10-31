@@ -8,24 +8,23 @@ public:
     ~BoolVector();
     
     void print() const;
-    void scan();//
+    void scan();
     
     void twich();//
     
-    void swap(BoolVector& other);//
-    void set(unsigned int& position);
-    void unSet(unsigned int& position);
+    void swap(BoolVector& other);
+    void set(const int& position, const bool value);
     
-    BoolVector& operator = (const BoolVector& other);//
+    BoolVector& operator = (const BoolVector& other);
     BoolVector& operator >>= (const int& value);///
     BoolVector& operator <<= (const int& value);///
     BoolVector operator >> (const int& value) const;//
     BoolVector operator << (const int& value) const;//
-    BoolVector operator & (const BoolVector& other);//
+    BoolVector operator & (const BoolVector& other) const;//
     BoolVector& operator &= (const BoolVector& other);//
-    BoolVector operator | (const BoolVector& other);//
+    BoolVector operator | (const BoolVector& other) const;//
     BoolVector& operator |= (const BoolVector& other);//
-    BoolVector operator ^ (const BoolVector& other);//
+    BoolVector operator ^ (const BoolVector& other) const;//
     BoolVector& operator ^= (const BoolVector& other);//
     BoolVector operator ~ ();//
     
