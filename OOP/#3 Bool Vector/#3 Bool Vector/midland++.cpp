@@ -6,8 +6,8 @@ BoolVector::BoolVector(int lenth, bool value) {
     assert(lenth >= 0);
     
     m_lenth = lenth;
-    m_cellCount = lenth / 8 + (lenth % 2 ? 1:0);
-    m_significantRankCount = (m_cellCount * m_size) - m_lenth;
+    m_cellCount = lenth / 8 + (lenth % 8 ? 1:0);
+    m_significantRankCount = (m_cellCount * m_CELL_SIZE) - m_lenth;
     m_cells = new unsigned char [m_cellCount];
     
     if(value) {
@@ -19,6 +19,37 @@ BoolVector::BoolVector(int lenth, bool value) {
         for(unsigned int i = 0; i < m_lenth; ++i) {
             unSet(i);
         }
+}
+
+BoolVector::BoolVector(const char* string) {
+    assert(strlen(string) >= 0);
+    
+    m_lenth = (unsigned int) strlen(string);
+    m_cellCount = m_lenth / 8 + (m_lenth % 8 ? 1:0);
+    m_significantRankCount = (m_cellCount * m_CELL_SIZE) - m_lenth;
+    m_cells = new unsigned char [m_cellCount];
+    
+    for(unsigned int i = 0; i < m_lenth; ++i) {
+        if(string[i] != '0')
+            set(i);
+        else
+            unSet(i);
+    }
+    
+}
+
+
+BoolVector::BoolVector(const BoolVector& other) {
+    
+    m_lenth = other.m_lenth;
+    m_cellCount = other.m_cellCount;
+    m_significantRankCount = other.m_significantRankCount;
+    m_cells = new unsigned char [other.m_cellCount];
+    
+    for(int i = 0; i < m_cellCount; ++i) {
+        m_cells[i] = other.m_cells[i];
+    }
+    
 }
 
 BoolVector::~BoolVector() {
@@ -80,7 +111,7 @@ BoolVector& BoolVector::operator >>= (const int& value) {
 BoolVector& BoolVector::operator <<= (const int& value) {
     
     for(int i = 0; i < m_cellCount; ++i) {
-        m_cells[i] >>= value;
+        m_cells[i] <<= value;
     }
     
     return *this;
@@ -90,7 +121,7 @@ BoolVector& BoolVector::operator <<= (const int& value) {
 /* private */
 void BoolVector::m_setInCell(const int& cellNumber, const int& position) {
     assert(cellNumber >= 0 && cellNumber < m_cellCount);
-    assert(position >= 0 && position < m_size);
+    assert(position >= 0 && position < m_CELL_SIZE);
     
     uint8_t mask = 1;
     mask <<= 7 - position;
@@ -100,7 +131,7 @@ void BoolVector::m_setInCell(const int& cellNumber, const int& position) {
 
 void BoolVector::m_unSetInCell(const int& cellNumber, const int& position) {
     assert(cellNumber >= 0 && cellNumber < m_cellCount);
-    assert(position >= 0 && position < m_size);
+    assert(position >= 0 && position < m_CELL_SIZE);
     
     uint8_t mask = 1;
     mask <<= 7 - position;
