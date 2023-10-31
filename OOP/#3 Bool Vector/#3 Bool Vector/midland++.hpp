@@ -1,29 +1,32 @@
 #pragma once
 
-using Cell = uint8_t;
-
 class BoolVector {
 public:
     BoolVector(int lenth = m_size, bool value = false);
-    BoolVector(const char* string);
-    BoolVector(BoolVector& other);
+    BoolVector(const char* string);//
+    BoolVector(BoolVector& other);//
     ~BoolVector();
     
     void print() const;
-    void scan(const unsigned int& lenth);
+    void scan();
     
-    void set(unsigned int& position); // pos/m_size + (ternar) => setInCell
+    void twich();
+    
+    void set(unsigned int& position);
     void unSet(unsigned int& position);
     
-    BoolVector &operator = (const BoolVector& other);
+    BoolVector& operator = (const BoolVector& other);//
+    BoolVector& operator >>= (const int& value);
+    BoolVector& operator <<= (const int& value);
+    BoolVector operator >> (const int& value) const;//
+    BoolVector operator << (const int& value) const;//
     
 private:
-    void setInCell(const int& cellNumber, const int& position);
-    void unSetInCell(const int& cellNumber, const int& position);
-    void printCell(const int& cellNumber) const;
-    void scanCell(const int& cellNumber);
+    void m_setInCell(const int& cellNumber, const int& position);
+    void m_unSetInCell(const int& cellNumber, const int& position);
+    void m_printCell(const int& cellNumber) const;
     
-    static const Cell m_size = 8; //Размер ячейки
+    static const uint8_t m_size = 8; //Размер ячейки
     unsigned char* m_cells; //Сами ячейки
     unsigned int m_cellCount; //Кол-во ячеек
     unsigned int m_lenth; //Длина вектора
