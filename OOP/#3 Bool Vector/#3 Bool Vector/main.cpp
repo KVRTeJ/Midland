@@ -3,10 +3,8 @@
 #include "midland++.hpp"
 
 int main() {
-    BoolVector a = "1111111111", b(8);
+    BoolVector a = "111100001111000011110000";
+    a >>= 1;
     a.print();
-    b.scan();
-    b.print();
-    
     return 0;
 }

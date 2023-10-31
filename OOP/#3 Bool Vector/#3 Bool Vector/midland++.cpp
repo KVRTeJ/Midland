@@ -2,7 +2,7 @@
 
 #include "midland++.hpp"
 
-BoolVector::BoolVector(int lenth, bool value) {
+BoolVector::BoolVector(const int& lenth, const bool& value) {
     assert(lenth >= 0);
     
     m_lenth = lenth;
@@ -80,10 +80,10 @@ void BoolVector::scan() {
     delete [] string;
 }
 
-void twich() {
+void BoolVector::twich() {
     
-    // >> m_sRC
-    // << m_sRC
+    m_cells[m_cellCount - 1] >>= m_significantRankCount;
+    m_cells[m_cellCount - 1] <<= m_significantRankCount;
     
 }
 
@@ -96,8 +96,8 @@ void BoolVector::swap(BoolVector& other) {
     
 }
 
-void BoolVector::set(const int& position, const bool value) {
-    assert(position >= 0 && position < m_lenth);
+void BoolVector::set(const int& position, const bool& value) {
+    //assert(position >= 0 && position < m_lenth);
     
     const unsigned int currentCell = position / 8, currentPosition = position % 8;
     
@@ -130,10 +130,26 @@ BoolVector& BoolVector::operator = (const BoolVector& other) {
 
 BoolVector& BoolVector::operator >>= (const int& value) {
     
+    const int targetCell = value / 8;
+    std::cout << targetCell << std::endl;
+    unsigned char temp;
+    
+    for(int i = 0; i < targetCell; ++i) {
+        temp = m_cells[i];
+        m_cells[i] >>= m_CELL_SIZE;
+        m_cells[i + 1] = temp;
+    }
+    m_cells[targetCell] >>= value % 8;
+    // a >>= 1;
+    //[0 1 1 1 1 0 0 0] [1 1 1 1 0 0 0 0] - current
+    //[0 1 1 1 1 0 0 0] [0 1 1 1 1 0 0 0] - target
+    
+        
+    /*
     for(int i = 0; i < m_cellCount; ++i) {
         m_cells[i] >>= value;
     }
-    
+    */
     return *this;
 }
 

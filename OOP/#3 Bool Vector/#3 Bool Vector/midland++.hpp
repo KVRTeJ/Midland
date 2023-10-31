@@ -2,7 +2,7 @@
 
 class BoolVector {
 public:
-    BoolVector(int lenth = m_CELL_SIZE, bool value = false);
+    BoolVector(const int& lenth = m_CELL_SIZE, const bool& value = false);
     BoolVector(const char* string);
     BoolVector(const BoolVector& other);
     ~BoolVector();
@@ -13,11 +13,12 @@ public:
     void twich();//
     
     void swap(BoolVector& other);
-    void set(const int& position, const bool value);
+    void set(const int& position, const bool& value);
     
+    //BoolRank operator [] (const int index);
     BoolVector& operator = (const BoolVector& other);
-    BoolVector& operator >>= (const int& value);///
-    BoolVector& operator <<= (const int& value);///
+    BoolVector& operator >>= (const int& value);//
+    BoolVector& operator <<= (const int& value);//
     BoolVector operator >> (const int& value) const;//
     BoolVector operator << (const int& value) const;//
     BoolVector operator & (const BoolVector& other) const;//
