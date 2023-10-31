@@ -3,8 +3,8 @@
 #include "midland++.hpp"
 
 int main() {
-    
-    HelloWordl temp;
-    
+    BoolVector a(8);
+    //a.scan(0);
+    a.print();
     return 0;
 }
