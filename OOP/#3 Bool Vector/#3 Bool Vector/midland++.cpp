@@ -116,6 +116,7 @@ void BoolVector::swap(BoolVector& other) {
 
 void BoolVector::invert() {
     ~(*this);
+    twich();
 }
 
 void BoolVector::invert(const int& position) {
@@ -167,6 +168,7 @@ BoolVector& BoolVector::operator ~ () {
     for(int i = 0; i < m_cellCount; ++i) {
         m_cells[i] = ~m_cells[i];
     }
+    twich();
     
     return *this;
 }
