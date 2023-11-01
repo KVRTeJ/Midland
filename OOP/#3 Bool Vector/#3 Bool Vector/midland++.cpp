@@ -8,7 +8,7 @@ BoolVector::BoolVector(const int& lenth, const bool& value) {
     m_lenth = lenth;
     m_cellCount = lenth / 8 + (lenth % 8 ? 1:0);
     m_significantRankCount = (m_cellCount * m_CELL_SIZE) - m_lenth;
-    m_cells = new unsigned char [m_cellCount];
+    m_cells = new uint8_t [m_cellCount];
     
     if(value) {
         for(unsigned int i = 0; i < m_lenth; ++i) {
@@ -27,7 +27,7 @@ BoolVector::BoolVector(const char* string) {
     m_lenth = (unsigned int) strlen(string);
     m_cellCount = m_lenth / 8 + (m_lenth % 8 ? 1:0);
     m_significantRankCount = (m_cellCount * m_CELL_SIZE) - m_lenth;
-    m_cells = new unsigned char [m_cellCount];
+    m_cells = new uint8_t [m_cellCount];
     
     for(unsigned int i = 0; i < m_lenth; ++i) {
         if(string[i] != '0')
@@ -44,7 +44,7 @@ BoolVector::BoolVector(const BoolVector& other) {
     m_lenth = other.m_lenth;
     m_cellCount = other.m_cellCount;
     m_significantRankCount = other.m_significantRankCount;
-    m_cells = new unsigned char [other.m_cellCount];
+    m_cells = new uint8_t [other.m_cellCount];
     
     for(int i = 0; i < m_cellCount; ++i) {
         m_cells[i] = other.m_cells[i];
@@ -152,7 +152,7 @@ BoolVector& BoolVector::operator = (const BoolVector& other) {
         m_lenth = other.m_lenth;
         m_cellCount = other.m_cellCount;
         m_significantRankCount = other.m_significantRankCount;
-        m_cells = new unsigned char [other.m_cellCount];
+        m_cells = new uint8_t [other.m_cellCount];
         
         for(int i = 0; i < m_cellCount; ++i) {
             m_cells[i] = other.m_cells[i];

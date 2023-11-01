@@ -40,7 +40,7 @@ private:
     void m_printCell(const int& cellNumber) const;
     
     static const uint8_t m_CELL_SIZE = 8; //Размер ячейки
-    unsigned char* m_cells = nullptr; //Сами ячейки
+    uint8_t* m_cells = nullptr; //Сами ячейки
     unsigned int m_cellCount = 0; //Кол-во ячеек
     unsigned int m_lenth = 0; //Длина вектора
     uint8_t m_significantRankCount = 0; //Кол-во незначащих 0
@@ -53,7 +53,7 @@ private:
 
 class BoolVector::BoolRank {
 public:
-    BoolRank(unsigned char* cell, const int& maskPos) {
+    BoolRank(uint8_t* cell, const int& maskPos) {
         m_cell = cell;
         m_mask >>= maskPos;
     }
@@ -63,7 +63,7 @@ public:
     BoolRank operator & ();
     
 private:
-    unsigned char* m_cell = nullptr;
+    uint8_t* m_cell = nullptr;
     uint8_t m_mask = 1 << 7;
     
 };
