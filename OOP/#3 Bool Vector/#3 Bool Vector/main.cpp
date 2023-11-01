@@ -3,8 +3,13 @@
 #include "midland++.hpp"
 
 int main() {
-    BoolVector a = "111100001111000011110000";
-    a >>= 1;
-    a.print();
+    
+    BoolVector a = "11001100", b(8, 1), c(22, 1);
+    
+    //c = a ^ b;
+    std::cout << c;
+    ~c[0];
+    std::cout << c;
+    
     return 0;
 }
