@@ -306,3 +306,29 @@ BoolVector::BoolRank& BoolVector::BoolRank::operator ~ () {
     
     return *this;
 }
+
+BoolVector::BoolRank BoolVector::BoolRank::operator & (const bool& value) {
+    
+    if(value)
+        (*m_cell) &= m_mask;
+    else
+        (*m_cell) &= ~m_mask;
+    
+    return *this;
+}
+
+BoolVector::BoolRank BoolVector::BoolRank::operator ^ (const bool& value) {
+    
+    if(value) {
+        uint8_t temp = (*m_cell) & m_mask;
+        temp ^= m_mask;
+        if((temp & m_mask) == m_mask)
+            (*m_cell) |= m_mask;
+        else
+            (*m_cell) &= ~m_mask;
+    }
+    else
+        (*m_cell) ^= m_mask;
+    
+    return *this;
+}

@@ -21,7 +21,7 @@ public:
     void invert();
     void invert(const int& position);
     void set(const int& position, const bool& value);
-    unsigned int getLenth() {
+    unsigned int getLenth() const {
         return m_lenth;
     }
     
@@ -58,9 +58,16 @@ public:
         m_mask >>= maskPos;
     }
     
+    //char -> uint8_t ??
     BoolRank& operator = (const bool& value);
+    BoolRank& operator = (const char& number);//
     BoolRank& operator ~ ();
-    BoolRank operator & ();
+    BoolRank operator & (const bool& value);
+    BoolRank operator ^ (const bool& value);//
+    char operator () ();//
+    //BoolRank operator () (const char& number); ???
+    bool operator == (const BoolRank& other);//
+    bool operator == (const char& number);// (char) -> (uint8_t) => BR == BR
     
 private:
     uint8_t* m_cell = nullptr;
