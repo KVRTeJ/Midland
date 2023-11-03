@@ -4,32 +4,34 @@
 
 BoolVector::BoolVector(const int& lenth, const bool& value) {
     assert(lenth >= 0);
-    
-    m_lenth = lenth;
+    //чего-то не хватает
+    //twitch?????
+    //lenght unsign..
+    m_lenght = lenth;
     m_cellCount = lenth / 8 + (lenth % 8 ? 1:0);
-    m_significantRankCount = (m_cellCount * m_CELL_SIZE) - m_lenth;
+    m_unsignificantRankCount = (m_cellCount * m_CELL_SIZE) - m_lenght;
     m_cells = new uint8_t [m_cellCount];
     
     if(value) {
-        for(unsigned int i = 0; i < m_lenth; ++i) {
-            set(i, value);
+        for(unsigned int i = 0; i < m_cellCount; ++i) {
+            m_cells[i] = 255;
         }
     }
     else
-        for(unsigned int i = 0; i < m_lenth; ++i) {
-            set(i, value);
+        for(unsigned int i = 0; i < m_cellCount; ++i) {
+            m_cells[i] = 0;
         }
 }
 
 BoolVector::BoolVector(const char* string) {
     assert(strlen(string) >= 0);
     
-    m_lenth = (unsigned int) strlen(string);
-    m_cellCount = m_lenth / 8 + (m_lenth % 8 ? 1:0);
-    m_significantRankCount = (m_cellCount * m_CELL_SIZE) - m_lenth;
+    m_lenght = (unsigned int) strlen(string);
+    m_cellCount = m_lenght / 8 + (m_lenght % 8 ? 1:0);
+    m_unsignificantRankCount = (m_cellCount * m_CELL_SIZE) - m_lenght;
     m_cells = new uint8_t [m_cellCount];
     
-    for(unsigned int i = 0; i < m_lenth; ++i) {
+    for(unsigned int i = 0; i < m_lenght; ++i) {
         if(string[i] != '0')
             set(i, 1);
         else
@@ -41,9 +43,9 @@ BoolVector::BoolVector(const char* string) {
 
 BoolVector::BoolVector(const BoolVector& other) {
     
-    m_lenth = other.m_lenth;
+    m_lenght = other.m_lenght;
     m_cellCount = other.m_cellCount;
-    m_significantRankCount = other.m_significantRankCount;
+    m_unsignificantRankCount = other.m_unsignificantRankCount;
     m_cells = new uint8_t [other.m_cellCount];
     
     for(int i = 0; i < m_cellCount; ++i) {
@@ -82,13 +84,13 @@ int BoolVector::weight() const {
 
 void BoolVector::scan() {
     
-    std::cout << "Булев вектор(lenth = " << m_lenth << "): ";
-    char* string = new char [m_lenth];
-    for(int i = 0; i < m_lenth; ++i) {
+    std::cout << "Булев вектор(lenth = " << m_lenght << "): ";
+    char* string = new char [m_lenght];
+    for(int i = 0; i < m_lenght; ++i) {
         std::cin >> string[i];
     }
     
-    for(unsigned int i = 0; i < m_lenth; ++i) {
+    for(unsigned int i = 0; i < m_lenght; ++i) {
         if(string[i] != '0')
             set(i, 1);
         else
@@ -98,34 +100,27 @@ void BoolVector::scan() {
     delete [] string;
 }
 
-void BoolVector::twich() {
-    
-    m_cells[m_cellCount - 1] >>= m_significantRankCount;
-    m_cells[m_cellCount - 1] <<= m_significantRankCount;
-    
-}
-
 void BoolVector::swap(BoolVector& other) {
     
-    std::swap(m_lenth, other.m_lenth);
+    std::swap(m_lenght, other.m_lenght);
     std::swap(m_cellCount, other.m_cellCount);
-    std::swap(m_significantRankCount, other.m_significantRankCount);
+    std::swap(m_unsignificantRankCount, other.m_unsignificantRankCount);
     std::swap(m_cells, other.m_cells);
     
 }
 
 void BoolVector::invert() {
     ~(*this);
-    twich();
+    m_twich();
 }
 
 void BoolVector::invert(const int& position) {
-    assert(position >= 0 && position < m_lenth);
+    assert(position >= 0 && position < m_lenght);
     ~(*this)[position];
 }
 
 void BoolVector::set(const int& position, const bool& value) {
-    assert(position >= 0 && position < m_lenth);
+    assert(position >= 0 && position < m_lenght);
     
     const unsigned int currentCell = position / 8, currentPosition = position % 8;
     
@@ -139,7 +134,7 @@ void BoolVector::set(const int& position, const bool& value) {
 }
 
 BoolVector::BoolRank BoolVector::operator [] (const int& index) {
-    assert(index >= 0 && index < m_lenth);
+    assert(index >= 0 && index < m_lenght);
     
     return BoolRank(m_cells + index / 8, index % 8);
     
@@ -149,9 +144,9 @@ BoolVector& BoolVector::operator = (const BoolVector& other) {
     
     if(this != &other) {
         delete [] m_cells;
-        m_lenth = other.m_lenth;
+        m_lenght = other.m_lenght;
         m_cellCount = other.m_cellCount;
-        m_significantRankCount = other.m_significantRankCount;
+        m_unsignificantRankCount = other.m_unsignificantRankCount;
         m_cells = new uint8_t [other.m_cellCount];
         
         for(int i = 0; i < m_cellCount; ++i) {
@@ -163,30 +158,30 @@ BoolVector& BoolVector::operator = (const BoolVector& other) {
     
 }
 
-BoolVector& BoolVector::operator ~ () {
+BoolVector& BoolVector::operator ~ () const {
     
     for(int i = 0; i < m_cellCount; ++i) {
         m_cells[i] = ~m_cells[i];
     }
-    twich();
+    m_twich();
     
     return *this;
 }
 
 BoolVector BoolVector::operator & (const BoolVector& other) {
-    assert(m_lenth == other.m_lenth);
+    assert(m_lenght == other.m_lenght);
     
-    BoolVector temp(other);
+    BoolVector temp(*this);
     
     for(int i = 0; i < m_cellCount; ++i) {
-        temp.m_cells[i] = m_cells[i] & other.m_cells[i];
+        temp.m_cells[i] &= other.m_cells[i];
     }
     
     return temp;
 }
 
 BoolVector BoolVector::operator | (const BoolVector& other) {
-    assert(m_lenth == other.m_lenth);
+    assert(m_lenght == other.m_lenght);
     
     BoolVector temp(other);
     
@@ -198,7 +193,7 @@ BoolVector BoolVector::operator | (const BoolVector& other) {
 }
 
 BoolVector BoolVector::operator ^ (const BoolVector& other) {
-    assert(m_lenth == other.m_lenth);
+    assert(m_lenght == other.m_lenght);
     
     BoolVector temp(other);
     
@@ -274,7 +269,7 @@ void BoolVector::m_unSetInCell(const int& cellNumber, const int& position) {
 void BoolVector::m_printCell(const int& cellNumber) const {
     assert(cellNumber >= 0 && cellNumber < m_cellCount);
     
-    for(uint8_t i = 128; i > 0; i >>= 1) {
+    for(uint8_t i = 1 << 7; i > 0; i >>= 1) {
         if(m_cells[cellNumber] & i) {
             std::cout << "1";
             if((i >> 1) > 0)
@@ -289,6 +284,8 @@ void BoolVector::m_printCell(const int& cellNumber) const {
     //std::cout << std::endl;
     
 }
+
+
 
 /*BoolRank*/
 BoolVector::BoolRank& BoolVector::BoolRank::operator = (const bool& value) {
@@ -309,9 +306,7 @@ BoolVector::BoolRank& BoolVector::BoolRank::operator ~ () {
 
 BoolVector::BoolRank BoolVector::BoolRank::operator & (const bool& value) {
     
-    if(value)
-        (*m_cell) &= m_mask;
-    else
+    if(!value)
         (*m_cell) &= ~m_mask;
     
     return *this;
@@ -320,15 +315,8 @@ BoolVector::BoolRank BoolVector::BoolRank::operator & (const bool& value) {
 BoolVector::BoolRank BoolVector::BoolRank::operator ^ (const bool& value) {
     
     if(value) {
-        uint8_t temp = (*m_cell) & m_mask;
-        temp ^= m_mask;
-        if((temp & m_mask) == m_mask)
-            (*m_cell) |= m_mask;
-        else
-            (*m_cell) &= ~m_mask;
-    }
-    else
         (*m_cell) ^= m_mask;
+    }
     
     return *this;
 }

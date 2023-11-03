@@ -12,7 +12,8 @@ int main() {
     c[0] = c[0] ^ 1;
     std::cout << c;
     */
-    a[0] = a[0] ^ 0;
+    a.print();
+    a[0]  0;
     std::cout << a;
     return 0;
 }
