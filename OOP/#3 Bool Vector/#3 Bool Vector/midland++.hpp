@@ -3,10 +3,12 @@
 #include <iostream>
 
 class BoolVector {
+    friend std::ostream& operator << (std::ostream& stream, const BoolVector& object);
+    friend std::istream& operator >> (std::istream& stream, BoolVector& object);
 private:
     class BoolRank;
 public:
-    BoolVector(const int& lenth = m_CELL_SIZE, const bool& value = false);
+    BoolVector(const int& lenth = CELL_SIZE, const bool& value = false);
     BoolVector(const char* string);
     BoolVector(const BoolVector& other);
     ~BoolVector();
@@ -24,7 +26,7 @@ public:
     }
     
     BoolRank operator [] (const int& index);
-    const BoolRank operator [] (const int& index) const;
+    BoolRank operator [] (const int& index) const;
     BoolVector& operator = (const BoolVector& other);
     BoolVector operator ~ () const;// переделать
     BoolVector operator & (const BoolVector& other) const; //проверить
@@ -33,7 +35,7 @@ public:
     //BoolVector& operator >>= (const int& value);//
     //BoolVector& operator <<= (const int& value);//
     
-    static const uint8_t m_CELL_SIZE = 8;
+    static const uint8_t CELL_SIZE = 8;
     
 private:
     void m_setInCell(const int& cellNumber, const int& position);
@@ -60,14 +62,14 @@ public:
     }
     
     //char -> uint8_t ??
-    BoolRank& operator = (const BoolRank& other); // BV& op=(bool vale)
+    //BoolRank& operator = (const BoolRank& other); // BV& op=(bool vale)
     BoolRank& operator = (const bool& value);
     BoolRank operator & (const bool& value);
     BoolRank operator ^ (const bool& value);//
     BoolRank operator ~ () const;
     bool operator == (const BoolRank& other);//
     bool operator == (const bool& value);// (char) -> (uint8_t) => BR == BR
-    operator bool() const;//
+   // operator bool() const;//
     
 private:
     uint8_t* m_cell = nullptr;
@@ -75,9 +77,27 @@ private:
     
 };
 
-//переписать 
+//переписать
 inline std::ostream& operator << (std::ostream& stream, const BoolVector& object) {//
-    object.print();
+    
+    for(int i = 0; i < object.m_cellCount; ++i) {
+        stream << "[";
+        for(uint8_t j = 1 << 7; j > 0; j >>= 1) {
+            if(object.m_cells[i] & j) {
+                stream << "1";
+                if((j >> 1) > 0)
+                    stream << " ";
+            }
+            else {
+                stream << "0";
+                if((j >> 1) > 0)
+                    stream << " ";
+            }
+        }
+        stream << "] ";
+    }
+    stream << std::endl;
+    
     return stream;
 }
 

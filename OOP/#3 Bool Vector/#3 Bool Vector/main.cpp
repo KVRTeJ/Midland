@@ -3,17 +3,12 @@
 #include "midland++.hpp"
 
 int main() {
-    
-    BoolVector a = "11001100", b(8, 1), c(22);
-    
-    /*
-    //c = a ^ b;
-    std::cout << c;
-    c[0] = c[0] ^ 1;
-    std::cout << c;
-    */
-    a.print();
-    a[0]  0;
-    std::cout << a;
+    //по умолчанию
+    BoolVector temp(9, 1);
+    std::cout << temp;
+    temp[1] = ~temp[8];
+    //[1 1 1 1 1 1 1 1] [0 0 0 0 0 0 0 0]
+    //исправляет 8 индекс
+    std::cout << temp;
     return 0;
 }
