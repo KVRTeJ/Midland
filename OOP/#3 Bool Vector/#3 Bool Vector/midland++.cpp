@@ -137,7 +137,7 @@ void BoolVector::set(const int& POS_FROM, const int& POS_TO, const bool& VALUE) 
     assert(POS_FROM <= POS_TO);
     
     for(int i = POS_FROM; i <= POS_TO; ++i) {
-        set(i, VALUE);
+        (*this)[i] = VALUE;
     }
     
 }
@@ -230,6 +230,22 @@ BoolVector BoolVector::operator ^ (const BoolVector& other) const {
     
     return returned;
 }
+
+BoolVector BoolVector::operator >> (const BoolVector& other) const {
+    assert(m_lenght == other.m_lenght);
+    
+    BoolVector returned(other);
+    
+    
+    
+    return returned;
+}
+
+/*
+BoolVector BoolVector::operator >> (const BoolVector& other) const {
+    
+}
+*/
 
 BoolVector& BoolVector::operator &= (const BoolVector& other) {
     *this = *this & other;
