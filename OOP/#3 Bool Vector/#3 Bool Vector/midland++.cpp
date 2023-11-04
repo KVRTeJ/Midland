@@ -115,7 +115,7 @@ void BoolVector::invert() {
 
 void BoolVector::invert(const int& position) {
     assert(position >= 0 && position < m_lenght);
-    ~(*this)[position];
+    (*this)[position] = ~(*this)[position];
 }
 
 void BoolVector::set(const int& position, const bool& value) {
@@ -130,6 +130,21 @@ void BoolVector::set(const int& position, const bool& value) {
         m_unSetInCell(currentCell, currentPosition);
     }
     
+}
+
+void BoolVector::set(const int& POS_FROM, const int& POS_TO, const bool& VALUE) {
+    assert(POS_FROM >= 0 && POS_TO < m_lenght);
+    assert(POS_FROM <= POS_TO);
+    
+    for(int i = POS_FROM; i <= POS_TO; ++i) {
+        set(i, VALUE);
+    }
+    
+}
+
+void BoolVector::set(const bool& VALUE) {
+    const int BEGIN_VEC = 0, END_VEC = m_lenght - 1;
+    set(BEGIN_VEC, END_VEC, VALUE);
 }
 
 BoolVector::BoolRank BoolVector::operator [] (const int& index) {
@@ -259,8 +274,7 @@ void BoolVector::m_twich() {
 
 
 /*BoolRank*/
-BoolVector::BoolRank& BoolVector::BoolRank::operator = (const BoolRank& other) {
-    
+BoolVector::BoolRank& BoolVector::BoolRank::operator = (const BoolVector::BoolRank& other) {
     return *this = ((bool) other);
 }
 
@@ -294,7 +308,7 @@ BoolVector::BoolRank BoolVector::BoolRank::operator & (const bool& value) {
     if(!value)
         (*temp.m_cell) &= ~temp.m_mask;
     
-    return *this;
+    return temp;
 }
 
 BoolVector::BoolRank BoolVector::BoolRank::operator ^ (const bool& value) {
@@ -310,12 +324,16 @@ BoolVector::BoolRank BoolVector::BoolRank::operator ^ (const bool& value) {
     return temp;
 }
 
-bool BoolVector::BoolRank::operator == (const BoolVector::BoolRank& other) {
-    return(*this == ((bool) other));
+bool BoolVector::BoolRank::operator == (BoolVector::BoolRank other) {
+    return (*this == ((bool) other));
 }
 
 bool BoolVector::BoolRank::operator == (const bool& value) {
-    return (bool) *this;
+    
+    if((bool) *this & value)
+        return true;
+    
+    return false;
 }
 
 BoolVector::BoolRank::operator bool() const {

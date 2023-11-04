@@ -18,9 +18,11 @@ public:
     void scan();
     
     void swap(BoolVector& other);
-    void invert();//исправить
+    void invert();
     void invert(const int& position);
     void set(const int& position, const bool& value);
+    void set(const int& POS_FROM, const int& POS_TO, const bool& VALUE);
+    void set(const bool& VALUE);
     unsigned int getLenth() const {
         return m_lenght;
     }
@@ -28,8 +30,8 @@ public:
     BoolRank operator [] (const int& index);
     const BoolRank operator [] (const int& index) const;
     BoolVector& operator = (const BoolVector& other);
-    BoolVector operator ~ () const;// переделать
-    BoolVector operator & (const BoolVector& other) const; //проверить
+    BoolVector operator ~ () const;
+    BoolVector operator & (const BoolVector& other) const;
     BoolVector operator | (const BoolVector& other) const;
     BoolVector operator ^ (const BoolVector& other) const;
     //BoolVector& operator >>= (const int& value);//
@@ -61,12 +63,12 @@ public:
         m_mask >>= maskPos;
     }
     
-    BoolRank& operator = (const BoolRank& other); // BV& op=(bool vale)
+    BoolRank& operator = (const BoolRank& other);
     BoolRank& operator = (const bool& value);
     BoolRank operator & (const bool& value);
     BoolRank operator ^ (const bool& value);
     BoolRank operator ~ () const;
-    bool operator == (const BoolRank& other);//
+    bool operator == (BoolRank other);
     bool operator == (const bool& value);
     operator bool() const;
     
@@ -101,7 +103,6 @@ inline std::ostream& operator << (std::ostream& stream, const BoolVector& object
     return stream;
 }
 
-//переписать
 inline std::istream& operator >> (std::istream& stream, BoolVector& object) {//
     char* string = new char [object.m_lenght];
     for(int i = 0; i < object.m_lenght; ++i) {
