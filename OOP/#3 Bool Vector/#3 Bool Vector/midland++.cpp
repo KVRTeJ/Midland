@@ -136,15 +136,12 @@ BoolVector::BoolRank BoolVector::operator [] (const int& index) {
     assert(index >= 0 && index < m_lenght);
     
     return BoolRank(m_cells + index / CELL_SIZE, index % CELL_SIZE);
-    
 }
 
-BoolVector::BoolRank BoolVector::operator [] (const int& index) const {
+const BoolVector::BoolRank BoolVector::operator [] (const int& index) const {
     assert(index >= 0 && index < m_lenght);
-    uint8_t mask = 1 << 7;
     
-    return BoolRank(m_cells + index / CELL_SIZE, index % CELL_SIZE) & ~mask;
-    
+    return BoolRank(m_cells + index / CELL_SIZE, index % CELL_SIZE);
 }
 
 BoolVector& BoolVector::operator = (const BoolVector& other) {
@@ -262,6 +259,11 @@ void BoolVector::m_twich() {
 
 
 /*BoolRank*/
+BoolVector::BoolRank& BoolVector::BoolRank::operator = (const BoolRank& other) {
+    
+    return *this = ((bool) other);
+}
+
 BoolVector::BoolRank& BoolVector::BoolRank::operator = (const bool& value) {
     if(value)
         (*m_cell) |= m_mask;
@@ -271,26 +273,55 @@ BoolVector::BoolRank& BoolVector::BoolRank::operator = (const bool& value) {
     return *this;
 }
 
+
 BoolVector::BoolRank BoolVector::BoolRank::operator ~ () const {
     
-    BoolRank returned(*this);
-    (*returned.m_cell) ^= returned.m_mask;
-    return returned;
+    BoolRank temp(nullptr, 0);
+    temp.m_cell = new uint8_t;
+    temp.m_mask = m_mask;
+    
+    (*temp.m_cell) = (*m_cell) ^ m_mask;
+    
+    return temp;
 }
 
 BoolVector::BoolRank BoolVector::BoolRank::operator & (const bool& value) {
     
+    BoolRank temp(nullptr, 0);
+    temp.m_cell = new uint8_t;
+    temp.m_mask = m_mask;
+    
     if(!value)
-        (*m_cell) &= ~m_mask;
+        (*temp.m_cell) &= ~temp.m_mask;
     
     return *this;
 }
 
 BoolVector::BoolRank BoolVector::BoolRank::operator ^ (const bool& value) {
     
+    BoolRank temp(nullptr, 0);
+    temp.m_cell = new uint8_t;
+    temp.m_mask = m_mask;
+    
     if(value) {
-        (*m_cell) ^= m_mask;
+        (*temp.m_cell) = (*m_cell) ^ temp.m_mask;
     }
     
-    return *this;
+    return temp;
+}
+
+bool BoolVector::BoolRank::operator == (const BoolVector::BoolRank& other) {
+    return(*this == ((bool) other));
+}
+
+bool BoolVector::BoolRank::operator == (const bool& value) {
+    return (bool) *this;
+}
+
+BoolVector::BoolRank::operator bool() const {
+    
+    if(m_mask & (*m_cell))
+        return true;
+    
+    return false;
 }

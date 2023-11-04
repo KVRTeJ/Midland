@@ -4,11 +4,12 @@
 
 int main() {
     //по умолчанию
-    BoolVector temp(9, 1);
+    BoolVector temp = "10101010", tem;
     std::cout << temp;
-    temp[1] = ~temp[8];
-    //[1 1 1 1 1 1 1 1] [0 0 0 0 0 0 0 0]
-    //исправляет 8 индекс
+    tem[0] = ~temp[0];
     std::cout << temp;
+    std::cout << tem;
+    //if(temp[0] == tem[0])
+        std::cout << "true" << std::endl;
     return 0;
 }

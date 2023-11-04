@@ -26,7 +26,7 @@ public:
     }
     
     BoolRank operator [] (const int& index);
-    BoolRank operator [] (const int& index) const;
+    const BoolRank operator [] (const int& index) const;
     BoolVector& operator = (const BoolVector& other);
     BoolVector operator ~ () const;// переделать
     BoolVector operator & (const BoolVector& other) const; //проверить
@@ -43,10 +43,10 @@ private:
     void m_printCell(const int& cellNumber) const;
     void m_twich();
     
-    uint8_t* m_cells = nullptr; //Сами ячейки
-    unsigned int m_cellCount = 0; //Кол-во ячеек
-    unsigned int m_lenght = 0; //Длина вектора
-    uint8_t m_unsignificantRankCount = 0; //Кол-во незначащих 0
+    uint8_t* m_cells = nullptr;
+    unsigned int m_cellCount = 0;
+    unsigned int m_lenght = 0;
+    uint8_t m_unsignificantRankCount = 0;
     
 };
 
@@ -61,15 +61,14 @@ public:
         m_mask >>= maskPos;
     }
     
-    //char -> uint8_t ??
-    //BoolRank& operator = (const BoolRank& other); // BV& op=(bool vale)
+    BoolRank& operator = (const BoolRank& other); // BV& op=(bool vale)
     BoolRank& operator = (const bool& value);
     BoolRank operator & (const bool& value);
-    BoolRank operator ^ (const bool& value);//
+    BoolRank operator ^ (const bool& value);
     BoolRank operator ~ () const;
     bool operator == (const BoolRank& other);//
-    bool operator == (const bool& value);// (char) -> (uint8_t) => BR == BR
-   // operator bool() const;//
+    bool operator == (const bool& value);
+    operator bool() const;
     
 private:
     uint8_t* m_cell = nullptr;
@@ -77,8 +76,9 @@ private:
     
 };
 
-//переписать
-inline std::ostream& operator << (std::ostream& stream, const BoolVector& object) {//
+
+
+inline std::ostream& operator << (std::ostream& stream, const BoolVector& object) {
     
     for(int i = 0; i < object.m_cellCount; ++i) {
         stream << "[";
@@ -101,7 +101,20 @@ inline std::ostream& operator << (std::ostream& stream, const BoolVector& object
     return stream;
 }
 
+//переписать
 inline std::istream& operator >> (std::istream& stream, BoolVector& object) {//
-    object.scan();
+    char* string = new char [object.m_lenght];
+    for(int i = 0; i < object.m_lenght; ++i) {
+        stream >> string[i];
+    }
+    
+    for(unsigned int i = 0; i < object.m_lenght; ++i) {
+        if(string[i] != '0')
+            object.set(i, 1);
+        else
+            object.set(i, 0);
+    }
+    
+    delete [] string;
     return stream;
 }
