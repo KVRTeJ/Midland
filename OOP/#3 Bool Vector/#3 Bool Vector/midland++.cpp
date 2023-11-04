@@ -113,21 +113,21 @@ void BoolVector::invert() {
     m_twich();
 }
 
-void BoolVector::invert(const int& position) {
-    assert(position >= 0 && position < m_lenght);
-    (*this)[position] = ~(*this)[position];
+void BoolVector::invert(const int& POSITION) {
+    assert(POSITION >= 0 && POSITION < m_lenght);
+    (*this)[POSITION] = ~(*this)[POSITION];
 }
 
-void BoolVector::set(const int& position, const bool& value) {
-    assert(position >= 0 && position < m_lenght);
+void BoolVector::set(const int& POSITION, const bool& VALUE) {
+    assert(POSITION >= 0 && POSITION < m_lenght);
     
-    const unsigned int currentCell = position / CELL_SIZE, currentPosition = position % CELL_SIZE;
+    const unsigned int CURRENT_CELL = POSITION / CELL_SIZE, CURRENT_POS = POSITION % CELL_SIZE;
     
-    if(value) {
-        m_setInCell(currentCell, currentPosition);
+    if(VALUE) {
+        m_setInCell(CURRENT_CELL, CURRENT_POS);
     }
     else {
-        m_unSetInCell(currentCell, currentPosition);
+        m_unSetInCell(CURRENT_CELL, CURRENT_POS);
     }
     
 }
@@ -143,8 +143,13 @@ void BoolVector::set(const int& POS_FROM, const int& POS_TO, const bool& VALUE) 
 }
 
 void BoolVector::set(const bool& VALUE) {
-    const int BEGIN_VEC = 0, END_VEC = m_lenght - 1;
-    set(BEGIN_VEC, END_VEC, VALUE);
+    for(int i = 0; i < m_cellCount; ++i) {
+        if(VALUE)
+            m_cells[i] = 255;
+        else
+            m_cells[i] = 0;
+    }
+    m_twich();
 }
 
 BoolVector::BoolRank BoolVector::operator [] (const int& index) {
@@ -193,9 +198,11 @@ BoolVector BoolVector::operator & (const BoolVector& other) const {
     
     BoolVector returned(*this);
     
+    
     for(int i = 0; i < m_cellCount; ++i) {
-        returned.m_cells[i] &= other.m_cells[i];
+        returned.m_cells[i] = m_cells[i] & other.m_cells[i];
     }
+    
     
     return returned;
 }
@@ -223,6 +230,25 @@ BoolVector BoolVector::operator ^ (const BoolVector& other) const {
     
     return returned;
 }
+
+BoolVector& BoolVector::operator &= (const BoolVector& other) {
+    *this = *this & other;
+    
+    return *this;
+}
+
+BoolVector& BoolVector::operator |= (const BoolVector& other) {
+    *this = *this | other;
+    
+    return *this;
+}
+
+BoolVector& BoolVector::operator ^= (const BoolVector& other) {
+    *this = *this ^ other;
+    
+    return *this;
+}
+
 
 /* private */
 void BoolVector::m_setInCell(const int& cellNumber, const int& position) {

@@ -19,8 +19,8 @@ public:
     
     void swap(BoolVector& other);
     void invert();
-    void invert(const int& position);
-    void set(const int& position, const bool& value);
+    void invert(const int& POSITION);
+    void set(const int& POSITION, const bool& VALUE);
     void set(const int& POS_FROM, const int& POS_TO, const bool& VALUE);
     void set(const bool& VALUE);
     unsigned int getLenth() const {
@@ -34,6 +34,9 @@ public:
     BoolVector operator & (const BoolVector& other) const;
     BoolVector operator | (const BoolVector& other) const;
     BoolVector operator ^ (const BoolVector& other) const;
+    BoolVector& operator &= (const BoolVector& other);
+    BoolVector& operator |= (const BoolVector& other);
+    BoolVector& operator ^= (const BoolVector& other);
     //BoolVector& operator >>= (const int& value);//
     //BoolVector& operator <<= (const int& value);//
     
@@ -51,10 +54,6 @@ private:
     uint8_t m_unsignificantRankCount = 0;
     
 };
-
-/**
- перегрузки стандартных операций (присваивание, битовое сложение, умножение, инверсия, исключающее ИЛИ. Рекомендуется также определить операции сравнения и присваивание, как между объектами класса BoolRank, так и с одним из базовых типов (int/bool/char), а также конвертацию типа Rank в один из базовых типов.
- **/
 
 class BoolVector::BoolRank {
 public:
