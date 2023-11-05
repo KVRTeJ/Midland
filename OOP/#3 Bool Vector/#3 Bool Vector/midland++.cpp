@@ -115,6 +115,7 @@ void BoolVector::invert() {
 
 void BoolVector::invert(const int& POSITION) {
     assert(POSITION >= 0 && POSITION < m_lenght);
+    
     (*this)[POSITION] = ~(*this)[POSITION];
 }
 
@@ -231,18 +232,26 @@ BoolVector BoolVector::operator ^ (const BoolVector& other) const {
     return returned;
 }
 
-BoolVector BoolVector::operator >> (const BoolVector& other) const {
-    assert(m_lenght == other.m_lenght);
+BoolVector BoolVector::operator >> (const int& value) const {
+    assert(value >= 0 && value < m_lenght);
     
-    BoolVector returned(other);
-    
-    
+    BoolVector returned(*this);
+   returned.m_cells[m_cellCount - 1] >>= value;
+    uint8_t mask = 0;
+    for(int i = returned.m_cellCount - 2; i >= 0; --i)  {
+        mask = 0;
+        mask |= returned.m_cells[i];
+        mask <<= CELL_SIZE - value;
+        returned.m_cells[i + 1] |= mask;
+        returned.m_cells[i] >>= value;
+    }
+    returned.m_twich();
     
     return returned;
 }
 
 /*
-BoolVector BoolVector::operator >> (const BoolVector& other) const {
+BoolVector BoolVector::operator >> (const int& value) const {
     
 }
 */

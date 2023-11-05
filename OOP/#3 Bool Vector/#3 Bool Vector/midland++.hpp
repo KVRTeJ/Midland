@@ -34,8 +34,8 @@ public:
     BoolVector operator & (const BoolVector& other) const;
     BoolVector operator | (const BoolVector& other) const;
     BoolVector operator ^ (const BoolVector& other) const;
-    BoolVector operator >> (const BoolVector& other) const;
-    BoolVector operator << (const BoolVector& other) const;
+    BoolVector operator >> (const int& value) const;
+    BoolVector operator << (const int& value) const;
     BoolVector& operator &= (const BoolVector& other);
     BoolVector& operator |= (const BoolVector& other);
     BoolVector& operator ^= (const BoolVector& other);
