@@ -39,8 +39,8 @@ public:
     BoolVector& operator &= (const BoolVector& other);
     BoolVector& operator |= (const BoolVector& other);
     BoolVector& operator ^= (const BoolVector& other);
-    BoolVector& operator >>= (const int& value);//
-    BoolVector& operator <<= (const int& value);//
+    BoolVector& operator >>= (const int& value);
+    BoolVector& operator <<= (const int& value);
     
     static const uint8_t CELL_SIZE = 8;
     
@@ -104,7 +104,7 @@ inline std::ostream& operator << (std::ostream& stream, const BoolVector& object
     return stream;
 }
 
-inline std::istream& operator >> (std::istream& stream, BoolVector& object) {//
+inline std::istream& operator >> (std::istream& stream, BoolVector& object) {
     char* string = new char [object.m_lenght];
     for(int i = 0; i < object.m_lenght; ++i) {
         stream >> string[i];
