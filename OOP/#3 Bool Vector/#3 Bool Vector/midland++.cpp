@@ -236,8 +236,8 @@ BoolVector BoolVector::operator >> (const int& value) const {
     assert(value >= 0 && value < m_lenght);
     
     BoolVector returned(*this);
-   returned.m_cells[m_cellCount - 1] >>= value;
-    uint8_t mask = 0;
+    returned.m_cells[m_cellCount - 1] >>= value;
+    uint8_t mask;
     for(int i = returned.m_cellCount - 2; i >= 0; --i)  {
         mask = 0;
         mask |= returned.m_cells[i];
@@ -250,11 +250,24 @@ BoolVector BoolVector::operator >> (const int& value) const {
     return returned;
 }
 
-/*
-BoolVector BoolVector::operator >> (const int& value) const {
+
+BoolVector BoolVector::operator << (const int& value) const {
+    assert(value >= 0 && value < m_lenght);
     
+    BoolVector returned(*this);
+    returned.m_cells[0] <<= value;
+    uint8_t mask;
+    for(int i = 1; i < returned.m_cellCount; ++i)  {
+        mask = 0;
+        mask |= returned.m_cells[i];
+        mask >>= CELL_SIZE - value;
+        returned.m_cells[i - 1] |= mask;
+        returned.m_cells[i] <<= value;
+    }
+    
+    return returned;
 }
-*/
+
 
 BoolVector& BoolVector::operator &= (const BoolVector& other) {
     *this = *this & other;
@@ -271,6 +284,16 @@ BoolVector& BoolVector::operator |= (const BoolVector& other) {
 BoolVector& BoolVector::operator ^= (const BoolVector& other) {
     *this = *this ^ other;
     
+    return *this;
+}
+
+BoolVector& BoolVector::operator >>= (const int& value) {
+    *this = *this >> value;
+    return *this;
+}
+
+BoolVector& BoolVector::operator <<= (const int& value) {
+    *this = *this << value;
     return *this;
 }
 

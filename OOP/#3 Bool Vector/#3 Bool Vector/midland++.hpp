@@ -39,8 +39,8 @@ public:
     BoolVector& operator &= (const BoolVector& other);
     BoolVector& operator |= (const BoolVector& other);
     BoolVector& operator ^= (const BoolVector& other);
-    //BoolVector& operator >>= (const int& value);//
-    //BoolVector& operator <<= (const int& value);//
+    BoolVector& operator >>= (const int& value);//
+    BoolVector& operator <<= (const int& value);//
     
     static const uint8_t CELL_SIZE = 8;
     
