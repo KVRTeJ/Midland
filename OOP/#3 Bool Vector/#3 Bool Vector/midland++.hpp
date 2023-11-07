@@ -66,9 +66,9 @@ public:
     
     BoolRank& operator = (const BoolRank& other);
     BoolRank& operator = (const bool& value);
-    BoolRank operator & (const bool& value);
-    BoolRank operator ^ (const bool& value);
-    BoolRank operator ~ () const;
+    bool operator & (const bool& value);
+    bool operator ~ () const;
+    bool operator ^ (const bool& value);
     bool operator == (BoolRank other);
     bool operator == (const bool& value);
     operator bool() const;

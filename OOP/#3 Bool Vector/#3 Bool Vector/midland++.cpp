@@ -361,41 +361,18 @@ BoolVector::BoolRank& BoolVector::BoolRank::operator = (const bool& value) {
     return *this;
 }
 
-
-BoolVector::BoolRank BoolVector::BoolRank::operator ~ () const {
-    
-    BoolRank temp(nullptr, 0);
-    temp.m_cell = new uint8_t;
-    temp.m_mask = m_mask;
-    
-    (*temp.m_cell) = (*m_cell) ^ m_mask;
-    
-    return temp;
-}
-
-BoolVector::BoolRank BoolVector::BoolRank::operator & (const bool& value) {
-    
-    BoolRank temp(nullptr, 0);
-    temp.m_cell = new uint8_t;
-    temp.m_mask = m_mask;
-    
+bool BoolVector::BoolRank::operator & (const bool& value) {
     if(!value)
-        (*temp.m_cell) &= ~temp.m_mask;
-    
-    return temp;
+        return false;
+    return (bool) (*m_cell) & m_mask;
 }
 
-BoolVector::BoolRank BoolVector::BoolRank::operator ^ (const bool& value) {
-    
-    BoolRank temp(nullptr, 0);
-    temp.m_cell = new uint8_t;
-    temp.m_mask = m_mask;
-    
-    if(value) {
-        (*temp.m_cell) = (*m_cell) ^ temp.m_mask;
-    }
-    
-    return temp;
+bool BoolVector::BoolRank::operator ~ () const {
+    return ( ((bool) *this & true) ? false:true );
+}
+
+bool BoolVector::BoolRank::operator ^ (const bool& value) {
+    return (bool) (*this) ^ value;
 }
 
 bool BoolVector::BoolRank::operator == (BoolVector::BoolRank other) {
@@ -417,3 +394,4 @@ BoolVector::BoolRank::operator bool() const {
     
     return false;
 }
+
