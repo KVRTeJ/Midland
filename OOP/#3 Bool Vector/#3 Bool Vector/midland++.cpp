@@ -2,7 +2,7 @@
 
 #include "midland++.hpp"
 
-BoolVector::BoolVector(const int& lenght, const bool& value) {
+BoolVector::BoolVector(const int lenght, const bool value) {
     assert(lenght >= 0);
     
     m_lenght = lenght;
@@ -113,18 +113,18 @@ void BoolVector::invert() {
     m_twich();
 }
 
-void BoolVector::invert(const int& POSITION) {
-    assert(POSITION >= 0 && POSITION < m_lenght);
+void BoolVector::invert(const int position) {
+    assert(position >= 0 && position < m_lenght);
     
-    (*this)[POSITION] = ~(*this)[POSITION];
+    (*this)[position] = ~(*this)[position];
 }
 
-void BoolVector::set(const int& POSITION, const bool& VALUE) {
-    assert(POSITION >= 0 && POSITION < m_lenght);
+void BoolVector::set(const int position, const bool value) {
+    assert(position >= 0 && position < m_lenght);
     
-    const unsigned int CURRENT_CELL = POSITION / CELL_SIZE, CURRENT_POS = POSITION % CELL_SIZE;
+    const unsigned int CURRENT_CELL = position / CELL_SIZE, CURRENT_POS = position % CELL_SIZE;
     
-    if(VALUE) {
+    if(value) {
         m_setInCell(CURRENT_CELL, CURRENT_POS);
     }
     else {
@@ -133,19 +133,19 @@ void BoolVector::set(const int& POSITION, const bool& VALUE) {
     
 }
 
-void BoolVector::set(const int& POS_FROM, const int& POS_TO, const bool& VALUE) {
-    assert(POS_FROM >= 0 && POS_TO < m_lenght);
-    assert(POS_FROM <= POS_TO);
+void BoolVector::set(const int posFrom, const int posTo, const bool value) {
+    assert(posFrom >= 0 && posTo < m_lenght);
+    assert(posFrom <= posTo);
     
-    for(int i = POS_FROM; i <= POS_TO; ++i) {
-        (*this)[i] = VALUE;
+    for(int i = posFrom; i <= posTo; ++i) {
+        (*this)[i] = value;
     }
     
 }
 
-void BoolVector::set(const bool& VALUE) {
+void BoolVector::set(const bool value) {
     for(int i = 0; i < m_cellCount; ++i) {
-        if(VALUE)
+        if(value)
             m_cells[i] = 255;
         else
             m_cells[i] = 0;
@@ -153,13 +153,13 @@ void BoolVector::set(const bool& VALUE) {
     m_twich();
 }
 
-BoolVector::BoolRank BoolVector::operator [] (const int& index) {
+BoolVector::BoolRank BoolVector::operator [] (const int index) {
     assert(index >= 0 && index < m_lenght);
     
     return BoolRank(m_cells + index / CELL_SIZE, index % CELL_SIZE);
 }
 
-const BoolVector::BoolRank BoolVector::operator [] (const int& index) const {
+const BoolVector::BoolRank BoolVector::operator [] (const int index) const {
     assert(index >= 0 && index < m_lenght);
     
     return BoolRank(m_cells + index / CELL_SIZE, index % CELL_SIZE);
@@ -187,8 +187,8 @@ BoolVector BoolVector::operator ~ () const {
     
     BoolVector returned(*this);
     
-    for(int i = 0; i < m_lenght; ++i) {
-        returned[i] = ~returned[i];
+    for(int i = 0; i < m_cellCount; ++i) {
+        returned.m_cells[i] = ~returned.m_cells[i];
     }
     
     return returned;
@@ -232,42 +232,38 @@ BoolVector BoolVector::operator ^ (const BoolVector& other) const {
     return returned;
 }
 
-BoolVector BoolVector::operator >> (const int& value) const {
+BoolVector BoolVector::operator << (const int value) const {
     assert(value >= 0 && value < m_lenght);
     
     BoolVector returned(*this);
-    returned.m_cells[m_cellCount - 1] >>= value;
-    uint8_t mask;
-    for(int i = returned.m_cellCount - 2; i >= 0; --i)  {
-        mask = 0;
-        mask |= returned.m_cells[i];
-        mask <<= CELL_SIZE - value;
-        returned.m_cells[i + 1] |= mask;
-        returned.m_cells[i] >>= value;
+    bool t;
+    for(int i = value; i < m_lenght; ++i) {
+        t = returned[i];
+        returned[i] = returned[i - value];
+        returned[i - value] = t;
     }
+    return returned;
+    /**
+    int shift;
+    if(value > CELL_SIZE)
+        shift = value % 8;
+    else
+        shift = value;
+    
+    BoolVector returned(*this);
+    returned.m_cells[m_cellCount - 1] >>= value % CELL_SIZE;
+    uint8_t mask;
+    for(int i = returned.m_cellCount - value / 8 - 1; i >= 0; --i) {
+        mask = m_cells[i] >> shift;
+        m_cells[i + value / 8 + 1] |= mask;
+        m_cells[i] >>= shift;
+    }
+     
     returned.m_twich();
     
     return returned;
+     */
 }
-
-
-BoolVector BoolVector::operator << (const int& value) const {
-    assert(value >= 0 && value < m_lenght);
-    
-    BoolVector returned(*this);
-    returned.m_cells[0] <<= value;
-    uint8_t mask;
-    for(int i = 1; i < returned.m_cellCount; ++i)  {
-        mask = 0;
-        mask |= returned.m_cells[i];
-        mask >>= CELL_SIZE - value;
-        returned.m_cells[i - 1] |= mask;
-        returned.m_cells[i] <<= value;
-    }
-    
-    return returned;
-}
-
 
 BoolVector& BoolVector::operator &= (const BoolVector& other) {
     *this = *this & other;
@@ -287,19 +283,20 @@ BoolVector& BoolVector::operator ^= (const BoolVector& other) {
     return *this;
 }
 
-BoolVector& BoolVector::operator >>= (const int& value) {
+/*
+BoolVector& BoolVector::operator >>= (const int value) {
     *this = *this >> value;
     return *this;
 }
 
-BoolVector& BoolVector::operator <<= (const int& value) {
+BoolVector& BoolVector::operator <<= (const int value) {
     *this = *this << value;
     return *this;
 }
-
+*/
 
 /* private */
-void BoolVector::m_setInCell(const int& cellNumber, const int& position) {
+void BoolVector::m_setInCell(const int cellNumber, const int position) {
     assert(cellNumber >= 0 && cellNumber < m_cellCount);
     assert(position >= 0 && position < CELL_SIZE);
     
@@ -309,7 +306,7 @@ void BoolVector::m_setInCell(const int& cellNumber, const int& position) {
     
 }
 
-void BoolVector::m_unSetInCell(const int& cellNumber, const int& position) {
+void BoolVector::m_unSetInCell(const int cellNumber, const int position) {
     assert(cellNumber >= 0 && cellNumber < m_cellCount);
     assert(position >= 0 && position < CELL_SIZE);
     
@@ -320,7 +317,7 @@ void BoolVector::m_unSetInCell(const int& cellNumber, const int& position) {
 }
 
 
-void BoolVector::m_printCell(const int& cellNumber) const {
+void BoolVector::m_printCell(const int cellNumber) const {
     assert(cellNumber >= 0 && cellNumber < m_cellCount);
     
     for(uint8_t i = 1 << 7; i > 0; i >>= 1) {
@@ -352,7 +349,7 @@ BoolVector::BoolRank& BoolVector::BoolRank::operator = (const BoolVector::BoolRa
     return *this = ((bool) other);
 }
 
-BoolVector::BoolRank& BoolVector::BoolRank::operator = (const bool& value) {
+BoolVector::BoolRank& BoolVector::BoolRank::operator = (const bool value) {
     if(value)
         (*m_cell) |= m_mask;
     else
@@ -361,7 +358,7 @@ BoolVector::BoolRank& BoolVector::BoolRank::operator = (const bool& value) {
     return *this;
 }
 
-bool BoolVector::BoolRank::operator & (const bool& value) {
+bool BoolVector::BoolRank::operator & (const bool value) {
     if(!value)
         return false;
     return (bool) (*m_cell) & m_mask;
@@ -371,21 +368,20 @@ bool BoolVector::BoolRank::operator ~ () const {
     return ( ((bool) *this & true) ? false:true );
 }
 
-bool BoolVector::BoolRank::operator ^ (const bool& value) {
+bool BoolVector::BoolRank::operator ^ (const bool value) {
     return (bool) (*this) ^ value;
 }
 
-bool BoolVector::BoolRank::operator == (BoolVector::BoolRank other) {
+
+bool BoolVector::BoolRank::operator == (BoolVector::BoolRank& other) {
     return (*this == ((bool) other));
 }
 
-bool BoolVector::BoolRank::operator == (const bool& value) {
-    
-    if((bool) *this & value)
-        return true;
-    
-    return false;
+
+bool BoolVector::BoolRank::operator == (const bool value) {
+    return (bool) *this == value;
 }
+
 
 BoolVector::BoolRank::operator bool() const {
     
@@ -395,3 +391,42 @@ BoolVector::BoolRank::operator bool() const {
     return false;
 }
 
+std::ostream& operator << (std::ostream& stream, const BoolVector& object) {
+    
+    for(int i = 0; i < object.m_cellCount; ++i) {
+        stream << "[";
+        for(uint8_t j = 1 << 7; j > 0; j >>= 1) {
+            if(object.m_cells[i] & j) {
+                stream << "1";
+                if((j >> 1) > 0)
+                    stream << " ";
+            }
+            else {
+                stream << "0";
+                if((j >> 1) > 0)
+                    stream << " ";
+            }
+        }
+        stream << "] ";
+    }
+    stream << std::endl;
+    
+    return stream;
+}
+
+std::istream& operator >> (std::istream& stream, BoolVector& object) {
+    char* string = new char [object.m_lenght];
+    for(int i = 0; i < object.m_lenght; ++i) {
+        stream >> string[i];
+    }
+    
+    for(unsigned int i = 0; i < object.m_lenght; ++i) {
+        if(string[i] != '0')
+            object.set(i, 1);
+        else
+            object.set(i, 0);
+    }
+    
+    delete [] string;
+    return stream;
+}

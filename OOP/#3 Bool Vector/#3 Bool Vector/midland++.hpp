@@ -8,7 +8,7 @@ class BoolVector {
 private:
     class BoolRank;
 public:
-    BoolVector(const int& lenth = CELL_SIZE, const bool& value = false);
+    BoolVector(const int lenth = CELL_SIZE, const bool value = false);
     BoolVector(const char* string);
     BoolVector(const BoolVector& other);
     ~BoolVector();
@@ -19,35 +19,35 @@ public:
     
     void swap(BoolVector& other);
     void invert();
-    void invert(const int& POSITION);
-    void set(const int& POSITION, const bool& VALUE);
-    void set(const int& POS_FROM, const int& POS_TO, const bool& VALUE);
-    void set(const bool& VALUE);
+    void invert(const int position);
+    void set(const int position, const bool value);
+    void set(const int posFrom, const int posTo, const bool value);
+    void set(const bool value);
     unsigned int getLenth() const {
         return m_lenght;
     }
     
-    BoolRank operator [] (const int& index);
-    const BoolRank operator [] (const int& index) const;
+    BoolRank operator [] (const int index);
+    const BoolRank operator [] (const int index) const;
     BoolVector& operator = (const BoolVector& other);
     BoolVector operator ~ () const;
     BoolVector operator & (const BoolVector& other) const;
     BoolVector operator | (const BoolVector& other) const;
     BoolVector operator ^ (const BoolVector& other) const;
-    BoolVector operator >> (const int& value) const;
-    BoolVector operator << (const int& value) const;
+    BoolVector operator >> (const int value) const;//
+    BoolVector operator << (const int value) const;//
     BoolVector& operator &= (const BoolVector& other);
     BoolVector& operator |= (const BoolVector& other);
     BoolVector& operator ^= (const BoolVector& other);
-    BoolVector& operator >>= (const int& value);
-    BoolVector& operator <<= (const int& value);
+    BoolVector& operator >>= (const int value);//
+    BoolVector& operator <<= (const int value);//
     
     static const uint8_t CELL_SIZE = 8;
     
 private:
-    void m_setInCell(const int& cellNumber, const int& position);
-    void m_unSetInCell(const int& cellNumber, const int& position);
-    void m_printCell(const int& cellNumber) const;
+    void m_setInCell(const int cellNumber, const int position);
+    void m_unSetInCell(const int cellNumber, const int position);
+    void m_printCell(const int cellNumber) const;
     void m_twich();
     
     uint8_t* m_cells = nullptr;
@@ -65,12 +65,12 @@ public:
     }
     
     BoolRank& operator = (const BoolRank& other);
-    BoolRank& operator = (const bool& value);
-    bool operator & (const bool& value);
+    BoolRank& operator = (const bool value);
+    bool operator & (const bool value);
     bool operator ~ () const;
-    bool operator ^ (const bool& value);
-    bool operator == (BoolRank other);
-    bool operator == (const bool& value);
+    bool operator ^ (const bool value);
+    bool operator == (BoolRank& other);
+    bool operator == (const bool value);
     operator bool() const;
     
 private:
@@ -81,42 +81,6 @@ private:
 
 
 
-inline std::ostream& operator << (std::ostream& stream, const BoolVector& object) {
-    
-    for(int i = 0; i < object.m_cellCount; ++i) {
-        stream << "[";
-        for(uint8_t j = 1 << 7; j > 0; j >>= 1) {
-            if(object.m_cells[i] & j) {
-                stream << "1";
-                if((j >> 1) > 0)
-                    stream << " ";
-            }
-            else {
-                stream << "0";
-                if((j >> 1) > 0)
-                    stream << " ";
-            }
-        }
-        stream << "] ";
-    }
-    stream << std::endl;
-    
-    return stream;
-}
+std::ostream& operator << (std::ostream& stream, const BoolVector& object);
 
-inline std::istream& operator >> (std::istream& stream, BoolVector& object) {
-    char* string = new char [object.m_lenght];
-    for(int i = 0; i < object.m_lenght; ++i) {
-        stream >> string[i];
-    }
-    
-    for(unsigned int i = 0; i < object.m_lenght; ++i) {
-        if(string[i] != '0')
-            object.set(i, 1);
-        else
-            object.set(i, 0);
-    }
-    
-    delete [] string;
-    return stream;
-}
+std::istream& operator >> (std::istream& stream, BoolVector& object);
