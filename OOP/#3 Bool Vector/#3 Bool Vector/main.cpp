@@ -21,23 +21,6 @@ int main() {
             (foo >> i).print();
         }
     }
-    return 0;
-    
-    BoolVector t(16, 0);
-    t[2] = true;
-    
-    //t[11] = true;
-    t = ~t;
-    t[7] = false;
-    t.print();
-    t >>= 1;
-    t.print();
-    if(t[0] == true) {
-        std::cout << "t[2] == true " << std::endl;
-    }
-    if(t[1] == t[1]) {
-        std::cout << "t[1] == t[1] " << std::endl;
-    }
     
     return 0;
 }

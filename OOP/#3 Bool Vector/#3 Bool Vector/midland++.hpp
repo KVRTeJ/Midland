@@ -34,13 +34,13 @@ public:
     BoolVector operator & (const BoolVector& other) const;
     BoolVector operator | (const BoolVector& other) const;
     BoolVector operator ^ (const BoolVector& other) const;
-    BoolVector operator >> (const int value) const;//
-    BoolVector operator << (const int value) const;//
+    BoolVector operator >> (const int value) const;
+    BoolVector operator << (const int value) const;
     BoolVector& operator &= (const BoolVector& other);
     BoolVector& operator |= (const BoolVector& other);
     BoolVector& operator ^= (const BoolVector& other);
-    BoolVector& operator >>= (int value);//
-    BoolVector& operator <<= (int value);//
+    BoolVector& operator >>= (int value);
+    BoolVector& operator <<= (int value);
     
     static const uint8_t CELL_SIZE = 8;
     
@@ -66,9 +66,9 @@ public:
     
     BoolRank& operator = (const BoolRank& other);
     BoolRank& operator = (const bool value);
-    bool operator & (const bool value);
+    bool operator & (const bool value) const;
     bool operator ~ () const;
-    bool operator ^ (const bool value);
+    bool operator ^ (const bool value) const;
     bool operator == (const BoolRank& other) const;
     bool operator == (const bool value) const;
     operator bool() const;

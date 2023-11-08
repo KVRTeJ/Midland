@@ -268,7 +268,6 @@ BoolVector& BoolVector::operator >>= (int value) {
     assert(value >= 0 && value <= m_lenght);
     
     if (value >= CELL_SIZE) {
-        //case2: >>= (value / CELL_SIZE)
         for(int i = m_cellCount - 1; i >= 1; --i) {
             m_cells[i] = m_cells[i - value / CELL_SIZE];
             m_cells[i - value / CELL_SIZE] = 0;
@@ -281,7 +280,6 @@ BoolVector& BoolVector::operator >>= (int value) {
         return *this;
     }
     
-    //case1: value < CELL_SIZE
     else {
         uint8_t mask;
         for(int i = m_cellCount - 1; i >= 0; --i) {
@@ -301,7 +299,6 @@ BoolVector& BoolVector::operator <<= (int value) {
     assert(value >= 0 && value <= m_lenght);
     
     if (value >= CELL_SIZE) {
-        //case2: >>= (value / CELL_SIZE)
         for(int i = 0; i < m_cellCount; ++i) {
             m_cells[i] = m_cells[i + value / CELL_SIZE];
             m_cells[i + value / CELL_SIZE] = 0;
@@ -313,7 +310,6 @@ BoolVector& BoolVector::operator <<= (int value) {
         return *this;
     }
     
-    //case1: value < CELL_SIZE
     else {
         uint8_t mask;
         for(int i = 0; i < m_cellCount; ++i) {
@@ -392,7 +388,7 @@ BoolVector::BoolRank& BoolVector::BoolRank::operator = (const bool value) {
     return *this;
 }
 
-bool BoolVector::BoolRank::operator & (const bool value) {
+bool BoolVector::BoolRank::operator & (const bool value) const {
     if(!value)
         return false;
     return (bool) (*m_cell) & m_mask;
@@ -402,7 +398,7 @@ bool BoolVector::BoolRank::operator ~ () const {
     return ( ((bool) *this & true) ? false:true );
 }
 
-bool BoolVector::BoolRank::operator ^ (const bool value) {
+bool BoolVector::BoolRank::operator ^ (const bool value) const {
     return (bool) (*this) ^ value;
 }
 
