@@ -232,37 +232,17 @@ BoolVector BoolVector::operator ^ (const BoolVector& other) const {
     return returned;
 }
 
+BoolVector BoolVector::operator >> (const int value) const {
+    BoolVector result(*this);
+    result >>= value;
+    return result;
+}
+
 BoolVector BoolVector::operator << (const int value) const {
-    assert(value >= 0 && value < m_lenght);
-    
-    BoolVector returned(*this);
-    bool t;
-    for(int i = value; i < m_lenght; ++i) {
-        t = returned[i];
-        returned[i] = returned[i - value];
-        returned[i - value] = t;
-    }
-    return returned;
-    /**
-    int shift;
-    if(value > CELL_SIZE)
-        shift = value % 8;
-    else
-        shift = value;
-    
-    BoolVector returned(*this);
-    returned.m_cells[m_cellCount - 1] >>= value % CELL_SIZE;
-    uint8_t mask;
-    for(int i = returned.m_cellCount - value / 8 - 1; i >= 0; --i) {
-        mask = m_cells[i] >> shift;
-        m_cells[i + value / 8 + 1] |= mask;
-        m_cells[i] >>= shift;
-    }
+    BoolVector result(*this);
+    result <<= value;
+    return result;
      
-    returned.m_twich();
-    
-    return returned;
-     */
 }
 
 BoolVector& BoolVector::operator &= (const BoolVector& other) {
@@ -283,17 +263,71 @@ BoolVector& BoolVector::operator ^= (const BoolVector& other) {
     return *this;
 }
 
-/*
-BoolVector& BoolVector::operator >>= (const int value) {
-    *this = *this >> value;
-    return *this;
+
+BoolVector& BoolVector::operator >>= (int value) {
+    assert(value >= 0 && value <= m_lenght);
+    
+    if (value >= CELL_SIZE) {
+        //case2: >>= (value / CELL_SIZE)
+        for(int i = m_cellCount - 1; i >= 1; --i) {
+            m_cells[i] = m_cells[i - value / CELL_SIZE];
+            m_cells[i - value / CELL_SIZE] = 0;
+        }
+        value = value % CELL_SIZE;
+    }
+    
+    if (value == 0) {
+        m_twich();
+        return *this;
+    }
+    
+    //case1: value < CELL_SIZE
+    else {
+        uint8_t mask;
+        for(int i = m_cellCount - 1; i >= 0; --i) {
+            m_cells[i] >>= value;
+            mask = m_cells[i - 1];
+            mask <<= (CELL_SIZE - value);
+            m_cells[i] |= mask;
+        }
+        m_twich();
+        return *this;
+    }
+    
+    assert(false);
 }
 
-BoolVector& BoolVector::operator <<= (const int value) {
-    *this = *this << value;
-    return *this;
+BoolVector& BoolVector::operator <<= (int value) {
+    assert(value >= 0 && value <= m_lenght);
+    
+    if (value >= CELL_SIZE) {
+        //case2: >>= (value / CELL_SIZE)
+        for(int i = 0; i < m_cellCount; ++i) {
+            m_cells[i] = m_cells[i + value / CELL_SIZE];
+            m_cells[i + value / CELL_SIZE] = 0;
+        }
+        value = value % CELL_SIZE;
+    }
+    
+    if (value == 0) {
+        return *this;
+    }
+    
+    //case1: value < CELL_SIZE
+    else {
+        uint8_t mask;
+        for(int i = 0; i < m_cellCount; ++i) {
+            m_cells[i] <<= value;
+            mask = m_cells[i + 1];
+            mask >>= (CELL_SIZE - value);
+            m_cells[i] |= mask;
+        }
+        return *this;
+    }
+    
+    assert(false);
 }
-*/
+
 
 /* private */
 void BoolVector::m_setInCell(const int cellNumber, const int position) {
@@ -373,12 +407,12 @@ bool BoolVector::BoolRank::operator ^ (const bool value) {
 }
 
 
-bool BoolVector::BoolRank::operator == (BoolVector::BoolRank& other) {
+bool BoolVector::BoolRank::operator == (const BoolVector::BoolRank& other) const {
     return (*this == ((bool) other));
 }
 
 
-bool BoolVector::BoolRank::operator == (const bool value) {
+bool BoolVector::BoolRank::operator == (const bool value) const {
     return (bool) *this == value;
 }
 
