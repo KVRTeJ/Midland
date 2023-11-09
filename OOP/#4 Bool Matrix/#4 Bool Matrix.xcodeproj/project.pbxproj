@@ -28,6 +28,7 @@
 		2C8F517A2AFC9EEF00D3D58F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2C8F51812AFC9F0400D3D58F /* BoolMatrix.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BoolMatrix.cpp; sourceTree = "<group>"; };
 		2C8F51822AFC9F0500D3D58F /* BoolMatrix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BoolMatrix.hpp; sourceTree = "<group>"; };
+		2C8F51842AFCC3D000D3D58F /* BoolVector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BoolVector.hpp; path = "../../#3 Bool Vector/#3 Bool Vector/BoolVector.hpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +61,7 @@
 		2C8F51792AFC9EEF00D3D58F /* #4 Bool Matrix */ = {
 			isa = PBXGroup;
 			children = (
+				2C8F51842AFCC3D000D3D58F /* BoolVector.hpp */,
 				2C8F517A2AFC9EEF00D3D58F /* main.cpp */,
 				2C8F51812AFC9F0400D3D58F /* BoolMatrix.cpp */,
 				2C8F51822AFC9F0500D3D58F /* BoolMatrix.hpp */,
