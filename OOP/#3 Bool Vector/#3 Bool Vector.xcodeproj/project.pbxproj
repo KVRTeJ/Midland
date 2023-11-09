@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2CC18E3F2AEB883E00A23AEE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CC18E3E2AEB883E00A23AEE /* main.cpp */; };
-		2CC18E472AEB8A2D00A23AEE /* midland++.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CC18E452AEB8A2D00A23AEE /* midland++.cpp */; };
+		2CC18E472AEB8A2D00A23AEE /* BoolVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CC18E452AEB8A2D00A23AEE /* BoolVector.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,8 +26,8 @@
 /* Begin PBXFileReference section */
 		2CC18E3B2AEB883E00A23AEE /* #3 Bool Vector */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "#3 Bool Vector"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CC18E3E2AEB883E00A23AEE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		2CC18E452AEB8A2D00A23AEE /* midland++.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "midland++.cpp"; sourceTree = "<group>"; };
-		2CC18E462AEB8A2D00A23AEE /* midland++.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = "midland++.hpp"; sourceTree = "<group>"; };
+		2CC18E452AEB8A2D00A23AEE /* BoolVector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BoolVector.cpp; sourceTree = "<group>"; };
+		2CC18E462AEB8A2D00A23AEE /* BoolVector.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BoolVector.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				2CC18E3E2AEB883E00A23AEE /* main.cpp */,
-				2CC18E452AEB8A2D00A23AEE /* midland++.cpp */,
-				2CC18E462AEB8A2D00A23AEE /* midland++.hpp */,
+				2CC18E452AEB8A2D00A23AEE /* BoolVector.cpp */,
+				2CC18E462AEB8A2D00A23AEE /* BoolVector.hpp */,
 			);
 			path = "#3 Bool Vector";
 			sourceTree = "<group>";
@@ -125,7 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CC18E3F2AEB883E00A23AEE /* main.cpp in Sources */,
-				2CC18E472AEB8A2D00A23AEE /* midland++.cpp in Sources */,
+				2CC18E472AEB8A2D00A23AEE /* BoolVector.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,7 +1,7 @@
 #ifndef ARE_TEMPLATE_ARRAY_METHODS_DEFINED
 #define ARE_TEMPLATE_ARRAY_METHODS_DEFINED
 
-#include "midland++.hpp"
+#include "Array.hpp"
 
 
 template <typename Type>

@@ -125,6 +125,6 @@ std::ostream &operator << (std::ostream &stream, const Array<Type> &object);
 template <typename Type>
 std::istream &operator >> (std::istream &stream, const Array<Type> &object);
 
-#include "midland++.cpp"
+#include "Array.cpp"
 
 #endif //!ARE_TEMPLATE_ARRAY_DECLARED

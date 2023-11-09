@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "midland++.hpp"
+#include "BoolVector.hpp"
 
 BoolVector::BoolVector(const int lenght, const bool value) {
     assert(lenght >= 0);
@@ -277,12 +277,7 @@ BoolVector& BoolVector::operator >>= (int value) {
         value = value % CELL_SIZE;
     }
     
-    if (value == 0) {
-        m_twich();
-        return *this;
-    }
-    
-    else {
+    if (value > 0) {
         uint8_t mask;
         for(int i = m_cellCount - 1; i >= 0; --i) {
             m_cells[i] >>= value;
@@ -290,11 +285,10 @@ BoolVector& BoolVector::operator >>= (int value) {
             mask <<= (CELL_SIZE - value);
             m_cells[i] |= mask;
         }
-        m_twich();
-        return *this;
     }
-    
-    assert(false);
+
+    m_twich();
+    return *this;
 }
 
 BoolVector& BoolVector::operator <<= (int value) {
@@ -314,7 +308,7 @@ BoolVector& BoolVector::operator <<= (int value) {
         return *this;
     }
     
-    else {
+    if(value > 0) {
         uint8_t mask;
         for(int i = 0; i < m_cellCount; ++i) {
             m_cells[i] <<= value;
@@ -322,10 +316,8 @@ BoolVector& BoolVector::operator <<= (int value) {
             mask >>= (CELL_SIZE - value);
             m_cells[i] |= mask;
         }
-        return *this;
     }
-    
-    assert(false);
+    return *this;
 }
 
 

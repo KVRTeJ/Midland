@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "midland++.hpp"
+#include "Array.hpp"
 
 template <typename Type>
 double calculateAvg(Array<Type> array) {

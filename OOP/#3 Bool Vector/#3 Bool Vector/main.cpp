@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "midland++.hpp"
+#include "BoolVector.hpp"
 
 int main() {
     

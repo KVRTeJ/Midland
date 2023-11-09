@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2CD3E0232AC276D20079CBEE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3E0222AC276D20079CBEE /* main.cpp */; };
-		2CD3E02B2AC277010079CBEE /* midland++.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3E0292AC277010079CBEE /* midland++.cpp */; };
+		2CD3E02B2AC277010079CBEE /* Array.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3E0292AC277010079CBEE /* Array.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,8 +26,8 @@
 /* Begin PBXFileReference section */
 		2CD3E01F2AC276D20079CBEE /* #2 Array */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "#2 Array"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CD3E0222AC276D20079CBEE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		2CD3E0292AC277010079CBEE /* midland++.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "midland++.cpp"; sourceTree = "<group>"; };
-		2CD3E02A2AC277010079CBEE /* midland++.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = "midland++.hpp"; sourceTree = "<group>"; };
+		2CD3E0292AC277010079CBEE /* Array.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Array.cpp; sourceTree = "<group>"; };
+		2CD3E02A2AC277010079CBEE /* Array.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Array.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				2CD3E0222AC276D20079CBEE /* main.cpp */,
-				2CD3E0292AC277010079CBEE /* midland++.cpp */,
-				2CD3E02A2AC277010079CBEE /* midland++.hpp */,
+				2CD3E0292AC277010079CBEE /* Array.cpp */,
+				2CD3E02A2AC277010079CBEE /* Array.hpp */,
 			);
 			path = "#2 Array";
 			sourceTree = "<group>";
@@ -125,7 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CD3E0232AC276D20079CBEE /* main.cpp in Sources */,
-				2CD3E02B2AC277010079CBEE /* midland++.cpp in Sources */,
+				2CD3E02B2AC277010079CBEE /* Array.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
