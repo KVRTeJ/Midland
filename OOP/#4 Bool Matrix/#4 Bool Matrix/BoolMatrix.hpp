@@ -6,7 +6,7 @@
 
 class BoolMatrix {
 public:
-    BoolMatrix(const int rowSize = 3, const int columnSize = 3, const bool value = false);
+    BoolMatrix(const int columnSize = 3, const int rowSize = 3, const bool value = false);
     BoolMatrix(char** matrix);//
     BoolMatrix(const BoolMatrix& other);
     BoolMatrix(BoolMatrix&& other);
@@ -14,16 +14,17 @@ public:
     
     int getRowSize() const {return m_rowSize;}
     int getColumnSize() const {return m_columnSize;}
+    int getWeight() const;
+    int getRowWeight(const int rowIndex) const;
+    BoolVector getConjunctionRows() const;
+    BoolVector getDisjunctionRows() const;
     
-    bool swap();
-    void scan();
-    void print() const;
-    
-    int weight() const;
+    void swap(BoolMatrix& other);
     
     BoolMatrix& operator = (const BoolMatrix& other);
-    BoolMatrix& operator = (BoolMatrix&& other);
     BoolVector& operator [] (const int index);
+    BoolMatrix operator & (const BoolMatrix& other);
+    BoolMatrix operator | (const BoolMatrix& other);
     
 private:
     BoolVector* m_rows = nullptr;
