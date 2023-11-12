@@ -72,10 +72,10 @@ int BoolMatrix::getWeight() const {
     return result;
 }
 
-int BoolMatrix::getRowWeight(const int rowIndex) const {
-    assert(rowIndex >= 0 && rowIndex < m_rowSize);
+int BoolMatrix::getWeight(const int columnIndex) const {
+    assert(columnIndex >= 0 && columnIndex < m_columnSize);
     
-    return m_rows[rowIndex].weight();
+    return m_rows[columnIndex].weight();
 }
 
 BoolVector BoolMatrix::getConjunctionRows() const {
@@ -96,6 +96,33 @@ BoolVector BoolMatrix::getDisjunctionRows() const {
     }
     
     return conjunction;
+}
+
+void BoolMatrix::set(const int columnIndex, const int indexInRow, const bool value) {
+    assert(columnIndex >= 0 && columnIndex < m_columnSize);
+    
+    m_rows[columnIndex].set(indexInRow, value);
+}
+
+void BoolMatrix::set(const int columnIndex, const int posFromInRow,
+                     const int posToInRow, const bool value) {
+    assert(columnIndex >= 0 && columnIndex < m_columnSize);
+    
+    m_rows[columnIndex].set(posFromInRow, posToInRow, value);
+}
+
+void BoolMatrix::invert(const int columnIndex, const int indexInRow) {
+    assert(columnIndex >= 0 && columnIndex < m_columnSize);
+    
+    m_rows[columnIndex].invert(indexInRow);
+}
+
+void BoolMatrix::invert(const int columnIndex, const int posFromInRow, const int posToInRow) {
+    assert(columnIndex >= 0 && columnIndex < m_columnSize);
+    
+    for(int i = posFromInRow; i <= posToInRow; ++i) {
+        m_rows[columnIndex].invert(i);
+    }
 }
 
 void BoolMatrix::swap(BoolMatrix& other) {
@@ -131,7 +158,7 @@ BoolMatrix& BoolMatrix::operator=(const BoolMatrix& other) {
     return *this;
 }
 
-BoolMatrix BoolMatrix::operator & (const BoolMatrix& other) {
+BoolMatrix BoolMatrix::operator & (const BoolMatrix& other) const {
     BoolMatrix result(*this);
     
     for(int i = 0; i < m_columnSize; ++i) {
@@ -141,7 +168,7 @@ BoolMatrix BoolMatrix::operator & (const BoolMatrix& other) {
     return result;
 }
 
-BoolMatrix BoolMatrix::operator | (const BoolMatrix& other) {
+BoolMatrix BoolMatrix::operator | (const BoolMatrix& other) const {
     BoolMatrix result(*this);
     
     for(int i = 0; i < m_columnSize ; ++i) {
@@ -151,9 +178,43 @@ BoolMatrix BoolMatrix::operator | (const BoolMatrix& other) {
     return result;
 }
 
+BoolMatrix BoolMatrix::operator ^ (const BoolMatrix& other) const {
+    BoolMatrix result(*this);
+    
+    for(int i = 0; i < m_columnSize ; ++i) {
+        result.m_rows[i] ^= other.m_rows[i];
+    }
+    
+    return result;
+}
+
+BoolMatrix& BoolMatrix::operator &= (const BoolMatrix& other) {
+    (*this) = *this & other;
+    return *this;
+}
+
+BoolMatrix& BoolMatrix::operator |= (const BoolMatrix& other) {
+    (*this) = *this | other;
+    return *this;
+}
+
+BoolMatrix& BoolMatrix::operator ^= (const BoolMatrix& other) {
+    (*this) = *this ^ other;
+    return *this;
+}
+
+BoolMatrix BoolMatrix::operator ~ () const {
+    BoolMatrix result(*this);
+    for(int i = 0; i < m_columnSize; ++i) {
+        result.m_rows[i] = ~m_rows[i];
+    }
+    
+    return result;
+}
 
 
-std::istream& operator >> (std::istream& stream, BoolMatrix& other) {
+
+std::istream& operator >> (std::istream& stream, BoolMatrix& other)  {
     
     for(int i = 0; i < other.getColumnSize(); ++i) {
         stream >> other[i];

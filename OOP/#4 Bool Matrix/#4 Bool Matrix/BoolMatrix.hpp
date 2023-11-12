@@ -16,19 +16,29 @@ public:
     int getRowSize() const {return m_rowSize;}
     int getColumnSize() const {return m_columnSize;}
     int getWeight() const;
-    int getRowWeight(const int rowIndex) const;
+    int getWeight(const int columnIndex) const;
     BoolVector getConjunctionRows() const;
     BoolVector getDisjunctionRows() const;
     
-    void set(const int columnIndex, const int rowIndex, const bool vale);
-    //void set(const int columnIndex, const int , const bool vale);
+    void set(const int columnIndex, const int indexInRow, const bool value);
+    void set(const int columnIndex, const int posFromInRow,
+             const int posToInRow, const bool value);
+    
+    void invert(const int columnIndex, const int indexInRow);
+    void invert(const int columnIndex, const int posFromInRow,
+                const int posToInRow);
     
     void swap(BoolMatrix& other);
     
     BoolMatrix& operator = (const BoolMatrix& other);
     BoolVector& operator [] (const int index);
-    BoolMatrix operator & (const BoolMatrix& other);
-    BoolMatrix operator | (const BoolMatrix& other);
+    BoolMatrix operator & (const BoolMatrix& other) const;
+    BoolMatrix operator | (const BoolMatrix& other) const;
+    BoolMatrix operator ^ (const BoolMatrix& other) const;
+    BoolMatrix& operator &= (const BoolMatrix& other);
+    BoolMatrix& operator |= (const BoolMatrix& other);
+    BoolMatrix& operator ^= (const BoolMatrix& other);
+    BoolMatrix operator ~ () const;
     
 private:
     BoolVector* m_rows = nullptr;

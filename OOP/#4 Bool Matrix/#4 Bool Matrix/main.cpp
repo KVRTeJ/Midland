@@ -31,11 +31,14 @@ int main() {
     inputMatrix(matrix, 3, 3);
     //printMatrix(matrix, 3, 3);
     std::cout << "BoolMatrix:" << std::endl;
-    BoolMatrix foo(matrix), boo(foo), foo1(3, 3, 0);
-    std::cout << "boo.rowSize - " << boo.getRowSize() << std::endl;
-    std::cout << "foo.rowSize - " << foo.getRowSize() << std::endl;
-    boo = boo | foo1;
+    BoolMatrix foo(matrix), boo(foo), foo1(3, 3, 1), foo0(3, 3, 0);
+    boo &= foo1;
     std::cout << boo;
+    boo &= foo0;
+    std::cout << boo;
+    std::cout << "weight - " << boo.getWeight(1) << std::endl;
+    
+    
     
     return 0;
 }
