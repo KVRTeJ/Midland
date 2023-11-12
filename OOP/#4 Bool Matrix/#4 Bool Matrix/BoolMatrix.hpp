@@ -1,13 +1,14 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 
 #include "../../#3 Bool Vector/#3 Bool Vector/BoolVector.hpp"
 
 class BoolMatrix {
 public:
     BoolMatrix(const int columnSize = 3, const int rowSize = 3, const bool value = false);
-    BoolMatrix(char** matrix);//
+    BoolMatrix(std::vector< std::vector<char> > matrix);//
     BoolMatrix(const BoolMatrix& other);
     BoolMatrix(BoolMatrix&& other);
     ~BoolMatrix();
@@ -18,6 +19,9 @@ public:
     int getRowWeight(const int rowIndex) const;
     BoolVector getConjunctionRows() const;
     BoolVector getDisjunctionRows() const;
+    
+    void set(const int columnIndex, const int rowIndex, const bool vale);
+    //void set(const int columnIndex, const int , const bool vale);
     
     void swap(BoolMatrix& other);
     
