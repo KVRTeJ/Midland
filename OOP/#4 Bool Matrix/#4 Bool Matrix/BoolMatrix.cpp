@@ -15,25 +15,6 @@ BoolMatrix::BoolMatrix(const int columnSize, const int rowSize, const bool value
     }
 }
 
-/*
-BoolMatrix::BoolMatrix(char** matrix) { //
-    const int matrixRowSize = strlen(matrix[0]);
-    const int matrixColumnSize = sizeof(matrix) / sizeof(matrix[0]);
- ///????? for(i) counter = counterTemp for(j) => ++counerTemp => if(counter > strlen(matrix[0])) return counter;
-    
-    m_rows = new BoolVector [matrixColumnSize];
-    m_rowSize = matrixRowSize;
-    m_columnSize = matrixColumnSize;
-    
-    for(int i = 0; i < m_columnSize; ++i) {
-        for(int j = 0; j < m_rowSize; ++j) {
-            m_rows[i][j] = matrix[i][j];
-        }
-    }
-    
-}
-*/
-
 BoolMatrix::BoolMatrix(std::vector< std::vector<char> > matrix) {
     m_rowSize = (int) matrix[0].size();
     m_columnSize = (int) matrix.size();
@@ -235,3 +216,24 @@ std::ostream& operator << (std::ostream& stream, BoolMatrix& other) {
     
     return stream;
 }
+
+
+
+/**
+BoolMatrix::BoolMatrix(char** matrix) { //
+    const int matrixRowSize = strlen(matrix[0]);
+    const int matrixColumnSize = sizeof(matrix) / sizeof(matrix[0]);
+ ///????? for(i) counter = counterTemp for(j) => ++counerTemp => if(counter > strlen(matrix[0])) return counter;
+    
+    m_rows = new BoolVector [matrixColumnSize];
+    m_rowSize = matrixRowSize;
+    m_columnSize = matrixColumnSize;
+    
+    for(int i = 0; i < m_columnSize; ++i) {
+        for(int j = 0; j < m_rowSize; ++j) {
+            m_rows[i][j] = matrix[i][j];
+        }
+    }
+    
+}
+*/
