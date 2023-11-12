@@ -39,6 +39,22 @@ BoolVector::BoolVector(const char* string) {
     
 }
 
+BoolVector::BoolVector(const std::vector<char>& string) {
+    
+    m_lenght = (unsigned int) string.size();
+    m_cellCount = m_lenght / CELL_SIZE + (m_lenght % CELL_SIZE ? 1:0);
+    m_unsignificantRankCount = (m_cellCount * CELL_SIZE) - m_lenght;
+    m_cells = new uint8_t [m_cellCount];
+    
+    for(unsigned int i = 0; i < m_lenght; ++i) {
+        if(string[i] != '0')
+            set(i, 1);
+        else
+            set(i, 0);
+    }
+    
+}
+
 
 BoolVector::BoolVector(const BoolVector& other) {
     

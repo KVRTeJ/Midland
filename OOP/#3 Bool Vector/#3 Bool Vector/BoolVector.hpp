@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 
 class BoolVector {
     friend std::ostream& operator << (std::ostream& stream, const BoolVector& object);
@@ -10,6 +11,7 @@ private:
 public:
     BoolVector(const int lenth = CELL_SIZE, const bool value = false);
     BoolVector(const char* string);
+    BoolVector(const std::vector<char>& string);
     BoolVector(const BoolVector& other);
     ~BoolVector();
     
