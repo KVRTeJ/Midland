@@ -21,7 +21,44 @@ void printMatrix(const std::vector< std::vector<char> >& matrix, const int n, co
     }
 }
 
+int getCharMatrixColumsSize1(char** matrix, const int rowSize) {
+    int columnSize = -1;
+    
+    int i = 0, j = 0;
+    bool flag = false;
+    while(!flag) {
+        if(j > rowSize) {
+            columnSize = i - 1;
+            flag = true;
+        }
+        if(*(*(matrix + i) + j) != '\0') {
+            ++j;
+        }
+        else {// (*(matrix[i] + j) == '\0')
+            j = 0;
+            ++i;
+        }
+    }
+    
+    return columnSize;
+}
+
 int main() {
+    const int n = 10, m = 0;//n - columnSize, m - rowSize;
+    char** a = new char* [n];
+    for(int i = 0; i < n; ++i) {
+        a[i] = new char [m];
+    }
+    for(int i = 0; i < n; ++i) {
+        for(int j = 0; j < m; ++j) {
+            a[i][j] = '0';
+        }
+    }
+    BoolMatrix temp(a, n, m);
+    std::cout << temp;
+    //std::cout << getCharMatrixColumsSize1(a, m) << std::endl;
+    
+    return 0;
     std::vector< std::vector<char> > matrix;
     matrix.resize(3);
     for(int i = 0; i < 3; ++i) {

@@ -1,7 +1,6 @@
 #include "BoolMatrix.hpp"
 #include "../../#3 Bool Vector/#3 Bool Vector/BoolVector.cpp"
 
-
 BoolMatrix::BoolMatrix(const int columnSize, const int rowSize, const bool value) {
     assert(rowSize >= 0 && columnSize >= 0);
     
@@ -24,6 +23,34 @@ BoolMatrix::BoolMatrix(std::vector< std::vector<char> > matrix) {
     for(int i = 0; i < m_columnSize; ++i) {
             m_rows[i] = matrix[i];
         
+    }
+    
+}
+
+BoolMatrix::BoolMatrix(char** matrix, const int columnSize, const int rowSize) {
+    assert(columnSize >= 0 && rowSize >= 0);
+    
+    m_rowSize = rowSize;
+    m_columnSize = columnSize;
+    m_rows = new BoolVector [m_columnSize];
+    
+    BoolVector temp(m_rowSize);
+    for(int i = 0; i < m_columnSize; ++i) {
+        this->operator[](i) = matrix[i];
+    }
+    
+}
+
+BoolMatrix::BoolMatrix(char** matrix) {
+    assert(false); /* FIXME */
+    
+    m_rowSize = (int) strlen(matrix[0]);
+    m_columnSize = -1;//getCharMatrixColumsSize;
+    m_rows = new BoolVector [m_columnSize];
+    
+    BoolVector temp(m_rowSize);
+    for(int i = 0; i < m_columnSize; ++i) {
+        this->operator[](i) = matrix[i];
     }
     
 }
