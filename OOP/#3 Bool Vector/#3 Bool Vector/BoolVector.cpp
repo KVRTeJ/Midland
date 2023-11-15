@@ -379,6 +379,9 @@ void BoolVector::m_printCell(const int cellNumber) const {
 }
 
 void BoolVector::m_twich() {
+    if(m_cellCount == 0) {
+        return;
+    }
     
     m_cells[m_cellCount - 1] >>= m_unsignificantRankCount;
     m_cells[m_cellCount - 1] <<= m_unsignificantRankCount;
