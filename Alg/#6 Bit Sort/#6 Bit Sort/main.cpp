@@ -3,6 +3,16 @@
 
 #include "midland++.hpp"
 
+/*
+ maxBit
+ 1) находим max в массиве => num <- max
+ 2) while (num) {
+    num = num >> 1
+    k++;
+ }
+ */
+ 
+
 int maxBit(const int MAX_NUMBER) {
     switch (MAX_NUMBER) {
         case 10:
@@ -21,12 +31,12 @@ int maxBit(const int MAX_NUMBER) {
 }
 
 int main() {
-    const int MAX = 100000;
-    std::vector<int> temp(10);
-    fillRandom(temp, 0, MAX);
+    const int MAX = 10;
+    std::vector<int> temp(MAX);
+    fillRandom(temp, -1, MAX);
     printVector(temp);
     std::cout << maxBit(MAX) << std::endl;
-    BitSort(temp, 0, temp.size() - 1, maxBit(MAX));
+    BitSortPositive(temp, 0, temp.size() - 1, maxBit(MAX));
     printVector(temp);
     assert(checkIncrease(temp));
     return 0;

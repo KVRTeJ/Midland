@@ -3,6 +3,8 @@
 
 #include "midland++.hpp"
 
+
+
 void printVector(const std::vector<int>& nums) {
     std::cout << "[";
     
@@ -57,17 +59,17 @@ bool checkIncrease(const std::vector<int> nums) {
     return true;
 }
 
-void BitSort(std::vector<int>& nums, int left, int right, int k) {
+void BitSortPositive(std::vector<int>& nums, int left, int right, int k) {
     if(left >= right || k < 0)
         return;
     
     int i = left, j = right;
     int mask = 1 << k;
     while(i <= j) {
-        while(!(mask & nums[i])) {
+        while(i <= j && !(mask & nums[i]) ) {
             i++;
         }
-        while(mask & nums[j]) {
+        while(i <= j && mask & nums[j]) {
             j--;
         }
         if(i <= j) {
@@ -77,7 +79,41 @@ void BitSort(std::vector<int>& nums, int left, int right, int k) {
         }
     }
     
-    BitSort(nums, left, j, k - 1);
-    BitSort(nums, i, right, k - 1);
+    BitSortPositive(nums, left, j, k - 1);
+    BitSortPositive(nums, i, right, k - 1);
     
+}
+
+bool checkNegative(const int& num) {
+    int mask = 1 << 31;
+    if(mask & num)
+        return true;
+    
+    return false;
+}
+
+void BitSort(std::vector<int>& nums, int left, int right, int k) {
+    if(left >= right || k < 0)
+        return;
+    
+    int i = left, j = right;
+    int mask = 1 << k;
+    int negativeMask;
+    while(i <= j) {
+        while(i <= j && !(mask & nums[i])) {
+            i++;
+        }
+        while(i <= j && mask & nums[j]) {
+            j--;
+        }
+        if(i <= j) {
+            std::swap(nums[i], nums[j]);
+            i++;
+            j--;
+        }
+    }
+    
+    BitSortPositive(nums, left, j, k - 1);
+    BitSortPositive(nums, i, right, k - 1);
+
 }
