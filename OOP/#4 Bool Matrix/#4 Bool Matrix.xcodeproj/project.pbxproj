@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C0C733C2B05D01B0096D145 /* BoolVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C0C733A2B05D01B0096D145 /* BoolVector.cpp */; };
 		2C8F517B2AFC9EEF00D3D58F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C8F517A2AFC9EEF00D3D58F /* main.cpp */; };
 		2C8F51832AFC9F0500D3D58F /* BoolMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C8F51812AFC9F0400D3D58F /* BoolMatrix.cpp */; };
 /* End PBXBuildFile section */
@@ -24,11 +25,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2C0C733A2B05D01B0096D145 /* BoolVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BoolVector.cpp; path = "../../#3 Bool Vector/#3 Bool Vector/BoolVector.cpp"; sourceTree = "<group>"; };
+		2C0C733B2B05D01B0096D145 /* BoolVector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BoolVector.hpp; path = "../../#3 Bool Vector/#3 Bool Vector/BoolVector.hpp"; sourceTree = "<group>"; };
 		2C8F51772AFC9EEF00D3D58F /* #4 Bool Matrix */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "#4 Bool Matrix"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C8F517A2AFC9EEF00D3D58F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		2C8F51812AFC9F0400D3D58F /* BoolMatrix.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BoolMatrix.cpp; sourceTree = "<group>"; };
 		2C8F51822AFC9F0500D3D58F /* BoolMatrix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BoolMatrix.hpp; sourceTree = "<group>"; };
-		2C8F51842AFCC3D000D3D58F /* BoolVector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BoolVector.hpp; path = "../../#3 Bool Vector/#3 Bool Vector/BoolVector.hpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,10 +63,11 @@
 		2C8F51792AFC9EEF00D3D58F /* #4 Bool Matrix */ = {
 			isa = PBXGroup;
 			children = (
-				2C8F51842AFCC3D000D3D58F /* BoolVector.hpp */,
 				2C8F517A2AFC9EEF00D3D58F /* main.cpp */,
 				2C8F51812AFC9F0400D3D58F /* BoolMatrix.cpp */,
 				2C8F51822AFC9F0500D3D58F /* BoolMatrix.hpp */,
+				2C0C733A2B05D01B0096D145 /* BoolVector.cpp */,
+				2C0C733B2B05D01B0096D145 /* BoolVector.hpp */,
 			);
 			path = "#4 Bool Matrix";
 			sourceTree = "<group>";
@@ -126,6 +129,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C0C733C2B05D01B0096D145 /* BoolVector.cpp in Sources */,
 				2C8F517B2AFC9EEF00D3D58F /* main.cpp in Sources */,
 				2C8F51832AFC9F0500D3D58F /* BoolMatrix.cpp in Sources */,
 			);

@@ -15,14 +15,14 @@ public:
     BoolMatrix(BoolMatrix&& other);
     ~BoolMatrix();
     
-    int getRowSize() const {return m_rowSize;}
-    int getColumnSize() const {return m_columnSize;}
+    int getRowSize() const {return m_columnCount;} //rowCount
+    int getColumnSize() const {return m_rowCount;} //columnCount
     int getWeight() const;
     int getWeight(const int columnIndex) const;
     BoolVector getConjunctionRows() const;
     BoolVector getDisjunctionRows() const;
     
-    void set(const int columnIndex, const int indexInRow, const bool value);
+    void set(const int columnIndex, const int indexInRow, const bool value); //row col
     void set(const int columnIndex, const int posFromInRow,
              const int posToInRow, const bool value);
     
@@ -34,6 +34,7 @@ public:
     
     BoolMatrix& operator = (const BoolMatrix& other);
     BoolVector& operator [] (const int index);
+    const BoolVector& operator [] (const int index) const;
     BoolMatrix operator & (const BoolMatrix& other) const;
     BoolMatrix operator | (const BoolMatrix& other) const;
     BoolMatrix operator ^ (const BoolMatrix& other) const;
@@ -44,10 +45,10 @@ public:
     
 private:
     BoolVector* m_rows = nullptr;
-    int m_rowSize = 0;
-    int m_columnSize = 0;
+    int m_columnCount = 0;
+    int m_rowCount = 0;
 };
 
 std::istream& operator >> (std::istream& stream, BoolMatrix& other);
-std::ostream& operator << (std::ostream& stream, BoolMatrix& other);
+std::ostream& operator << (std::ostream& stream, const BoolMatrix& other);
 
