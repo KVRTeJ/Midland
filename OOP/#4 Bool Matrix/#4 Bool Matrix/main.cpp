@@ -21,42 +21,13 @@ void printMatrix(const std::vector< std::vector<char> >& matrix, const int n, co
     }
 }
 
-int getCharMatrixColumsSize1(char** matrix, const int rowSize) {
-    int columnSize = -1;
-    
-    int i = 0, j = 0;
-    bool flag = false;
-    while(!flag) {
-        if(j > rowSize) {
-            columnSize = i - 1;
-            flag = true;
-        }
-        if(*(*(matrix + i) + j) != '\0') {
-            ++j;
-        }
-        else {// (*(matrix[i] + j) == '\0')
-            j = 0;
-            ++i;
-        }
-    }
-    
-    return columnSize;
-}
-
 int main() {
-    const int n = 10, m = 0;//n - columnSize, m - rowSize;
-    char** a = new char* [n];
-    for(int i = 0; i < n; ++i) {
-        a[i] = new char [m];
-    }
-    for(int i = 0; i < n; ++i) {
-        for(int j = 0; j < m; ++j) {
-            a[i][j] = '0';
-        }
-    }
-    BoolMatrix temp(a, n, m);
-    std::cout << temp;
-    //std::cout << getCharMatrixColumsSize1(a, m) << std::endl;
+    std::vector<std::vector<char>> a = { {'1', '1', '1'},{'1', '1', '1'},{'1', '1', '1'} };
+    
+    BoolMatrix ap(a);
+    ap.invert(0, 0, 2);
+    ap.invert(1, 1);
+    std::cout << ap;
     
     return 0;
     std::vector< std::vector<char> > matrix;
@@ -66,13 +37,13 @@ int main() {
     }
     
     inputMatrix(matrix, 3, 3);
-    //printMatrix(matrix, 3, 3);
+    printMatrix(matrix, 3, 3);
     std::cout << "BoolMatrix:" << std::endl;
-    BoolMatrix foo(matrix), boo(foo), foo1(3, 3, 1), foo0(3, 3, 0);
-    boo &= foo1;
-    std::cout << boo;
-    boo &= foo0;
-    std::cout << boo;
+    BoolMatrix foo(matrix), boo(foo), foo1(3, 3, 1), foo0(3, 3, 1);
+    foo1 = ~boo;
+    std::cout << foo1;
+    foo1 ^= foo0;
+    std::cout << foo1;
     std::cout << "weight - " << boo.getWeight(1) << std::endl;
     
     

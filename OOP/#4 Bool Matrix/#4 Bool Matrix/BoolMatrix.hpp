@@ -7,33 +7,32 @@
 
 class BoolMatrix {
 public:
-    BoolMatrix(const int columnSize = 3, const int rowSize = 3, const bool value = false);
-    BoolMatrix(std::vector< std::vector<char> > matrix);//
-    BoolMatrix(char** matrix, const int columnSize, const int rowSize);
-    BoolMatrix(char** matrix);/* FIXME */
+    BoolMatrix(const int colCount = 3, const int rowCount = 3, const bool value = false);
+    BoolMatrix(std::vector< std::vector<char> > matrix);
+    BoolMatrix(char** matrix, const int colCount, const int rowCount);
     BoolMatrix(const BoolMatrix& other);
-    BoolMatrix(BoolMatrix&& other);
     ~BoolMatrix();
     
-    int getRowSize() const {return m_rowSize;}
-    int getColumnSize() const {return m_columnSize;}
+    int getRowCount() const {return m_columnCount;}
+    int getColumnCount() const {return m_rowCount;}
     int getWeight() const;
-    int getWeight(const int columnIndex) const;
+    int getWeight(const int row) const;
     BoolVector getConjunctionRows() const;
     BoolVector getDisjunctionRows() const;
     
-    void set(const int columnIndex, const int indexInRow, const bool value);
-    void set(const int columnIndex, const int posFromInRow,
-             const int posToInRow, const bool value);
+    void set(const int row, const int col, const bool value);
+    void set(const int row, const int from,
+             const int to, const bool value);
     
-    void invert(const int columnIndex, const int indexInRow);
-    void invert(const int columnIndex, const int posFromInRow,
-                const int posToInRow);
+    void invert(const int row, const int col);
+    void invert(const int row, const int from,
+                const int to);
     
     void swap(BoolMatrix& other);
     
     BoolMatrix& operator = (const BoolMatrix& other);
     BoolVector& operator [] (const int index);
+    const BoolVector& operator [] (const int index) const;
     BoolMatrix operator & (const BoolMatrix& other) const;
     BoolMatrix operator | (const BoolMatrix& other) const;
     BoolMatrix operator ^ (const BoolMatrix& other) const;
@@ -44,10 +43,10 @@ public:
     
 private:
     BoolVector* m_rows = nullptr;
-    int m_rowSize = 0;
-    int m_columnSize = 0;
+    int m_columnCount = 0;
+    int m_rowCount = 0;
 };
 
 std::istream& operator >> (std::istream& stream, BoolMatrix& other);
-std::ostream& operator << (std::ostream& stream, BoolMatrix& other);
+std::ostream& operator << (std::ostream& stream, const BoolMatrix& other);
 
