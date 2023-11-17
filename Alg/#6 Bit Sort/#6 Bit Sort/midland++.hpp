@@ -12,4 +12,4 @@ void BitSortPositive(std::vector<int>& nums, int left, int right, int k);
 
 bool checkNegative(const int& num);
 
-void BitSort(std::vector<int>& nums, int left, int right, int k);
+void BitSort(std::vector<int>& nums, int maxNum);

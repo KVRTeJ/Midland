@@ -92,18 +92,16 @@ bool checkNegative(const int& num) {
     return false;
 }
 
-void BitSort(std::vector<int>& nums, int left, int right, int k) {
-    if(left >= right || k < 0)
-        return;
+void BitSort(std::vector<int>& nums, int maxNum) {
     
-    int i = left, j = right;
-    int mask = 1 << k;
-    int negativeMask;
+    int i = 0, j = (unsigned) nums.size() - 1;
+    
+    int pivot = 0;
     while(i <= j) {
-        while(i <= j && !(mask & nums[i])) {
+        while(nums[i] < pivot) {
             i++;
         }
-        while(i <= j && mask & nums[j]) {
+        while(nums[j] >= pivot) {
             j--;
         }
         if(i <= j) {
@@ -113,7 +111,14 @@ void BitSort(std::vector<int>& nums, int left, int right, int k) {
         }
     }
     
-    BitSortPositive(nums, left, j, k - 1);
-    BitSortPositive(nums, i, right, k - 1);
-
+    
+    int k = 0;
+    while (maxNum) {
+        maxNum = maxNum >> 1;
+        k++;
+    }
+    
+    BitSortPositive(nums, 0, j, k);
+    BitSortPositive(nums, i, (unsigned) nums.size() -1, k);
+    
 }
