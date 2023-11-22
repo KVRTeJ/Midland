@@ -59,12 +59,11 @@ bool checkIncrease(const std::vector<int> nums) {
     return true;
 }
 
-void BitSortPositive(std::vector<int>& nums, int left, int right, int k) {
-    if(left >= right || k < 0)
+void BitSortRecursive(std::vector<int>& nums, int left, int right, int mask) {
+    if(left >= right || mask <= 0)
         return;
     
     int i = left, j = right;
-    int mask = 1 << k;
     while(i <= j) {
         while(i <= j && !(mask & nums[i]) ) {
             i++;
@@ -79,8 +78,8 @@ void BitSortPositive(std::vector<int>& nums, int left, int right, int k) {
         }
     }
     
-    BitSortPositive(nums, left, j, k - 1);
-    BitSortPositive(nums, i, right, k - 1);
+    BitSortRecursive(nums, left, j, mask >> 1);
+    BitSortRecursive(nums, i, right, mask >> 1);
     
 }
 
@@ -111,14 +110,12 @@ void BitSort(std::vector<int>& nums, int maxNum) {
         }
     }
     
-    
-    int k = 0;
-    while (maxNum) {
-        maxNum = maxNum >> 1;
-        k++;
+    int mask = 1 << 30;
+    while ((mask & maxNum) == 0) {
+        mask >>= 1;
     }
     
-    BitSortPositive(nums, 0, j, k);
-    BitSortPositive(nums, i, (unsigned) nums.size() -1, k);
+    BitSortRecursive(nums, 0, j, mask);
+    BitSortRecursive(nums, i, (unsigned) nums.size() -1, mask);
     
 }
