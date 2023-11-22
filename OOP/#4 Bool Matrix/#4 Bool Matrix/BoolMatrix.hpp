@@ -8,7 +8,7 @@
 class BoolMatrix {
 public:
     BoolMatrix(const int colCount = 3, const int rowCount = 3, const bool value = false);
-    BoolMatrix(std::vector< std::vector<char> > matrix);
+    BoolMatrix(const std::vector< std::vector<char> >& matrix);
     BoolMatrix(char** matrix, const int colCount, const int rowCount);
     BoolMatrix(const BoolMatrix& other);
     ~BoolMatrix();

@@ -1,7 +1,7 @@
 #include "BoolMatrix.hpp"
 
 BoolMatrix::BoolMatrix(const int colCount, const int rowCount, const bool value) {
-    assert(rowCount >= 0 && colCount >= 0);
+    assert(rowCount > 0 && colCount > 0);
     
     m_rows = new BoolVector [colCount];
     m_rowCount = colCount;
@@ -13,12 +13,13 @@ BoolMatrix::BoolMatrix(const int colCount, const int rowCount, const bool value)
     }
 }
 
-BoolMatrix::BoolMatrix(std::vector< std::vector<char> > matrix) {
+BoolMatrix::BoolMatrix(const std::vector< std::vector<char> >& matrix) {
+    assert((int) matrix[0].size() > 0 && (int) matrix.size() > 0);
+    
     m_columnCount = (int) matrix[0].size();
     m_rowCount = (int) matrix.size();
     m_rows = new BoolVector [m_rowCount];
     
-    BoolVector temp(m_columnCount);
     for(int i = 0; i < m_rowCount; ++i) {
             m_rows[i] = matrix[i];
         
@@ -27,13 +28,12 @@ BoolMatrix::BoolMatrix(std::vector< std::vector<char> > matrix) {
 }
 
 BoolMatrix::BoolMatrix(char** matrix, const int colCount, const int rowCount) {
-    assert(colCount >= 0 && rowCount >= 0);
+    assert(colCount > 0 && rowCount > 0);
     
     m_columnCount = rowCount;
     m_rowCount = colCount;
     m_rows = new BoolVector [m_rowCount];
     
-    BoolVector temp(m_columnCount);
     for(int i = 0; i < m_rowCount; ++i) {
         m_rows[i] = matrix[i];
     }
@@ -45,6 +45,7 @@ BoolMatrix::BoolMatrix(const BoolMatrix& other) {
     m_rows = new BoolVector [other.m_rowCount];
     m_columnCount = other.m_columnCount;
     m_rowCount = other.m_rowCount;
+    
     for(int i = 0; i < m_rowCount; ++i) {
         m_rows[i] = other.m_rows[i];
     }

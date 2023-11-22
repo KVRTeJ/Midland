@@ -21,7 +21,47 @@ void printMatrix(const std::vector< std::vector<char> >& matrix, const int n, co
     }
 }
 
+void inputMatrix(char** matrix, const int n, const int m) {
+    for(int i = 0; i < n; ++i) {
+        for(int j = 0; j < m; ++j) {
+            std::cin >> matrix[i][j];
+        }
+    }
+}
+
+void printMatrix(char** matrix, const int n, const int m) {
+    for(int i = 0; i < n; ++i) {
+        std::cout << "|";
+        for(int j = 0; j < m; ++j) {
+            std::cout << matrix[i][j] << ((j + 1) < m ? " ":"");
+        }
+        std::cout << "|";
+        std::cout << std::endl;
+    }
+}
+
+
 int main() {
+    const int n = 3, m = 3;
+    
+    char** foo = new char* [n];
+    for(int i = 0; i < n; ++i)
+        foo[i] = new char [m];
+    
+    inputMatrix(foo, n, m);
+    printMatrix(foo, n, m);
+    
+    BoolMatrix boo(foo, n, m);
+    boo.invert(0, 0, 0);
+    std::cout << "boo:" << std::endl;
+    std::cout << boo;
+    
+    for(int i = 0; i < n; ++i)
+        delete [] foo[i];
+    delete [] foo;
+    
+    return 0;
+    /*
     std::vector<std::vector<char>> a = { {'1', '1', '1'},{'1', '1', '1'},{'1', '1', '1'} };
     
     BoolMatrix ap(a);
@@ -49,5 +89,6 @@ int main() {
     
     
     return 0;
+     */
 }
 
