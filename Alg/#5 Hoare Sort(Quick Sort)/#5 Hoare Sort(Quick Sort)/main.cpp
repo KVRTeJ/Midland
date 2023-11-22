@@ -44,6 +44,7 @@ int main() {
             std::cout << " Range [-" << range << ";" << range << "]" << std::endl;
             numbers.readFromFile(generateFileName(size, range));
                 for(int i = 0; i < TIMES_ALGORYTHM; ++i) {
+                    numbers.readFromFile(generateFileName(size, range));
                     start = clock();
                     numbers.QuickSort(0, size - 1);
                     end = clock();
