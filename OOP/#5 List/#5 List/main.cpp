@@ -1,10 +1,9 @@
 #include "List.hpp"
 
 int main() {
+    List<int> l(5, 5);
+    List<int> a(l);
     
-    Array<int> a(998);
-    a.setRandomNumbers(0, 1000);
-    List<int> l(a);
     
     return 0;
 }
