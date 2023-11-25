@@ -9,7 +9,7 @@
 
 template <typename Type>
 class List {
-public:
+private:
     template <typename NodeType>
     class Node;
 public:
@@ -26,7 +26,7 @@ public:
     void push_front(const Type& value);
     void clear();
     
-    Node<Type>& operator [] (const int index);
+    Type& operator [] (const int index); // for(0;index;++) return &(Node[i] -> m_value)
     
 private:
     void generateListBasis();
@@ -42,12 +42,11 @@ template <typename NodeType>
 class List<Type>::Node {
     friend List<Type>;
 public:
-    NodeType value = 0; //Type
-private:
     Node(const NodeType& value = NodeType(), Node* next = nullptr, Node* prev = nullptr)
-    : value(value), m_next(next), m_prev(prev)
+    : m_value(value), m_next(next), m_prev(prev)
     { }
     
+    NodeType m_value = NodeType();
     Node<NodeType>* m_next = nullptr;
     Node<NodeType>* m_prev = nullptr;
     
