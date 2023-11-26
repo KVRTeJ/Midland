@@ -6,7 +6,11 @@ int main() {
     Array<char> ar(a, 5);
     List<char> list(ar);
     list += list;
-    list.pop(pos + 5);
+    
     std::cout << list << std::endl;
+    std::cout << list.getSize() << std::endl;
+    
+    List<char> list1(list);
+    std::cout << list1.getSize() << std::endl;
     return 0;
 }

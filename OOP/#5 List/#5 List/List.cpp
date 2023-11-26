@@ -23,7 +23,6 @@ List<Type>::List(const Array<Type>& value) {
         push_back(*it);
     }
     
-    m_size = (unsigned) value.getSize();
 }
 
 template <typename Type>
@@ -37,7 +36,6 @@ List<Type>::List(const List& other) {
         temp = temp->m_next;
     }
     
-    m_size = other.m_size;
 }
 
 template <typename Type>
