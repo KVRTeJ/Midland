@@ -33,8 +33,10 @@ List<Type>::List(const List& other) {
     
     generateListBasis();
     
-    for(Node<Type>* i = m_head; i->m_next != m_tail; i = i->m_next) {
-        std::cout << i->m_value << std::endl;
+    Node<Type>* temp = other.m_head->m_next;
+    while(temp != other.m_tail) {
+        push_back(temp->m_value);
+        temp = temp->m_next;
     }
     
     m_size = other.m_size;
@@ -50,7 +52,17 @@ List<Type>::~List() {
 }
 
 template <typename Type>
+void List<Type>::swap(List<Type>& other) {
+    
+    std::swap(m_head, other.m_head);
+    std::swap(m_tail, other.m_tail);
+    std::swap(m_size, other.m_size);
+    
+}
+
+template <typename Type>
 void List<Type>::push_back(const Type& value) {
+    assert(m_head != nullptr && m_tail != nullptr);
     
     Node<Type>* newNode = new Node<Type> ( Node<Type>(value, m_tail, m_tail->m_prev) );
     
@@ -62,6 +74,7 @@ void List<Type>::push_back(const Type& value) {
 
 template <typename Type>
 void List<Type>::push_front(const Type& value) {
+    assert(m_head != nullptr && m_tail != nullptr);
     
     Node<Type>* newNode = new Node<Type> ( Node<Type>(value, m_head->m_next, m_head) );
     
@@ -85,6 +98,32 @@ void List<Type>::clear() {
     m_size = 0;
 }
 
+template <typename Type>
+Type& List<Type>::operator [] (const int index) {
+    assert(index < m_size);
+    
+    Node<Type>* temp = m_head->m_next;
+    
+    for(int i = 0; i < index; ++i) {
+        temp = temp->m_next;
+    }
+    
+    return temp->m_value;
+}
+
+template <typename Type>
+const Type& List<Type>::operator [] (const int index) const {
+    assert(index < m_size);
+    
+    Node<Type>* temp = m_head->m_next;
+    
+    for(int i = 0; i < index; ++i) {
+        temp = temp->m_next;
+    }
+    
+    return temp->m_value;
+}
+
 /* private */
 template <typename Type>
 void List<Type>::generateListBasis() {
@@ -103,5 +142,26 @@ void List<Type>::generateListBasis() {
     m_tail->m_prev = m_head;
 }
 
+template <typename Type>
+std::ostream& operator << (std::ostream& stream, const List<Type>& other) {
+    
+    stream << "[";
+    for(int i = 0; i < other.getSize(); ++i) {
+        stream << other[i] << ((i + 1) < other.getSize() ? ", ":"");
+    }
+    stream << "]";
+    
+    return stream;
+}
+
+template  <typename Type>
+std::istream& operator >> (std::istream& stream, List<Type>& other) {
+    
+    for(int i = 0; i < other.getSize(); ++i) {
+        stream >> other[i];
+    }
+    
+    return stream;
+}
 
 #endif //!ARE_TEMPLATE_LIST_METHODS_DEFINED

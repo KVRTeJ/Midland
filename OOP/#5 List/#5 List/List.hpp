@@ -19,14 +19,17 @@ public:
     ~List();
     
     unsigned int getSize() const {return m_size;}
-    bool isEmpty() const {return m_head->m_next == m_tail;}
+    void swap(List& other);
     
+    Node<Type>* find(const Type& value) const;//
     
     void push_back(const Type& value);
     void push_front(const Type& value);
+    bool isEmpty() const {return m_head->m_next == m_tail;}
     void clear();
     
-    Type& operator [] (const int index); // for(0;index;++) return &(Node[i] -> m_value)
+    Type& operator [] (const int index);
+    const Type& operator [] (const int index) const;
     
 private:
     void generateListBasis();
@@ -51,6 +54,12 @@ public:
     Node<NodeType>* m_prev = nullptr;
     
 };
+
+template <typename Type>
+std::ostream& operator << (std::ostream& stream, const List<Type>& other);
+
+template <typename Type>
+std::istream& operator >> (std::istream& stream, List<Type>& other);
 
 #include "List.cpp"
 
