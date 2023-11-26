@@ -23,14 +23,14 @@ public:
     
     Node<Type>* find(const Type& key) const;// Node* or Node->m_value ?
     
-    void push(const unsigned pos, const Type& value);//
-    void push(const Type& key, const Type& value);//after key
+    void push(const unsigned pos, const Type& value);
+    void push(const Type& key, const Type& value);
     void push_back(const Type& value);
     void push_front(const Type& value);
-    void pop(const unsigned pos);//
-    void pop(const Type& key);//pop key
-    void pop_back();//
-    void pop_front();//
+    void pop(const unsigned pos);
+    void pop(const Type& key);
+    void pop_back();
+    void pop_front();
     
     Type max() const;//
     Type min() const;//
@@ -47,7 +47,8 @@ public:
     
 private:
     void generateListBasis();
-    void insertNode(Node<Type>* currendNode, const Type& value);
+    void insertNode(Node<Type>* currentNode, const Type& value);
+    void removeNode(Node<Type>* currentNode);
     
     Node<Type>* m_head = nullptr;
     Node<Type>* m_tail = nullptr;

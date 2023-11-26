@@ -5,15 +5,13 @@
 
 template <typename Type>
 List<Type>::List(const Type& value, const int size) {
-    assert(size >= 0);
-    
+
     generateListBasis();
     
     for(int i = 0; i < size; i++) {
         push_back(value);
     }
     
-    m_size = size;
 }
 
 template <typename Type>
@@ -95,30 +93,48 @@ void List<Type>::push(const Type& key, const Type& value) {
 
 template <typename Type>
 void List<Type>::push_back(const Type& value) {
-    assert(m_head != nullptr && m_tail != nullptr);
-    
     push((unsigned) m_size, value);
 }
 
 template <typename Type>
 void List<Type>::push_front(const Type& value) {
-    assert(m_head != nullptr && m_tail != nullptr);
-    
     push((unsigned) 0, value);
+}
+
+template <typename Type>
+void List<Type>::pop(const unsigned pos) {
+    assert(pos < m_size);
+    
+    Node<Type>* temp = m_head->m_next;
+    for(int i = 0; i < pos; ++i) {
+        temp = temp->m_next;
+    }
+    
+    removeNode(temp);
+}
+
+template <typename Type>
+void List<Type>::pop(const Type& key) {
+    removeNode(find(key));
+}
+
+template <typename Type>
+void List<Type>::pop_back() {
+    pop((unsigned) m_size - 1);
+}
+
+template <typename Type>
+void List<Type>::pop_front() {
+    pop((unsigned) 0);
 }
 
 template <typename Type>
 void List<Type>::clear() {
     
-    Node<Type>* temp;
-    while(m_head->m_next != m_tail) {
-        temp = m_head->m_next;
-        m_head->m_next = temp->m_next;
-        m_head->m_next->m_prev = m_head;
-        delete temp;
+    while(!isEmpty()) {
+        removeNode(m_head->m_next);
     }
     
-    m_size = 0;
 }
 
 template <typename Type>
@@ -218,20 +234,38 @@ void List<Type>::generateListBasis() {
     m_tail->m_prev = m_head;
 }
 
+inline void alertNodeNullptr(const std::string name) {
+    std::cerr << name + ": currentNode == nullptr";
+    std::cerr << std::endl;
+}
+
 template <typename Type>
-void List<Type>::insertNode(Node<Type>* currendNode, const Type& value) {
-    if(currendNode == nullptr) {
-        std::cerr << "insertNode(Node<Type>*, const Type&): currentNode == nullptr";
-        std::cerr << std::endl;
+void List<Type>::insertNode(Node<Type>* currentNode, const Type& value) {
+    if(currentNode == nullptr) {
+        alertNodeNullptr("insertNode(Node<Type>*, const Type&)");
         return;
     }
     
-    Node<Type>* newNode = new Node<Type> ( Node<Type>(value, currendNode, currendNode->m_prev) );
+    Node<Type>* newNode = new Node<Type> ( Node<Type>(value, currentNode, currentNode->m_prev) );
     
-    currendNode->m_prev->m_next = newNode;
-    currendNode->m_prev = newNode;
+    currentNode->m_prev->m_next = newNode;
+    currentNode->m_prev = newNode;
     
     ++m_size;
+}
+
+template <typename Type>
+void List<Type>::removeNode(Node<Type>* currentNode) {
+    if(currentNode == nullptr) {
+        alertNodeNullptr("removeNode(Node<Type>*)");
+        return;
+    }
+    
+    currentNode->m_next->m_prev = currentNode->m_prev;
+    currentNode->m_prev->m_next = currentNode->m_next;
+    delete currentNode;
+    
+    --m_size;
 }
 
 template <typename Type>
