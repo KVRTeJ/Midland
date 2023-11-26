@@ -1,8 +1,9 @@
 #include "List.hpp"
 
 int main() {
-    List<int> l(1, 5), a(2, 5), b;
-    b = a + l;
-    std::cout << b << std::endl;
+    const unsigned pos = 2;
+    List<int> a(5, 3);
+    a.push(pos, 10);
+    std::cout << a << std::endl;
     return 0;
 }

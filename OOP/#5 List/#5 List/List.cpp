@@ -75,27 +75,46 @@ List<Type>::template Node<Type>* List<Type>::find(const Type& key) const {
 }
 
 template <typename Type>
+void List<Type>::push(const unsigned pos, const Type& value) {
+    assert(pos <= m_size);
+    
+    Node<Type>* temp = m_head->m_next;
+    for(int i = 0; i < pos; ++i) {
+        temp = temp->m_next;
+    }
+    
+    Node<Type>* newNode = new Node<Type> ( Node<Type>(value, temp, temp->m_prev) );
+    
+    temp->m_prev->m_next = newNode;
+    temp->m_prev = newNode;
+    
+    ++m_size;
+}
+
+/*
+template <typename Type>
+void List<Type>::push(const Type& key, const Type& value) { //after key
+    
+    Node<Type>* temp = find(key);
+    (temp == nullptr)
+    ? (std::cerr << "\tpush: key have not found\n")
+    : push(<#const unsigned int pos#>, <#const Type &value#>)
+    
+}
+*/
+
+template <typename Type>
 void List<Type>::push_back(const Type& value) {
     assert(m_head != nullptr && m_tail != nullptr);
     
-    Node<Type>* newNode = new Node<Type> ( Node<Type>(value, m_tail, m_tail->m_prev) );
-    
-    m_tail->m_prev->m_next = newNode;
-    m_tail->m_prev = newNode;
-
-    ++m_size;
+    push((unsigned) m_size, value);
 }
 
 template <typename Type>
 void List<Type>::push_front(const Type& value) {
     assert(m_head != nullptr && m_tail != nullptr);
     
-    Node<Type>* newNode = new Node<Type> ( Node<Type>(value, m_head->m_next, m_head) );
-    
-    m_head->m_next->m_prev = newNode;
-    m_head->m_next = newNode;
-    
-    ++m_size;
+    push((unsigned) 0, value);
 }
 
 template <typename Type>

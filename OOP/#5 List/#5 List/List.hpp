@@ -9,7 +9,7 @@
 
 template <typename Type>
 class List {
-public:
+public: // Node* find else private
     template <typename NodeType>
     class Node;
 public:
@@ -23,8 +23,17 @@ public:
     
     Node<Type>* find(const Type& key) const;// Node* or Node->m_value ?
     
+    void push(const unsigned pos, const Type& value);//
+    void push(const Type& key, const Type& value);//after key
     void push_back(const Type& value);
     void push_front(const Type& value);
+    void pop(const unsigned pos);//
+    void pop(const Type& key);//pop key
+    void pop_back();//
+    void pop_front();//
+    
+    Type max() const;//
+    Type min() const;//
     bool isEmpty() const {return m_head->m_next == m_tail;}
     void clear();
     
@@ -38,6 +47,14 @@ public:
     
 private:
     void generateListBasis();
+    void insertNode(Node<Type>* currendNode, const Type& value) {
+        
+        Node<Type>* newNode = new Node<Type> ( Node<Type>(value, currendNode, currendNode->m_prev) );
+        
+        currendNode->m_prev->m_next = newNode;
+        currendNode->m_prev = newNode;
+        
+    }
     
     Node<Type>* m_head = nullptr;
     Node<Type>* m_tail = nullptr;
@@ -48,7 +65,6 @@ private:
 template <typename Type>
 template <typename NodeType>
 class List<Type>::Node {
-    friend List<Type>;
 public:
     Node(const NodeType& value = NodeType(), Node* next = nullptr, Node* prev = nullptr)
     : m_value(value), m_next(next), m_prev(prev)
