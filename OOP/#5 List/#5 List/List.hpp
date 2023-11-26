@@ -47,14 +47,7 @@ public:
     
 private:
     void generateListBasis();
-    void insertNode(Node<Type>* currendNode, const Type& value) {
-        
-        Node<Type>* newNode = new Node<Type> ( Node<Type>(value, currendNode, currendNode->m_prev) );
-        
-        currendNode->m_prev->m_next = newNode;
-        currendNode->m_prev = newNode;
-        
-    }
+    void insertNode(Node<Type>* currendNode, const Type& value);
     
     Node<Type>* m_head = nullptr;
     Node<Type>* m_tail = nullptr;

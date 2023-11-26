@@ -83,25 +83,15 @@ void List<Type>::push(const unsigned pos, const Type& value) {
         temp = temp->m_next;
     }
     
-    Node<Type>* newNode = new Node<Type> ( Node<Type>(value, temp, temp->m_prev) );
-    
-    temp->m_prev->m_next = newNode;
-    temp->m_prev = newNode;
-    
-    ++m_size;
+    insertNode(temp, value);
 }
 
-/*
+
 template <typename Type>
-void List<Type>::push(const Type& key, const Type& value) { //after key
-    
-    Node<Type>* temp = find(key);
-    (temp == nullptr)
-    ? (std::cerr << "\tpush: key have not found\n")
-    : push(<#const unsigned int pos#>, <#const Type &value#>)
-    
+void List<Type>::push(const Type& key, const Type& value) {
+    insertNode(find(key), value);
 }
-*/
+
 
 template <typename Type>
 void List<Type>::push_back(const Type& value) {
@@ -226,6 +216,22 @@ void List<Type>::generateListBasis() {
     m_head->m_prev = nullptr;
     m_tail->m_next = nullptr;
     m_tail->m_prev = m_head;
+}
+
+template <typename Type>
+void List<Type>::insertNode(Node<Type>* currendNode, const Type& value) {
+    if(currendNode == nullptr) {
+        std::cerr << "insertNode(Node<Type>*, const Type&): currentNode == nullptr";
+        std::cerr << std::endl;
+        return;
+    }
+    
+    Node<Type>* newNode = new Node<Type> ( Node<Type>(value, currendNode, currendNode->m_prev) );
+    
+    currendNode->m_prev->m_next = newNode;
+    currendNode->m_prev = newNode;
+    
+    ++m_size;
 }
 
 template <typename Type>
