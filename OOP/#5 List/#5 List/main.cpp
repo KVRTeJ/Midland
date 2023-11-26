@@ -1,9 +1,8 @@
 #include "List.hpp"
 
 int main() {
-    List<int> l(5, 1);
-    List<int> a(l);
-    a.swap(l);
-    std::cout << a << std::endl;
+    List<int> l(1, 5), a(2, 5), b;
+    b = a + l;
+    std::cout << b << std::endl;
     return 0;
 }

@@ -60,6 +60,20 @@ void List<Type>::swap(List<Type>& other) {
     
 }
 
+
+template <typename Type> typename
+List<Type>::template Node<Type>* List<Type>::find(const Type& key) const {
+    
+    Node<Type>* temp = m_head->m_next;
+    while(temp != m_tail) {
+        if(temp->m_value == key)
+            return temp;
+        temp = temp->m_next;
+    }
+    
+    return nullptr;
+}
+
 template <typename Type>
 void List<Type>::push_back(const Type& value) {
     assert(m_head != nullptr && m_tail != nullptr);
@@ -123,6 +137,59 @@ const Type& List<Type>::operator [] (const int index) const {
     
     return temp->m_value;
 }
+
+template <typename Type>
+List<Type>& List<Type>::operator = (const List<Type>& other) {
+    
+    if(m_head != other.m_head || m_tail != other.m_tail) {
+        clear();
+        
+        generateListBasis();
+        
+        Node<Type>* temp = other.m_head->m_next;
+        while(temp != other.m_tail) {
+            push_back(temp->m_value);
+            temp = temp->m_next;
+        }
+        
+        m_size = other.m_size;
+    }
+    
+    return *this;
+}
+
+template <typename Type>
+bool List<Type>::operator == (const List<Type>& other) const {
+    return (m_head == other.m_head && m_tail == other.m_tail &&
+            m_size == other.m_size);
+}
+
+template <typename Type>
+bool List<Type>::operator != (const List<Type>& other) const {
+    return !(this==other);
+}
+
+template <typename Type>
+List<Type> List<Type>::operator + (const List<Type>& other) const {
+    
+    List<Type> result(*this);
+    Node<Type>* temp = other.m_head->m_next;
+    while(temp != other.m_tail) {
+        result.push_back(temp->m_value);
+        temp = temp->m_next;
+    }
+    
+    return result;
+}
+
+template <typename Type>
+List<Type>& List<Type>::operator += (const List<Type>& other) {
+    
+    *this = *this + other;
+    
+    return *this;
+}
+
 
 /* private */
 template <typename Type>

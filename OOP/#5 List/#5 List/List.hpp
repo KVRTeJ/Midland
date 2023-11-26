@@ -9,7 +9,7 @@
 
 template <typename Type>
 class List {
-private:
+public:
     template <typename NodeType>
     class Node;
 public:
@@ -21,7 +21,7 @@ public:
     unsigned int getSize() const {return m_size;}
     void swap(List& other);
     
-    Node<Type>* find(const Type& value) const;//
+    Node<Type>* find(const Type& key) const;// Node* or Node->m_value ?
     
     void push_back(const Type& value);
     void push_front(const Type& value);
@@ -30,6 +30,11 @@ public:
     
     Type& operator [] (const int index);
     const Type& operator [] (const int index) const;
+    List& operator = (const List& other);
+    bool operator == (const List& other) const;
+    bool operator != (const List& other) const;
+    List operator + (const List& other) const;
+    List& operator += (const List& other);
     
 private:
     void generateListBasis();
