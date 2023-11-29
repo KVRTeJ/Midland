@@ -14,8 +14,13 @@ class List {
 public:
     template <typename NodeType>
     class Node;
+    
 public:
-    class Iterator;
+    template <typename IterType, typename ListType>
+    class TemplateIterator;
+    using Iterator = TemplateIterator<Type, List>;
+    using ConstIterator = TemplateIterator<const Type, const List>;
+    
 public:
     List(const Type& value = Type(), const int size = 0);
     List(const Array<Type>& value);
@@ -29,14 +34,18 @@ public:
     Iterator begin() {return Iterator(this, m_head->m_next);}
     Iterator end() {return Iterator(this, m_tail);}
     
+    ConstIterator begin() const {return ConstIterator(this, m_head->m_next);}
+    ConstIterator end() const {return ConstIterator(this, m_tail);}
+    
     Node<Type>* find(const Type& key) const;
     
+    //Type = unsigned int?
     void insert(const unsigned pos, const Type& value);
     void insertAfter(const Type& key, const Type& value);
     void push_back(const Type& value);
     void push_front(const Type& value);
-    void pop(const unsigned pos);
-    void pop(const Type& key);
+    void erase(const unsigned pos);
+    void eraseFirst(const Type& key);
     void pop_back();
     void pop_front();
     
@@ -80,25 +89,33 @@ private:
 };
 
 template <typename Type>
-class List<Type>::Iterator {
+template <typename IterType, typename ListType>
+class List<Type>::TemplateIterator {
     friend class List;
 public:
-    Iterator(List<Type>* list = nullptr, Node<Type>* node = nullptr)
+    TemplateIterator(ListType* list = nullptr, Node<Type>* node = nullptr)
     : m_list(list), m_node(node)
     {}
     //Iterator(const Iterator&) - ?
     
-    Type& operator * () {return m_node->m_value;}
-    Iterator& operator ++ ();
-    Iterator operator ++ (int) const;
-    Iterator operator + (const int value) const;
-    Iterator& operator -- ();
-    Iterator operator -- (int) const;
-    Iterator operator - (const int value) const;
+    IterType& operator * () {return m_node->m_value;}
+    
+    TemplateIterator& operator ++ ();
+    TemplateIterator operator ++ (int) const;
+    TemplateIterator operator + (const int value) const;
+    TemplateIterator& operator += (const int value);
+    
+    TemplateIterator& operator -- ();
+    TemplateIterator operator -- (int) const;
+    TemplateIterator operator - (const int value) const;
+    TemplateIterator& operator -= (const int value);
+    
+    bool operator == (TemplateIterator& other);
+    bool operator != (TemplateIterator& other);
     
 private:
     Node<Type>* m_node = nullptr;
-    List<Type>* m_list = nullptr;
+    ListType* m_list = nullptr;
 };
 
 template <typename Type>

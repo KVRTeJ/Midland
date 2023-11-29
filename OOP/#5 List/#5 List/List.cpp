@@ -100,7 +100,7 @@ void List<Type>::push_front(const Type& value) {
 }
 
 template <typename Type>
-void List<Type>::pop(const unsigned pos) {
+void List<Type>::erase(const unsigned pos) {
     assert(pos < m_size);
     
     Node<Type>* temp = m_head->m_next;
@@ -112,18 +112,18 @@ void List<Type>::pop(const unsigned pos) {
 }
 
 template <typename Type>
-void List<Type>::pop(const Type& key) {
+void List<Type>::eraseFirst(const Type& key) {
     removeNode(find(key));
 }
 
 template <typename Type>
 void List<Type>::pop_back() {
-    pop((unsigned) m_size - 1);
+    erase((unsigned) m_size - 1);
 }
 
 template <typename Type>
 void List<Type>::pop_front() {
-    pop((unsigned) 0);
+    erase((unsigned) 0);
 }
 
 template <typename Type>
@@ -269,21 +269,24 @@ void List<Type>::removeNode(Node<Type>* currentNode) {
 
 /* Iterator */
 template <typename Type>
-typename List<Type>::Iterator& List<Type>::Iterator::operator ++ () {
+template <typename IterType, typename ListType> typename
+List<Type>::template TemplateIterator<IterType, ListType>& List<Type>::TemplateIterator<IterType, ListType>::operator ++ () {
     m_node = m_node->m_next;
     return *this;
 }
 
 template <typename Type>
-typename List<Type>::Iterator List<Type>::Iterator::operator ++ (int) const {
-    return Iterator(m_list, m_node->m_next);
+template <typename IterType, typename ListType>
+typename List<Type>::template TemplateIterator<IterType, ListType> List<Type>::TemplateIterator<IterType, ListType>::operator ++ (int) const {
+    return TemplateIterator(m_list, m_node->m_next);
 }
 
 template <typename Type>
-typename List<Type>::Iterator List<Type>::Iterator::operator + (const int value) const {
+template <typename IterType, typename ListType>
+typename List<Type>::template TemplateIterator<IterType, ListType> List<Type>::TemplateIterator<IterType, ListType>::operator + (const int value) const {
     assert(value <= m_list->getSize());
     
-    Iterator result(m_list, m_node);
+    TemplateIterator result(m_list, m_node);
     for(int i = 0; i < value; ++i) {
         ++result;
     }
@@ -292,21 +295,31 @@ typename List<Type>::Iterator List<Type>::Iterator::operator + (const int value)
 }
 
 template <typename Type>
-typename List<Type>::Iterator& List<Type>::Iterator::operator -- () {
+template <typename IterType, typename ListType>
+typename List<Type>::template TemplateIterator<IterType, ListType>& List<Type>::TemplateIterator<IterType, ListType>::operator += (const int value){
+    *this = *this + value;
+    return *this;
+}
+
+template <typename Type>
+template <typename IterType, typename ListType>
+typename List<Type>::template TemplateIterator<IterType, ListType>& List<Type>::TemplateIterator<IterType, ListType>::operator -- () {
     m_node = m_node->m_prev;
     return *this;
 }
 
 template <typename Type>
-typename List<Type>::Iterator List<Type>::Iterator::operator -- (int) const {
-    return Iterator(m_list, m_node->m_prev);
+template <typename IterType, typename ListType>
+typename List<Type>::template TemplateIterator<IterType, ListType> List<Type>::TemplateIterator<IterType, ListType>::operator -- (int) const {
+    return TemplateIterator(m_list, m_node->m_prev);
 }
 
 template <typename Type>
-typename List<Type>::Iterator List<Type>::Iterator::operator - (const int value) const {
+template <typename IterType, typename ListType>
+typename List<Type>::template TemplateIterator<IterType, ListType> List<Type>::TemplateIterator<IterType, ListType>::operator - (const int value) const {
     assert(value <= m_list->getSize());
     
-    Iterator result(m_list, m_node);
+    TemplateIterator result(m_list, m_node);
     for(int i = value; i > 0; --i) {
         --result;
     }
@@ -315,11 +328,30 @@ typename List<Type>::Iterator List<Type>::Iterator::operator - (const int value)
 }
 
 template <typename Type>
+template <typename IterType, typename ListType>
+typename List<Type>::template TemplateIterator<IterType, ListType>& List<Type>::TemplateIterator<IterType, ListType>::operator -= (const int value){
+    *this = *this - value;
+    return *this;
+}
+ 
+template <typename Type>
+template <typename IterType, typename ListType>
+bool List<Type>::TemplateIterator<IterType, ListType>::operator == (TemplateIterator& other) {
+    return (m_node == other.m_node) && (m_list == other.m_list);
+}
+
+template <typename Type>
+template <typename IterType, typename ListType>
+bool List<Type>::TemplateIterator<IterType, ListType>::operator != (TemplateIterator& other) {
+    return !(this == other);
+}
+
+template <typename Type>
 std::ostream& operator << (std::ostream& stream, const List<Type>& other) {
     
     stream << "[";
-    for(int i = 0; i < other.getSize(); ++i) {
-        stream << other[i] << ((i + 1) < other.getSize() ? ", ":"");
+    for(auto it = other.begin(); it != other.end(); ++it) {
+        stream << *it << (it != (other.end()--) ? ", ":"");
     }
     stream << "]";
     
@@ -329,8 +361,8 @@ std::ostream& operator << (std::ostream& stream, const List<Type>& other) {
 template  <typename Type>
 std::istream& operator >> (std::istream& stream, List<Type>& other) {
     
-    for(int i = 0; i < other.getSize(); ++i) {
-        stream >> other[i];
+    for(auto it = other.begin(); it != other.end(); ++it) {
+        stream >> *it;
     }
     
     return stream;
