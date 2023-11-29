@@ -1,16 +1,14 @@
 #include "List.hpp"
 
 int main() {
-    Array<int> array(5);
-    array.setRandomNumbersIncrease();
+    Array<int> array(10);
+    array.setRandomNumbers(-1, 10);
     array.print();
-    const List<int> a(array);
-    for(auto it = a.begin(); it != a.end(); ++it)
-        std::cout << *it << std::endl;
-    
+    List<int> a(array);
     std::cout << a << std::endl;
-    List<int> b(10, 10);
-    std::cin >> b;
-    std::cout << b << std::endl;
+    a.erase(a.begin(), a.end() - 1);
+    std::cout << a << std::endl;
+    
     return 0;
 }
+

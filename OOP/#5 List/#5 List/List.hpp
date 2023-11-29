@@ -37,22 +37,27 @@ public:
     ConstIterator begin() const {return ConstIterator(this, m_head->m_next);}
     ConstIterator end() const {return ConstIterator(this, m_tail);}
     
-    Node<Type>* find(const Type& key) const;
+    Iterator find(const Type& key); //? const
     
     //Type = unsigned int?
     void insert(const unsigned pos, const Type& value);
+    void insert(Iterator iter, const Type& value);
     void insertAfter(const Type& key, const Type& value);
     void push_back(const Type& value);
     void push_front(const Type& value);
+    
     void erase(const unsigned pos);
+    void erase(Iterator iter);
+    void erase(Iterator from, Iterator to);//FIXME
     void eraseFirst(const Type& key);
     void pop_back();
     void pop_front();
     
-    Type max() const;//iter
-    Type min() const;//iter
+    Type max() const;
+    Type min() const;
     bool isEmpty() const {return m_head->m_next == m_tail;}
     void clear();
+    void sort();
     
     Type& operator [] (const int index);
     const Type& operator [] (const int index) const;
@@ -64,8 +69,8 @@ public:
     
 private:
     void generateListBasis();
-    void insertNode(Node<Type>* currentNode, const Type& value); //iter
-    void removeNode(Node<Type>* currentNode); //iter
+    void insertNode(Iterator currentNode, const Type& value);
+    void removeNode(Iterator currentNode);
     
     Node<Type>* m_head = nullptr;
     Node<Type>* m_tail = nullptr;
@@ -110,9 +115,10 @@ public:
     TemplateIterator operator - (const int value) const;
     TemplateIterator& operator -= (const int value);
     
-    bool operator == (TemplateIterator& other);
-    bool operator != (TemplateIterator& other);
+    bool operator == (TemplateIterator& other) const ;
+    bool operator != (TemplateIterator& other) const ;
     
+    bool isNullptr() const { return m_node == nullptr;}
 private:
     Node<Type>* m_node = nullptr;
     ListType* m_list = nullptr;
