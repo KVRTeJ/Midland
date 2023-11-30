@@ -39,7 +39,6 @@ public:
     
     Iterator find(const Type& key); //? const
     
-    //Type = unsigned int?
     void insert(const unsigned pos, const Type& value);
     void insert(Iterator iter, const Type& value);
     void insertAfter(const Type& key, const Type& value);
@@ -48,7 +47,7 @@ public:
     
     void erase(const unsigned pos);
     void erase(Iterator iter);
-    void erase(Iterator from, Iterator to);//FIXME
+    void erase(Iterator from, Iterator to);
     void eraseFirst(const Type& key);
     void pop_back();
     void pop_front();
@@ -57,7 +56,9 @@ public:
     Type min() const;
     bool isEmpty() const {return m_head->m_next == m_tail;}
     void clear();
-    void sort();
+    void move(Iterator at, Iterator before);
+    void bubbleSort();
+
     
     Type& operator [] (const int index);
     const Type& operator [] (const int index) const;
@@ -106,19 +107,19 @@ public:
     IterType& operator * () {return m_node->m_value;}
     
     TemplateIterator& operator ++ ();
-    TemplateIterator operator ++ (int) const;
+    TemplateIterator operator ++ (int);
     TemplateIterator operator + (const int value) const;
     TemplateIterator& operator += (const int value);
     
     TemplateIterator& operator -- ();
-    TemplateIterator operator -- (int) const;
+    TemplateIterator operator -- (int);
     TemplateIterator operator - (const int value) const;
     TemplateIterator& operator -= (const int value);
     
     bool operator == (TemplateIterator& other) const ;
     bool operator != (TemplateIterator& other) const ;
     
-    bool isNullptr() const { return m_node == nullptr;}
+    bool isNullptr() const {return m_node == nullptr;}
 private:
     Node<Type>* m_node = nullptr;
     ListType* m_list = nullptr;

@@ -111,12 +111,11 @@ void List<Type>::erase(Iterator iter) {
 }
 
 template <typename Type>
-void List<Type>::erase(Iterator from, Iterator to) { 
-    //FIXME
-    if(from == to)
-        return;
-    erase(to);
-    erase(from, to--);
+void List<Type>::erase(Iterator from, Iterator to) {
+    while (from != to) {
+        erase(from++);
+    }
+    return;
 }
 
 template <typename Type>
@@ -132,15 +131,6 @@ void List<Type>::pop_back() {
 template <typename Type>
 void List<Type>::pop_front() {
     erase((unsigned) 0);
-}
-
-template <typename Type>
-void List<Type>::clear() {
-    
-    while(!isEmpty()) {
-        removeNode(begin());
-    }
-    
 }
 
 template <typename Type>
@@ -168,6 +158,38 @@ Type List<Type>::min() const {
             min = *it;
     
     return min;
+}
+
+template <typename Type>
+void List<Type>::clear() {
+    
+    while(!isEmpty()) {
+        removeNode(begin());
+    }
+    
+}
+
+template <typename Type>
+void List<Type>::move(Iterator at, Iterator before) {
+    
+    at.m_node->m_prev->m_next = before.m_node;
+    at.m_node->m_next->m_prev = before.m_node;
+    before.m_node->m_next->m_prev = at.m_node;
+    before.m_node->m_prev->m_next = at.m_node;
+    
+    std::swap(at.m_node->m_prev, before.m_node->m_prev);
+    std::swap(at.m_node->m_next, before.m_node->m_next);
+    
+}
+
+template <typename Type>
+void List<Type>::bubbleSort() {
+    
+    for(auto it = begin(); it != end(); it++)
+        for(auto jt = begin(); jt != end(); jt++)
+            if(*it < *jt)
+                std::swap(it.m_node->m_value, jt.m_node->m_value);
+    
 }
 
 template <typename Type>
@@ -312,8 +334,12 @@ List<Type>::template TemplateIterator<IterType, ListType>& List<Type>::TemplateI
 
 template <typename Type>
 template <typename IterType, typename ListType>
-typename List<Type>::template TemplateIterator<IterType, ListType> List<Type>::TemplateIterator<IterType, ListType>::operator ++ (int) const {
-    return TemplateIterator(m_list, m_node->m_next);
+typename List<Type>::template TemplateIterator<IterType, ListType> List<Type>::TemplateIterator<IterType, ListType>::operator ++ (int) {
+    
+    TemplateIterator old(m_list, m_node);
+    ++(*this);
+    return old;
+    
 }
 
 template <typename Type>
@@ -345,8 +371,10 @@ typename List<Type>::template TemplateIterator<IterType, ListType>& List<Type>::
 
 template <typename Type>
 template <typename IterType, typename ListType>
-typename List<Type>::template TemplateIterator<IterType, ListType> List<Type>::TemplateIterator<IterType, ListType>::operator -- (int) const {
-    return TemplateIterator(m_list, m_node->m_prev);
+typename List<Type>::template TemplateIterator<IterType, ListType> List<Type>::TemplateIterator<IterType, ListType>::operator -- (int) {
+    TemplateIterator old(m_list, m_node);
+    --(*this);
+    return old;
 }
 
 template <typename Type>
@@ -386,7 +414,7 @@ std::ostream& operator << (std::ostream& stream, const List<Type>& other) {
     
     stream << "[";
     for(auto it = other.begin(); it != other.end(); ++it) {
-        stream << *it << (it != (other.end()--) ? ", ":"");
+        stream << *it << (it != (other.end() - 1) ? ", ":"");
     }
     stream << "]";
     
