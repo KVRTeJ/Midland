@@ -25,7 +25,9 @@ public:
     BaseList(const BaseList& other);
     ~BaseList();
     
+    virtual void subscribe(typename ConstIterator::IIterator& iiter) const {}
     virtual void subscribe(typename Iterator::IIterator& iiter) {}
+    virtual void unsubscribe(typename ConstIterator::IIterator& iiter) const {}
     virtual void unsubscribe(typename Iterator::IIterator& iiter) {}
     virtual void notify() {}
     
@@ -99,8 +101,8 @@ private:
 
 class IIterator {
 public:
-    bool isValid() const;
-    void invalidate();
+    inline bool isValid() const;
+    inline void invalidate();
 };
 
 template <typename Type>
@@ -114,7 +116,13 @@ public:
         IIterator a = *this;
         m_list->subscribe(a);
     }
-    ~TemplateIterator() {if(m_list) m_list->notify(); invalidate();}
+    ~TemplateIterator() {
+        if(m_list) {
+            IIterator a = *this;
+            m_list->unsubscribe(a);
+        }
+        invalidate();
+    }
     
     IterType& operator * () {return m_node->m_value;}
     
@@ -150,21 +158,29 @@ class List: public BaseList<Type> {
 public:
     void subscribe(IIterator& iiter) override {
         if(iiter.isValid())
-            iterators.push_back(&iiter);
+            iterators->push_back(&iiter);
     }
-    void unsubscribe(IIterator& iiter)override {
+    void subscribe(IIterator& iiter) const override {
         if(iiter.isValid())
-           iterators.pop_front();
+            iterators->push_back(&iiter);
+    }
+    void unsubscribe(IIterator& iiter) override {
+        if(iiter.isValid())
+           iterators->pop_front();
+    }
+    void unsubscribe(IIterator& iiter) const override {
+        if(iiter.isValid())
+           iterators->pop_front();
     }
     void notify() override {
-        for(auto it = iterators.begin(); it != iterators.end(); ++it)
+        for(auto it = iterators->begin(); it != iterators->end(); ++it)
             if((*it)->isValid()) {
                 unsubscribe(it);
             }
     }
     
 //private:
-    BaseList<IIterator* > iterators;
+    BaseList<IIterator* >* iterators;
 };
 
 #include "BaseList.cpp"
