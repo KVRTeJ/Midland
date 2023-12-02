@@ -320,6 +320,7 @@ void BaseList<Type>::removeNode(Iterator currentNode) {
     currentNode.m_node->m_prev->m_next = currentNode.m_node->m_next;
     delete currentNode.m_node;
     
+    currentNode.m_list->notify();
     assert(m_size > 0);
     --m_size;
 }

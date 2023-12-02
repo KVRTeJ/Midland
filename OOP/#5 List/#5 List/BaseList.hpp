@@ -25,9 +25,9 @@ public:
     BaseList(const BaseList& other);
     ~BaseList();
     
-    virtual void subscribe(Iterator iter) {}
+    virtual void subscribe(Iterator& iter) {}
     virtual void subscribe(ConstIterator iter) const {}
-    virtual void unsubscribe(Iterator iter) {}
+    virtual void unsubscribe(Iterator& iter) {}
     virtual void unsubscribe(ConstIterator iter) const {}
     virtual void notify() {}
     
@@ -107,7 +107,7 @@ public:
     TemplateIterator(ListType* list = nullptr, Node<Type>* node = nullptr)
     : m_list(list), m_node(node)
     {m_list->subscribe(*this);}
-    ~TemplateIterator() {m_list->unsubscribe(*this);}
+    ~TemplateIterator() {std::cout << "~iter\n";}//m_list->unsubscribe(*this);invalidate();}
     //Iterator(const Iterator&) - ?
     
     IterType& operator * () {return m_node->m_value;}
@@ -141,17 +141,17 @@ std::istream& operator >> (std::istream& stream, BaseList<Type>& other);
 
 template <typename Type>
 class List: public BaseList<Type> {
-    void subscribe(typename BaseList<Type>::Iterator iter) override {iterators.push_back(&iter);}
-    void unsubscribe(typename BaseList<Type>::Iterator iter) override {iterators.pop_back();}
+public:
+    void subscribe(typename BaseList<Type>::Iterator& iter) override {iterators.push_back(&iter);}
+    void unsubscribe(typename BaseList<Type>::Iterator& iter) override {iterators.pop_front();}
     void notify() override {
-        while(!BaseList<Type>::isEmpty())
-            for(auto it = iterators.begin(); it != iterators.end(); ++it)
-                if((*it)->isValid()) {
-                    unsubscribe(*it);
-                }
+        for(auto it = iterators.begin(); it != iterators.end(); ++it)
+            if((*it)->isValidate()) {
+                unsubscribe(**it);
+            }
     }
     
-private:
+//private:
     BaseList<typename BaseList<Type>::Iterator* > iterators;
 };
 

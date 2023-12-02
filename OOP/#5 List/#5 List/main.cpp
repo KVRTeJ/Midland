@@ -2,8 +2,12 @@
 
 int main() {
     
-    BaseList<int> a(10, 1);
-    //std::cout << a;
+    List<char> a;
+    a.push_back('1');
+    a.push_back('1');
+    a.push_back('1');
+    a.push_back('1');
+    std::cout << a.iterators;
     /*
     Array<int> array(10);
     array.setRandomNumbers(-1, 10);
