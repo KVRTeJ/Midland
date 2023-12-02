@@ -30,6 +30,7 @@ public:
     virtual void unsubscribe(Iterator& iter) {}
     virtual void unsubscribe(ConstIterator iter) const {}
     virtual void notify() {}
+    virtual void notify() const {}
     
     
     unsigned int getSize() const {return m_size;}
@@ -107,7 +108,7 @@ public:
     TemplateIterator(ListType* list = nullptr, Node<Type>* node = nullptr)
     : m_list(list), m_node(node)
     {m_list->subscribe(*this);}
-    ~TemplateIterator() {invalidate();}
+    ~TemplateIterator() {if(m_list) m_list->notify(); invalidate();}
     
     IterType& operator * () {return m_node->m_value;}
     
