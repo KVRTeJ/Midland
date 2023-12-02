@@ -70,6 +70,19 @@ BaseList<Type>::Iterator BaseList<Type>::find(const Type& key) {
     return it;
 }
 
+template <typename Type> typename
+BaseList<Type>::ConstIterator BaseList<Type>::find(const Type& key) const {
+    
+    auto it = begin();
+    while(it != end()) {
+        if(*it == key)
+            break;
+        ++it;
+    }
+    
+    return it;
+}
+
 template <typename Type>
 void BaseList<Type>::insert(const unsigned pos, const Type& value) {
     assert(pos <= m_size);
@@ -78,7 +91,7 @@ void BaseList<Type>::insert(const unsigned pos, const Type& value) {
 }
 
 template <typename Type>
-void BaseList<Type>::insert(Iterator iter, const Type& value) {
+void BaseList<Type>::insert(Iterator& iter, const Type& value) {
     insertNode(iter, value);
 }
 
@@ -106,12 +119,12 @@ void BaseList<Type>::erase(const unsigned pos) {
 }
 
 template <typename Type>
-void BaseList<Type>::erase(Iterator iter) {
+void BaseList<Type>::erase(Iterator& iter) {
     removeNode(iter);
 }
 
 template <typename Type>
-void BaseList<Type>::erase(Iterator from, Iterator to) {
+void BaseList<Type>::erase(Iterator& from, Iterator& to) {
     while (from != to) {
         erase(from++);
     }
@@ -183,7 +196,7 @@ void BaseList<Type>::move(Iterator at, Iterator before) {
 }
 
 template <typename Type>
-void BaseList<Type>::bubbleSort() {
+void BaseList<Type>::sort() {
     
     for(auto it = begin(); it != end(); it++)
         for(auto jt = begin(); jt != end(); jt++)
@@ -316,11 +329,15 @@ void BaseList<Type>::removeNode(Iterator currentNode) {
         return;
     }
     
+    BaseList<Type>* temp = currentNode.m_list;
+    
     currentNode.m_node->m_next->m_prev = currentNode.m_node->m_prev;
     currentNode.m_node->m_prev->m_next = currentNode.m_node->m_next;
+    currentNode.invalidate();
     delete currentNode.m_node;
     
-    currentNode.m_list->notify();
+    temp->notify();
+    
     assert(m_size > 0);
     --m_size;
 }

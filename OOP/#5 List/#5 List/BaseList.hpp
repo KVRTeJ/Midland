@@ -41,18 +41,18 @@ public:
     ConstIterator begin() const {return ConstIterator(this, m_head->m_next);}
     ConstIterator end() const {return ConstIterator(this, m_tail);}
     
-    Iterator find(const Type& key); //? const
+    Iterator find(const Type& key);
     ConstIterator find(const Type& key) const;
     
     void insert(const unsigned pos, const Type& value);
-    void insert(Iterator iter, const Type& value);
+    void insert(Iterator& iter, const Type& value);
     void insertAfter(const Type& key, const Type& value);
     void push_back(const Type& value);
     void push_front(const Type& value);
     
     void erase(const unsigned pos);
-    void erase(Iterator iter);
-    void erase(Iterator from, Iterator to);
+    void erase(Iterator& iter);
+    void erase(Iterator& from, Iterator&to);
     void eraseFirst(const Type& key);
     void pop_back();
     void pop_front();
@@ -62,7 +62,7 @@ public:
     bool isEmpty() const {return m_head->m_next == m_tail;}
     void clear();
     void move(Iterator at, Iterator before);
-    void bubbleSort();
+    void sort();
 
     
     Type& operator [] (const int index);
@@ -107,8 +107,7 @@ public:
     TemplateIterator(ListType* list = nullptr, Node<Type>* node = nullptr)
     : m_list(list), m_node(node)
     {m_list->subscribe(*this);}
-    ~TemplateIterator() {std::cout << "~iter\n";}//m_list->unsubscribe(*this);invalidate();}
-    //Iterator(const Iterator&) - ?
+    ~TemplateIterator() {invalidate();}
     
     IterType& operator * () {return m_node->m_value;}
     
@@ -125,7 +124,7 @@ public:
     bool operator == (TemplateIterator& other) const ;
     bool operator != (TemplateIterator& other) const ;
     
-    bool isValidate() const {return !(m_node == nullptr);}
+    bool isValidate() const {return m_node != nullptr;}
     void invalidate() {m_node = nullptr; m_list = nullptr;}
 private:
     Node<Type>* m_node = nullptr;
@@ -142,8 +141,14 @@ std::istream& operator >> (std::istream& stream, BaseList<Type>& other);
 template <typename Type>
 class List: public BaseList<Type> {
 public:
-    void subscribe(typename BaseList<Type>::Iterator& iter) override {iterators.push_back(&iter);}
-    void unsubscribe(typename BaseList<Type>::Iterator& iter) override {iterators.pop_front();}
+    void subscribe(typename BaseList<Type>::Iterator& iter) override {
+        if(iter.isValidate())
+            iterators.push_back(&iter);
+    }
+    void unsubscribe(typename BaseList<Type>::Iterator& iter) override {
+        if(iter.isValidate())
+           iterators.pop_front();
+    }
     void notify() override {
         for(auto it = iterators.begin(); it != iterators.end(); ++it)
             if((*it)->isValidate()) {

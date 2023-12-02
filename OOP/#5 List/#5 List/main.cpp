@@ -4,10 +4,15 @@ int main() {
     
     List<char> a;
     a.push_back('1');
-    a.push_back('1');
-    a.push_back('1');
-    a.push_back('1');
-    std::cout << a.iterators;
+    a.push_back('2');
+    a.push_back('0');
+    a.push_back('6');
+    a.sort();
+    std::cout << a << std::endl;
+    a.pop_front();
+    std::cout << a<< std::endl;
+    a.notify();
+    std::cout << a.iterators << std::endl;
     /*
     Array<int> array(10);
     array.setRandomNumbers(-1, 10);
@@ -18,7 +23,7 @@ int main() {
     a.pop_back();
     std::cout << a << std::endl;
     
-    a.bubbleSort();
+    a.sort();
     std::cout << a << std::endl;
     */
     return 0;
