@@ -1,5 +1,5 @@
-#ifndef ARE_TEMPLATE_LIST_DECLARED
-#define ARE_TEMPLATE_LIST_DECLARED
+#ifndef IS_TEMPLATE_LIST_DECLARED
+#define IS_TEMPLATE_LIST_DECLARED
 
 #include <iostream>
 #include <string>
@@ -7,10 +7,8 @@
 
 #include "Array.hpp"
 
-// List : public {List->BaseList}
-
 template <typename Type>
-class List {
+class BaseList {
 public:
     template <typename NodeType>
     class Node;
@@ -18,18 +16,24 @@ public:
 public:
     template <typename IterType, typename ListType>
     class TemplateIterator;
-    using Iterator = TemplateIterator<Type, List>;
-    using ConstIterator = TemplateIterator<const Type, const List>;
+    using Iterator = TemplateIterator<Type, BaseList>;
+    using ConstIterator = TemplateIterator<const Type, const BaseList>;
     
 public:
-    List(const Type& value = Type(), const int size = 0);
-    List(const Array<Type>& value);
-    List(const List& other);
-    ~List();
+    BaseList(const int size = 0, const Type& value = Type());
+    BaseList(const Array<Type>& value);
+    BaseList(const BaseList& other);
+    ~BaseList();
+    
+    virtual void subscribe(Iterator iter) {}
+    virtual void subscribe(ConstIterator iter) const {}
+    virtual void unsubscribe(Iterator iter) {}
+    virtual void unsubscribe(ConstIterator iter) const {}
+    virtual void notify() {}
     
     
     unsigned int getSize() const {return m_size;}
-    void swap(List& other);
+    void swap(BaseList& other);
     
     Iterator begin() {return Iterator(this, m_head->m_next);}
     Iterator end() {return Iterator(this, m_tail);}
@@ -38,6 +42,7 @@ public:
     ConstIterator end() const {return ConstIterator(this, m_tail);}
     
     Iterator find(const Type& key); //? const
+    ConstIterator find(const Type& key) const;
     
     void insert(const unsigned pos, const Type& value);
     void insert(Iterator iter, const Type& value);
@@ -62,11 +67,11 @@ public:
     
     Type& operator [] (const int index);
     const Type& operator [] (const int index) const;
-    List& operator = (const List& other);
-    bool operator == (const List& other) const;
-    bool operator != (const List& other) const;
-    List operator + (const List& other) const;
-    List& operator += (const List& other);
+    BaseList& operator = (const BaseList& other);
+    bool operator == (const BaseList& other) const;
+    bool operator != (const BaseList& other) const;
+    BaseList operator + (const BaseList& other) const;
+    BaseList& operator += (const BaseList& other);
     
 private:
     void generateListBasis();
@@ -81,8 +86,8 @@ private:
 
 template <typename Type>
 template <typename NodeType>
-class List<Type>::Node {
-    friend class List;
+class BaseList<Type>::Node {
+    friend class BaseList;
 private:
     Node(const NodeType& value = NodeType(), Node* next = nullptr, Node* prev = nullptr)
     : m_value(value), m_next(next), m_prev(prev)
@@ -96,12 +101,13 @@ private:
 
 template <typename Type>
 template <typename IterType, typename ListType>
-class List<Type>::TemplateIterator {
-    friend class List;
+class BaseList<Type>::TemplateIterator {
+    friend class BaseList;
 public:
     TemplateIterator(ListType* list = nullptr, Node<Type>* node = nullptr)
     : m_list(list), m_node(node)
-    {}
+    {m_list->subscribe(*this);}
+    ~TemplateIterator() {m_list->unsubscribe(*this);}
     //Iterator(const Iterator&) - ?
     
     IterType& operator * () {return m_node->m_value;}
@@ -119,18 +125,36 @@ public:
     bool operator == (TemplateIterator& other) const ;
     bool operator != (TemplateIterator& other) const ;
     
-    bool isNullptr() const {return m_node == nullptr;}
+    bool isValidate() const {return !(m_node == nullptr);}
+    void invalidate() {m_node = nullptr; m_list = nullptr;}
 private:
     Node<Type>* m_node = nullptr;
     ListType* m_list = nullptr;
 };
 
 template <typename Type>
-std::ostream& operator << (std::ostream& stream, const List<Type>& other);
+std::ostream& operator << (std::ostream& stream, const BaseList<Type>& other);
 
 template <typename Type>
-std::istream& operator >> (std::istream& stream, List<Type>& other);
+std::istream& operator >> (std::istream& stream, BaseList<Type>& other);
 
-#include "List.cpp"
 
-#endif //!ARE_TEMPLATE_LIST_DECLARED
+template <typename Type>
+class List: public BaseList<Type> {
+    void subscribe(typename BaseList<Type>::Iterator iter) override {iterators.push_back(&iter);}
+    void unsubscribe(typename BaseList<Type>::Iterator iter) override {iterators.pop_back();}
+    void notify() override {
+        while(!BaseList<Type>::isEmpty())
+            for(auto it = iterators.begin(); it != iterators.end(); ++it)
+                if((*it)->isValid()) {
+                    unsubscribe(*it);
+                }
+    }
+    
+private:
+    BaseList<typename BaseList<Type>::Iterator* > iterators;
+};
+
+#include "BaseList.cpp"
+
+#endif //!IS_TEMPLATE_LIST_DECLARED

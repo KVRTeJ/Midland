@@ -1,10 +1,10 @@
 #ifndef ARE_TEMPLATE_LIST_METHODS_DEFINED
 #define ARE_TEMPLATE_LIST_METHODS_DEFINED
 
-#include "List.hpp"
+#include "BaseList.hpp"
 
 template <typename Type>
-List<Type>::List(const Type& value, const int size) {
+BaseList<Type>::BaseList(const int size, const Type& value) {
 
     generateListBasis();
     
@@ -15,7 +15,7 @@ List<Type>::List(const Type& value, const int size) {
 }
 
 template <typename Type>
-List<Type>::List(const Array<Type>& value) {
+BaseList<Type>::BaseList(const Array<Type>& value) {
     
     generateListBasis();
     
@@ -26,7 +26,7 @@ List<Type>::List(const Array<Type>& value) {
 }
 
 template <typename Type>
-List<Type>::List(const List& other) {
+BaseList<Type>::BaseList(const BaseList& other) {
     
     generateListBasis();
     
@@ -39,7 +39,7 @@ List<Type>::List(const List& other) {
 }
 
 template <typename Type>
-List<Type>::~List() {
+BaseList<Type>::~BaseList() {
     
     clear();
     delete m_head;
@@ -48,7 +48,7 @@ List<Type>::~List() {
 }
 
 template <typename Type>
-void List<Type>::swap(List<Type>& other) {
+void BaseList<Type>::swap(BaseList<Type>& other) {
     
     std::swap(m_head, other.m_head);
     std::swap(m_tail, other.m_tail);
@@ -58,7 +58,7 @@ void List<Type>::swap(List<Type>& other) {
 
 
 template <typename Type> typename
-List<Type>::Iterator List<Type>::find(const Type& key) {
+BaseList<Type>::Iterator BaseList<Type>::find(const Type& key) {
     
     auto it = begin();
     while(it != end()) {
@@ -71,47 +71,47 @@ List<Type>::Iterator List<Type>::find(const Type& key) {
 }
 
 template <typename Type>
-void List<Type>::insert(const unsigned pos, const Type& value) {
+void BaseList<Type>::insert(const unsigned pos, const Type& value) {
     assert(pos <= m_size);
     
     insertNode(begin() + pos, value);
 }
 
 template <typename Type>
-void List<Type>::insert(Iterator iter, const Type& value) {
+void BaseList<Type>::insert(Iterator iter, const Type& value) {
     insertNode(iter, value);
 }
 
 template <typename Type>
-void List<Type>::insertAfter(const Type& key, const Type& value) {
+void BaseList<Type>::insertAfter(const Type& key, const Type& value) {
     insertNode(find(key), value);
 }
 
 
 template <typename Type>
-void List<Type>::push_back(const Type& value) {
+void BaseList<Type>::push_back(const Type& value) {
     insert((unsigned) m_size, value);
 }
 
 template <typename Type>
-void List<Type>::push_front(const Type& value) {
+void BaseList<Type>::push_front(const Type& value) {
     insert((unsigned) 0, value);
 }
 
 template <typename Type>
-void List<Type>::erase(const unsigned pos) {
+void BaseList<Type>::erase(const unsigned pos) {
     assert(pos < m_size);
     
     removeNode(begin() + pos);
 }
 
 template <typename Type>
-void List<Type>::erase(Iterator iter) {
+void BaseList<Type>::erase(Iterator iter) {
     removeNode(iter);
 }
 
 template <typename Type>
-void List<Type>::erase(Iterator from, Iterator to) {
+void BaseList<Type>::erase(Iterator from, Iterator to) {
     while (from != to) {
         erase(from++);
     }
@@ -119,23 +119,23 @@ void List<Type>::erase(Iterator from, Iterator to) {
 }
 
 template <typename Type>
-void List<Type>::eraseFirst(const Type& key) {
+void BaseList<Type>::eraseFirst(const Type& key) {
     removeNode(find(key));
 }
 
 template <typename Type>
-void List<Type>::pop_back() {
+void BaseList<Type>::pop_back() {
     erase((unsigned) m_size - 1);
 }
 
 template <typename Type>
-void List<Type>::pop_front() {
+void BaseList<Type>::pop_front() {
     erase((unsigned) 0);
 }
 
 template <typename Type>
-Type List<Type>::max() const {
-    if(m_size < 0)
+Type BaseList<Type>::max() const {
+    if(m_size <= 0)
         return 0;
     
     Type max = m_head->m_next->m_value;
@@ -148,8 +148,8 @@ Type List<Type>::max() const {
 }
 
 template <typename Type>
-Type List<Type>::min() const {
-    if(m_size < 0)
+Type BaseList<Type>::min() const {
+    if(m_size <= 0)
         return 0;
     
     Type min = m_head->m_next->m_value;
@@ -161,7 +161,7 @@ Type List<Type>::min() const {
 }
 
 template <typename Type>
-void List<Type>::clear() {
+void BaseList<Type>::clear() {
     
     while(!isEmpty()) {
         removeNode(begin());
@@ -170,7 +170,7 @@ void List<Type>::clear() {
 }
 
 template <typename Type>
-void List<Type>::move(Iterator at, Iterator before) {
+void BaseList<Type>::move(Iterator at, Iterator before) {
     
     at.m_node->m_prev->m_next = before.m_node;
     at.m_node->m_next->m_prev = before.m_node;
@@ -183,7 +183,7 @@ void List<Type>::move(Iterator at, Iterator before) {
 }
 
 template <typename Type>
-void List<Type>::bubbleSort() {
+void BaseList<Type>::bubbleSort() {
     
     for(auto it = begin(); it != end(); it++)
         for(auto jt = begin(); jt != end(); jt++)
@@ -193,7 +193,7 @@ void List<Type>::bubbleSort() {
 }
 
 template <typename Type>
-Type& List<Type>::operator [] (const int index) {
+Type& BaseList<Type>::operator [] (const int index) {
     assert(index < m_size);
     
     Node<Type>* temp = m_head->m_next;
@@ -206,7 +206,7 @@ Type& List<Type>::operator [] (const int index) {
 }
 
 template <typename Type>
-const Type& List<Type>::operator [] (const int index) const {
+const Type& BaseList<Type>::operator [] (const int index) const {
     assert(index < m_size);
     
     Node<Type>* temp = m_head->m_next;
@@ -219,7 +219,7 @@ const Type& List<Type>::operator [] (const int index) const {
 }
 
 template <typename Type>
-List<Type>& List<Type>::operator = (const List<Type>& other) {
+BaseList<Type>& BaseList<Type>::operator = (const BaseList<Type>& other) {
     
     if(m_head != other.m_head || m_tail != other.m_tail) {
         clear();
@@ -239,20 +239,20 @@ List<Type>& List<Type>::operator = (const List<Type>& other) {
 }
 
 template <typename Type>
-bool List<Type>::operator == (const List<Type>& other) const {
+bool BaseList<Type>::operator == (const BaseList<Type>& other) const {
     return (m_head == other.m_head && m_tail == other.m_tail &&
             m_size == other.m_size);
 }
 
 template <typename Type>
-bool List<Type>::operator != (const List<Type>& other) const {
+bool BaseList<Type>::operator != (const BaseList<Type>& other) const {
     return !(this==other);
 }
 
 template <typename Type>
-List<Type> List<Type>::operator + (const List<Type>& other) const {
+BaseList<Type> BaseList<Type>::operator + (const BaseList<Type>& other) const {
     
-    List<Type> result(*this);
+    BaseList<Type> result(*this);
     Node<Type>* temp = other.m_head->m_next;
     while(temp != other.m_tail) {
         result.push_back(temp->m_value);
@@ -263,7 +263,7 @@ List<Type> List<Type>::operator + (const List<Type>& other) const {
 }
 
 template <typename Type>
-List<Type>& List<Type>::operator += (const List<Type>& other) {
+BaseList<Type>& BaseList<Type>::operator += (const BaseList<Type>& other) {
     
     *this = *this + other;
     
@@ -273,7 +273,7 @@ List<Type>& List<Type>::operator += (const List<Type>& other) {
 
 /* private */
 template <typename Type>
-void List<Type>::generateListBasis() {
+void BaseList<Type>::generateListBasis() {
     if(m_head != nullptr)
         delete m_head;
     if(m_tail != nullptr)
@@ -295,8 +295,8 @@ inline void alertNodeNullptr(const std::string name) {
 }
 
 template <typename Type>
-void List<Type>::insertNode(Iterator currentNode, const Type& value) {
-    if(currentNode.isNullptr()) {
+void BaseList<Type>::insertNode(Iterator currentNode, const Type& value) {
+    if(!currentNode.isValidate()) {
         alertNodeNullptr("insertNode()");
         return;
     }
@@ -310,8 +310,8 @@ void List<Type>::insertNode(Iterator currentNode, const Type& value) {
 }
 
 template <typename Type>
-void List<Type>::removeNode(Iterator currentNode) {
-    if(currentNode.isNullptr()) {
+void BaseList<Type>::removeNode(Iterator currentNode) {
+    if(!(currentNode.isValidate())) {
         alertNodeNullptr("removeNode()");
         return;
     }
@@ -326,15 +326,26 @@ void List<Type>::removeNode(Iterator currentNode) {
 
 /* Iterator */
 template <typename Type>
-template <typename IterType, typename ListType> typename
-List<Type>::template TemplateIterator<IterType, ListType>& List<Type>::TemplateIterator<IterType, ListType>::operator ++ () {
+template <typename IterType, typename ListType>
+typename BaseList<Type>::template
+TemplateIterator<IterType, ListType>& BaseList<Type>::TemplateIterator<IterType, ListType>::operator ++ () {
+    if (!isValidate()) {
+        invalidate();
+        return *this;
+    }
+    
     m_node = m_node->m_next;
+    if (this->m_node->m_prev == m_list->m_tail) {
+        invalidate();
+    }
+    
     return *this;
 }
 
 template <typename Type>
 template <typename IterType, typename ListType>
-typename List<Type>::template TemplateIterator<IterType, ListType> List<Type>::TemplateIterator<IterType, ListType>::operator ++ (int) {
+typename BaseList<Type>::template
+TemplateIterator<IterType, ListType> BaseList<Type>::TemplateIterator<IterType, ListType>::operator ++ (int) {
     
     TemplateIterator old(m_list, m_node);
     ++(*this);
@@ -344,7 +355,8 @@ typename List<Type>::template TemplateIterator<IterType, ListType> List<Type>::T
 
 template <typename Type>
 template <typename IterType, typename ListType>
-typename List<Type>::template TemplateIterator<IterType, ListType> List<Type>::TemplateIterator<IterType, ListType>::operator + (const int value) const {
+typename BaseList<Type>::template
+TemplateIterator<IterType, ListType> BaseList<Type>::TemplateIterator<IterType, ListType>::operator + (const int value) const {
     assert(value <= m_list->getSize());
     
     TemplateIterator result(m_list, m_node);
@@ -357,21 +369,32 @@ typename List<Type>::template TemplateIterator<IterType, ListType> List<Type>::T
 
 template <typename Type>
 template <typename IterType, typename ListType>
-typename List<Type>::template TemplateIterator<IterType, ListType>& List<Type>::TemplateIterator<IterType, ListType>::operator += (const int value){
+typename BaseList<Type>::template
+TemplateIterator<IterType, ListType>& BaseList<Type>::TemplateIterator<IterType, ListType>::operator += (const int value){
     *this = *this + value;
     return *this;
 }
 
 template <typename Type>
 template <typename IterType, typename ListType>
-typename List<Type>::template TemplateIterator<IterType, ListType>& List<Type>::TemplateIterator<IterType, ListType>::operator -- () {
+typename BaseList<Type>::template
+TemplateIterator<IterType, ListType>& BaseList<Type>::TemplateIterator<IterType, ListType>::operator -- () {
+    if (!isValidate()) {
+        invalidate();
+        return *this;
+    }
+    
     m_node = m_node->m_prev;
+    if (this->m_node == m_list->m_head)
+        invalidate();
+    
     return *this;
 }
 
 template <typename Type>
 template <typename IterType, typename ListType>
-typename List<Type>::template TemplateIterator<IterType, ListType> List<Type>::TemplateIterator<IterType, ListType>::operator -- (int) {
+typename BaseList<Type>::template
+TemplateIterator<IterType, ListType> BaseList<Type>::TemplateIterator<IterType, ListType>::operator -- (int) {
     TemplateIterator old(m_list, m_node);
     --(*this);
     return old;
@@ -379,7 +402,8 @@ typename List<Type>::template TemplateIterator<IterType, ListType> List<Type>::T
 
 template <typename Type>
 template <typename IterType, typename ListType>
-typename List<Type>::template TemplateIterator<IterType, ListType> List<Type>::TemplateIterator<IterType, ListType>::operator - (const int value) const {
+typename BaseList<Type>::template
+TemplateIterator<IterType, ListType> BaseList<Type>::TemplateIterator<IterType, ListType>::operator - (const int value) const {
     assert(value <= m_list->getSize());
     
     TemplateIterator result(m_list, m_node);
@@ -392,25 +416,26 @@ typename List<Type>::template TemplateIterator<IterType, ListType> List<Type>::T
 
 template <typename Type>
 template <typename IterType, typename ListType>
-typename List<Type>::template TemplateIterator<IterType, ListType>& List<Type>::TemplateIterator<IterType, ListType>::operator -= (const int value){
+typename BaseList<Type>::template
+TemplateIterator<IterType, ListType>& BaseList<Type>::TemplateIterator<IterType, ListType>::operator -= (const int value){
     *this = *this - value;
     return *this;
 }
  
 template <typename Type>
 template <typename IterType, typename ListType>
-bool List<Type>::TemplateIterator<IterType, ListType>::operator == (TemplateIterator& other) const {
+bool BaseList<Type>::TemplateIterator<IterType, ListType>::operator == (TemplateIterator& other) const {
     return (m_node == other.m_node) && (m_list == other.m_list);
 }
 
 template <typename Type>
 template <typename IterType, typename ListType>
-bool List<Type>::TemplateIterator<IterType, ListType>::operator != (TemplateIterator& other) const {
+bool BaseList<Type>::TemplateIterator<IterType, ListType>::operator != (TemplateIterator& other) const {
     return !((m_node == other.m_node) && (m_list == other.m_list));
 }
 
 template <typename Type>
-std::ostream& operator << (std::ostream& stream, const List<Type>& other) {
+std::ostream& operator << (std::ostream& stream, const BaseList<Type>& other) {
     
     stream << "[";
     for(auto it = other.begin(); it != other.end(); ++it) {
@@ -422,7 +447,7 @@ std::ostream& operator << (std::ostream& stream, const List<Type>& other) {
 }
 
 template  <typename Type>
-std::istream& operator >> (std::istream& stream, List<Type>& other) {
+std::istream& operator >> (std::istream& stream, BaseList<Type>& other) {
     
     for(auto it = other.begin(); it != other.end(); ++it) {
         stream >> *it;
