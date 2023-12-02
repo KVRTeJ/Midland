@@ -25,12 +25,9 @@ public:
     BaseList(const BaseList& other);
     ~BaseList();
     
-    virtual void subscribe(Iterator& iter) {}
-    virtual void subscribe(ConstIterator iter) const {}
-    virtual void unsubscribe(Iterator& iter) {}
-    virtual void unsubscribe(ConstIterator iter) const {}
+    virtual void subscribe(typename Iterator::IIterator& iiter) {}
+    virtual void unsubscribe(typename Iterator::IIterator& iiter) {}
     virtual void notify() {}
-    virtual void notify() const {}
     
     
     unsigned int getSize() const {return m_size;}
@@ -100,14 +97,23 @@ private:
     
 };
 
+class IIterator {
+public:
+    bool isValid() const;
+    void invalidate();
+};
+
 template <typename Type>
 template <typename IterType, typename ListType>
-class BaseList<Type>::TemplateIterator {
+class BaseList<Type>::TemplateIterator : public IIterator {
     friend class BaseList;
 public:
     TemplateIterator(ListType* list = nullptr, Node<Type>* node = nullptr)
     : m_list(list), m_node(node)
-    {m_list->subscribe(*this);}
+    {
+        IIterator a = *this;
+        m_list->subscribe(a);
+    }
     ~TemplateIterator() {if(m_list) m_list->notify(); invalidate();}
     
     IterType& operator * () {return m_node->m_value;}
@@ -125,7 +131,7 @@ public:
     bool operator == (TemplateIterator& other) const ;
     bool operator != (TemplateIterator& other) const ;
     
-    bool isValidate() const {return m_node != nullptr;}
+    bool isValid() const {return m_node != nullptr;}
     void invalidate() {m_node = nullptr; m_list = nullptr;}
 private:
     Node<Type>* m_node = nullptr;
@@ -142,23 +148,23 @@ std::istream& operator >> (std::istream& stream, BaseList<Type>& other);
 template <typename Type>
 class List: public BaseList<Type> {
 public:
-    void subscribe(typename BaseList<Type>::Iterator& iter) override {
-        if(iter.isValidate())
-            iterators.push_back(&iter);
+    void subscribe(IIterator& iiter) override {
+        if(iiter.isValid())
+            iterators.push_back(&iiter);
     }
-    void unsubscribe(typename BaseList<Type>::Iterator& iter) override {
-        if(iter.isValidate())
+    void unsubscribe(IIterator& iiter)override {
+        if(iiter.isValid())
            iterators.pop_front();
     }
     void notify() override {
         for(auto it = iterators.begin(); it != iterators.end(); ++it)
-            if((*it)->isValidate()) {
-                unsubscribe(**it);
+            if((*it)->isValid()) {
+                unsubscribe(it);
             }
     }
     
 //private:
-    BaseList<typename BaseList<Type>::Iterator* > iterators;
+    BaseList<IIterator* > iterators;
 };
 
 #include "BaseList.cpp"

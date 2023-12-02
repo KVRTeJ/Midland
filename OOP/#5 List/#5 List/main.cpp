@@ -12,7 +12,7 @@ int main() {
     //a.pop_front();
     List<char>::Iterator it = a.begin();
     List<char>::Iterator it1 = a.begin();
-    List<char>::Iterator it2 = a.begin();
+    
     std::cout << a<< std::endl;
     //a.notify();
     std::cout << a.iterators << std::endl;

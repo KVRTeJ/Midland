@@ -309,7 +309,7 @@ inline void alertNodeNullptr(const std::string name) {
 
 template <typename Type>
 void BaseList<Type>::insertNode(Iterator currentNode, const Type& value) {
-    if(!currentNode.isValidate()) {
+    if(!currentNode.isValid()) {
         alertNodeNullptr("insertNode()");
         return;
     }
@@ -324,7 +324,7 @@ void BaseList<Type>::insertNode(Iterator currentNode, const Type& value) {
 
 template <typename Type>
 void BaseList<Type>::removeNode(Iterator currentNode) {
-    if(!(currentNode.isValidate())) {
+    if(!(currentNode.isValid())) {
         alertNodeNullptr("removeNode()");
         return;
     }
@@ -347,7 +347,7 @@ template <typename Type>
 template <typename IterType, typename ListType>
 typename BaseList<Type>::template
 TemplateIterator<IterType, ListType>& BaseList<Type>::TemplateIterator<IterType, ListType>::operator ++ () {
-    if (!isValidate()) {
+    if (!isValid()) {
         invalidate();
         return *this;
     }
@@ -397,7 +397,7 @@ template <typename Type>
 template <typename IterType, typename ListType>
 typename BaseList<Type>::template
 TemplateIterator<IterType, ListType>& BaseList<Type>::TemplateIterator<IterType, ListType>::operator -- () {
-    if (!isValidate()) {
+    if (!isValid()) {
         invalidate();
         return *this;
     }
