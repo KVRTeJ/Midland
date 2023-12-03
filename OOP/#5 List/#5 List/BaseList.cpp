@@ -103,7 +103,7 @@ void BaseList<Type>::insertAfter(const Type& key, const Type& value) {
 
 template <typename Type>
 void BaseList<Type>::push_back(const Type& value) {
-    insert((unsigned) m_size, value);
+    insert(m_size, value);
 }
 
 template <typename Type>
@@ -125,9 +125,8 @@ void BaseList<Type>::erase(Iterator& iter) {
 
 template <typename Type>
 void BaseList<Type>::erase(Iterator& from, Iterator& to) {
-    while (from != to) {
-        erase(from++);
-    }
+    for(auto it = from; it != to; ++it)
+        erase(it);
     return;
 }
 
@@ -143,7 +142,7 @@ void BaseList<Type>::pop_back() {
 
 template <typename Type>
 void BaseList<Type>::pop_front() {
-    erase((unsigned) 0);
+    removeNode(begin());
 }
 
 template <typename Type>
@@ -324,7 +323,7 @@ void BaseList<Type>::insertNode(Iterator currentNode, const Type& value) {
 
 template <typename Type>
 void BaseList<Type>::removeNode(Iterator currentNode) {
-    if(!(currentNode.isValid())) {
+    if(!(currentNode.isValid()) || currentNode.m_node->m_next == nullptr) {
         alertNodeNullptr("removeNode()");
         return;
     }
