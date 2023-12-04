@@ -207,6 +207,7 @@ BoolVector BoolVector::operator ~ () const {
         returned.m_cells[i] = ~returned.m_cells[i];
     }
     
+    returned.m_twich();
     return returned;
 }
 
