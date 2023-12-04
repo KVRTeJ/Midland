@@ -4,3 +4,4 @@
 #include "BaseList.hpp"
 
 
+std::vector<int> TopologicalSort(BoolMatrix& adjacencyMatrix); //adjacency - смежность
