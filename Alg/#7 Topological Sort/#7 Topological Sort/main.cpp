@@ -10,7 +10,7 @@ void printVector(const std::vector<Type>& vec) {
 }
 
 int main() {
-    BoolMatrix m(7, 7);
+    BoolMatrix m(6, 6);
     std::cin >> m;
     printVector(TopologicalSort(m));
     return 0;

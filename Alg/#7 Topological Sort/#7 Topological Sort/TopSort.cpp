@@ -1,7 +1,7 @@
 #include "TopSort.hpp"
 
 #define forever for(;;)
-void appendVertex(std::vector<int>& result, BoolVector& vertexes) {
+void appendVertex(std::vector<int>& result, BoolVector vertexes) {
     int i = 0;
     unsigned resSize = (unsigned) vertexes.getLenth();
     
@@ -21,27 +21,26 @@ std::vector<int> TopologicalSort(BoolMatrix& adjacencyMatrix) {
     
     std::vector<int> result;
     const int size = adjacencyMatrix.getColumnCount();
-    BoolVector finishedVertex(size), noEnteringVertex, forResult;
+    BoolVector finishedVertex(size), noEnteringVertex, newVertexes;
     
-    while(result.size() != size) { //пока А не пусто ??
-        noEnteringVertex = adjacencyMatrix.getDisjunctionRows();
-        if(noEnteringVertex.weight() != size) {
-            noEnteringVertex = ~noEnteringVertex;
-                std::cout << "noEntVer - " << noEnteringVertex;
-            
-            forResult = noEnteringVertex & ~finishedVertex;
-                std::cout << "  resVertex - " << forResult;
-            
-            finishedVertex |= forResult;
-                std::cout << "    finVer - " << finishedVertex;
-            
-            appendVertex(result, forResult);
-            //зануление строк
-        } else {
-            result.clear();
+    std::vector<int> forClear;
+    do {
+        noEnteringVertex = ~adjacencyMatrix.getDisjunctionRows();
+        if(noEnteringVertex.weight() == 0)
             break;
+
+        newVertexes = noEnteringVertex & ~finishedVertex;
+        //std::cout << "newVert - " << newVertexes;
+        finishedVertex |= newVertexes;
+        appendVertex(result, newVertexes);
+        appendVertex(forClear, newVertexes);
+        while(!forClear.empty()) {
+            adjacencyMatrix.set(forClear[0], 0, size - 1, 0);
+            forClear.erase(forClear.begin());
         }
+        
     }
+    while((~finishedVertex).weight() != 0);
     
     return result;
 }
