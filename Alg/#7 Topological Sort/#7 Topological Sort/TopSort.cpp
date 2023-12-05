@@ -2,6 +2,7 @@
 
 #define forever for(;;)
 void appendVertex(std::vector<int>& result, BoolVector vertexes) {
+    //нужно копирование т.к используется 2 раза_______^_______
     int i = 0;
     unsigned resSize = (unsigned) vertexes.getLenth();
     
@@ -26,14 +27,15 @@ std::vector<int> TopologicalSort(BoolMatrix& adjacencyMatrix) {
     std::vector<int> forClear;
     do {
         noEnteringVertex = ~adjacencyMatrix.getDisjunctionRows();
-        if(noEnteringVertex.weight() == 0)
+        if(noEnteringVertex.weight() == 0) {
             break;
-
+        }
+        
         newVertexes = noEnteringVertex & ~finishedVertex;
-        //std::cout << "newVert - " << newVertexes;
         finishedVertex |= newVertexes;
         appendVertex(result, newVertexes);
         appendVertex(forClear, newVertexes);
+        
         while(!forClear.empty()) {
             adjacencyMatrix.set(forClear[0], 0, size - 1, 0);
             forClear.erase(forClear.begin());
