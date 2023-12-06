@@ -30,7 +30,7 @@ BaseList<Type>::BaseList(const BaseList& other) {
     
     generateListBasis();
     
-    Node<Type>* temp = other.m_head->m_next;
+    Node* temp = other.m_head->m_next;
     while(temp != other.m_tail) {
         push_back(temp->m_value);
         temp = temp->m_next;
@@ -208,20 +208,20 @@ template <typename Type>
 Type& BaseList<Type>::operator [] (const int index) {
     assert(index < m_size);
     
-    Node<Type>* temp = m_head->m_next;
+    Node* temp = m_head->m_next;
     
     for(int i = 0; i < index; ++i) {
         temp = temp->m_next;
     }
     
-    return temp->m_value;
+    return *temp->m_value;
 }
 
 template <typename Type>
 const Type& BaseList<Type>::operator [] (const int index) const {
     assert(index < m_size);
     
-    Node<Type>* temp = m_head->m_next;
+    Node* temp = m_head->m_next;
     
     for(int i = 0; i < index; ++i) {
         temp = temp->m_next;
@@ -238,7 +238,7 @@ BaseList<Type>& BaseList<Type>::operator = (const BaseList<Type>& other) {
         
         generateListBasis();
         
-        Node<Type>* temp = other.m_head->m_next;
+        Node* temp = other.m_head->m_next;
         while(temp != other.m_tail) {
             push_back(temp->m_value);
             temp = temp->m_next;
@@ -265,7 +265,7 @@ template <typename Type>
 BaseList<Type> BaseList<Type>::operator + (const BaseList<Type>& other) const {
     
     BaseList<Type> result(*this);
-    Node<Type>* temp = other.m_head->m_next;
+    Node* temp = other.m_head->m_next;
     while(temp != other.m_tail) {
         result.push_back(temp->m_value);
         temp = temp->m_next;
@@ -291,8 +291,8 @@ void BaseList<Type>::generateListBasis() {
     if(m_tail != nullptr)
         delete m_tail;
     
-    m_head = new Node<Type> ();
-    m_tail = new Node<Type> ();
+    m_head = new Node ();
+    m_tail = new Node ();
     
     
     m_head->m_next = m_tail;
@@ -313,7 +313,7 @@ void BaseList<Type>::insertNode(Iterator currentNode, const Type& value) {
         return;
     }
     
-    Node<Type>* newNode = new Node<Type> ( Node<Type>(value, currentNode.m_node, currentNode.m_node->m_prev) );
+    Node* newNode = new Node ( Node(value, currentNode.m_node, currentNode.m_node->m_prev) );
     
     currentNode.m_node->m_prev->m_next = newNode;
     currentNode.m_node->m_prev = newNode;
@@ -324,18 +324,17 @@ void BaseList<Type>::insertNode(Iterator currentNode, const Type& value) {
 template <typename Type>
 void BaseList<Type>::removeNode(Iterator currentNode) {
     if(!(currentNode.isValid()) || currentNode.m_node->m_next == nullptr) {
-        alertNodeNullptr("removeNode()");
+        //alertNodeNullptr("removeNode()");
         return;
     }
     
-    BaseList<Type>* temp = currentNode.m_list;
+    currentNode.m_list->notify(currentNode.m_node);
     
     currentNode.m_node->m_next->m_prev = currentNode.m_node->m_prev;
     currentNode.m_node->m_prev->m_next = currentNode.m_node->m_next;
     currentNode.invalidate();
     delete currentNode.m_node;
     
-    temp->notify();
     
     assert(m_size > 0);
     --m_size;
@@ -347,7 +346,6 @@ template <typename IterType, typename ListType>
 typename BaseList<Type>::template
 TemplateIterator<IterType, ListType>& BaseList<Type>::TemplateIterator<IterType, ListType>::operator ++ () {
     if (!isValid()) {
-        invalidate();
         return *this;
     }
     
@@ -397,7 +395,6 @@ template <typename IterType, typename ListType>
 typename BaseList<Type>::template
 TemplateIterator<IterType, ListType>& BaseList<Type>::TemplateIterator<IterType, ListType>::operator -- () {
     if (!isValid()) {
-        invalidate();
         return *this;
     }
     

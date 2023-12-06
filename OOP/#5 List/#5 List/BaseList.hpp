@@ -10,10 +10,10 @@
 template <typename Type>
 class BaseList {
 public:
-    template <typename NodeType>
     class Node;
     
 public:
+    class IIterator;
     template <typename IterType, typename ListType>
     class TemplateIterator;
     using Iterator = TemplateIterator<Type, BaseList>;
@@ -25,11 +25,9 @@ public:
     BaseList(const BaseList& other);
     virtual ~BaseList();
     
-    virtual void subscribe(typename ConstIterator::IIterator* iiter) const {}
-    virtual void subscribe(typename Iterator::IIterator* iiter) {}
-    virtual void unsubscribe(typename ConstIterator::IIterator* iiter) const {}
-    virtual void unsubscribe(typename Iterator::IIterator* iiter) {}
-    virtual void notify() {}
+    virtual void subscribe(IIterator* iter) const {}
+    virtual void unsubscribe(IIterator* iter) const {}
+    virtual void notify(Node* deleted) {}
     
     
     unsigned int getSize() const {return m_size;}
@@ -78,34 +76,35 @@ private:
     void insertNode(Iterator currentNode, const Type& value);
     void removeNode(Iterator currentNode);
     
-    Node<Type>* m_head = nullptr;
-    Node<Type>* m_tail = nullptr;
+    Node* m_head = nullptr;
+    Node* m_tail = nullptr;
     unsigned int m_size = 0;
     
 };
 
 template <typename Type>
-template <typename NodeType>
 class BaseList<Type>::Node {
     friend class BaseList;
 private:
-    Node(const NodeType& value = NodeType(), Node* next = nullptr, Node* prev = nullptr)
+    Node(const Type& value = Type(), Node* next = nullptr, Node* prev = nullptr)
     :m_next(next), m_prev(prev)
     {
-        m_value = new NodeType(value);
+        m_value = new Type(value);
     }
     ~Node() {delete m_value;}
     
-    NodeType* m_value = nullptr;
-    Node<NodeType>* m_next = nullptr;
-    Node<NodeType>* m_prev = nullptr;
+    Type* m_value = nullptr;
+    Node* m_next = nullptr;
+    Node* m_prev = nullptr;
     
 };
 
-class IIterator {
+template <typename Type>
+class BaseList<Type>::IIterator {
 public:
     virtual bool isValid() const = 0;
     virtual void invalidate() = 0;
+    virtual bool pointsTo(const Node *node) const = 0;
     virtual ~IIterator() = default;
 };
 
@@ -114,21 +113,19 @@ template <typename IterType, typename ListType>
 class BaseList<Type>::TemplateIterator : public IIterator {
     friend class BaseList;
 public:
-    TemplateIterator(ListType* list = nullptr, Node<Type>* node = nullptr)
+    TemplateIterator(ListType* list = nullptr, Node* node = nullptr)
     : m_list(list), m_node(node)
     {
         IIterator* a = this;
         m_list->subscribe(a);
     }
-    ~TemplateIterator() {
-        if(m_list) {
-            IIterator* a = this;
-            m_list->unsubscribe(a);
+    ~TemplateIterator() override {
+        if(isValid()) {
+            m_list->unsubscribe(this);
         }
-        invalidate();
     }
     
-    IterType& operator * () {return *m_node->m_value;}
+    IterType& operator * () {assert(m_node != nullptr); return *m_node->m_value;}
     
     TemplateIterator& operator ++ ();
     TemplateIterator operator ++ (int);
@@ -143,10 +140,11 @@ public:
     bool operator == (TemplateIterator& other) const ;
     bool operator != (TemplateIterator& other) const ;
     
-    bool isValid() const {return m_node != nullptr;}
-    void invalidate() {m_node = nullptr; m_list = nullptr;}
+    bool pointsTo(const Node* node) const override {return m_node == node;}
+    bool isValid() const override {return m_node != nullptr;}
+    void invalidate() override {m_node = nullptr; m_list = nullptr;}
 private:
-    Node<Type>* m_node = nullptr;
+    Node* m_node = nullptr;
     ListType* m_list = nullptr;
 };
 
@@ -159,6 +157,9 @@ std::istream& operator >> (std::istream& stream, BaseList<Type>& other);
 
 template <typename Type>
 class List: public BaseList<Type> {
+public:
+    using typename BaseList<Type>::IIterator;
+    using typename BaseList<Type>::Node;
 public:
     List(const int size = 0, const Type& value = Type())
     : BaseList<Type>(size, value)
@@ -178,23 +179,18 @@ public:
     }
     
     ~List() {delete iterators;}
-    void subscribe(IIterator* iiter) override {
-        if(iiter->isValid())
-            iterators->push_back(iiter);
+    void subscribe(IIterator* iter) const override {
+        if(iter->isValid())
+            iterators->push_back(iter);
     }
-    void subscribe(IIterator* iiter) const override {
-        if(iiter->isValid())
-            iterators->push_back(iiter);
-    }
-    void unsubscribe(IIterator* iiter) override {
+    void unsubscribe(IIterator* iter) const override {
         iterators->pop_front();
     }
-    void unsubscribe(IIterator* iiter) const override {
-        iterators->pop_front();
-    }
-    void notify() override {
+    
+    void notify(Node* deleted) override {
         for(auto it = iterators->begin(); it != iterators->end(); ++it)
-            if( !((*it)->isValid()) ) {
+            if( !(*it)->isValid() || (*it)->pointsTo(deleted)) {
+                (*it)->invalidate();
                 unsubscribe(*it);
             }
     }

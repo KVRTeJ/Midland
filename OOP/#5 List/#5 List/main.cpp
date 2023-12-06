@@ -1,16 +1,26 @@
 #include "BaseList.hpp"
 
 int main() {
-    Array<int> arr(9, 56);
-    arr.setRandomNumbers(1, 10);
-    List<int> a(arr);
-    List<int>::Iterator it1 = a.begin();
-    List<int>::Iterator it2 = a.begin() + 2;
-    {
-        List<int>::Iterator it3 = it2 + 1;
-        a.erase(it1, it3);
+    const int SIZE = 100;
+    Array<int> arr(SIZE);
+    for(int i = 0; i < SIZE; ++i) {
+        arr[i] = i;
     }
-    std::cout << a << std::endl;
+    
+    std::cout << arr;
+    List<int> list(arr);
+    std::cout << list  << std::endl;
+    for (int i = list.getSize(); i > 0; --i) {
+        int index = rand() % arr.getSize();
+        int element = arr[index];
+        assert(element == list[index]);
+        arr.removeIndex(index);
+        
+        List<int>::Iterator it = list.find(element);
+        assert(!list.isEmpty() && it != list.end());
+        list.erase(it);
+        assert(list.getSize() == arr.getSize());
+    }
     return 0;
 }
 
