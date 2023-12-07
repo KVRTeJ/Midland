@@ -1,13 +1,5 @@
-//
-//  Set.hpp
-//  #6 Set
-//
-//  Created by Dmitriy on 06.12.2023.
-//
+#pragma once
 
-#ifndef Set_hpp
-#define Set_hpp
+#include <iostream>
 
-#include <stdio.h>
-
-#endif /* Set_hpp */
+#include "BoolVector.hpp"
