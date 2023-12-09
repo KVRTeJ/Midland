@@ -337,6 +337,16 @@ BoolVector& BoolVector::operator <<= (int value) {
     return *this;
 }
 
+bool BoolVector::operator == (const BoolVector& other) const {
+    if(m_lenght != other.m_lenght)
+        return false;
+    
+    for(int i = 0; i < m_cellCount; ++i)
+        if(m_cells[i] != other.m_cells[i]) {
+            return false;
+        }
+    return true;
+}
 
 /* private */
 void BoolVector::m_setInCell(const int cellNumber, const int position) {

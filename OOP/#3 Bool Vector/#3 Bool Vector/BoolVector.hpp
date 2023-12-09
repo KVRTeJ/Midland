@@ -43,6 +43,8 @@ public:
     BoolVector& operator ^= (const BoolVector& other);
     BoolVector& operator >>= (int value);
     BoolVector& operator <<= (int value);
+    bool operator == (const BoolVector& other) const;
+    bool operator != (const BoolVector& other) const {return !(*this == other);}
     
     static const uint8_t CELL_SIZE = 8;
     
