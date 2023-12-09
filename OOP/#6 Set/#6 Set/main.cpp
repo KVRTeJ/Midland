@@ -1,9 +1,7 @@
 #include "Set.hpp"
 
 int main() {
-    
-    BoolVector a(10, 1);
-    std::cout << a;
-    
+    Set set("aadadsad");
+    std::cout << set.cardinalis();
     return 0;
 }
