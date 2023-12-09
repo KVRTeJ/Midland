@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-
 #include "BoolVector.hpp"
 
 class Set : public BoolVector {
