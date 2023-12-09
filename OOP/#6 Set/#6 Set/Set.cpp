@@ -81,14 +81,6 @@ Set Set::operator / (const Set& other) const {
     return result;
 }
 
-Set Set::operator ~ () const {
-    
-    Set result(*this);
-    result.m_set->invert();
-    
-    return result;
-}
-
 Set& Set::operator += (const char value) {
     
     if(!m_set->operator[]((int) value)) {
@@ -120,6 +112,14 @@ Set Set::operator - (const char value) const {
     
     Set result(*this);
     result -= value;
+    
+    return result;
+}
+
+Set Set::operator ~ () const {
+    
+    Set result(*this);
+    result.m_set->invert();
     
     return result;
 }

@@ -23,7 +23,6 @@ public:
     Set& operator |= (const Set& other) {*m_set |= *other.m_set; return *this;}
     Set operator | (const Set& other) const;
     Set& operator &= (const Set& other) {*m_set &= *other.m_set; return *this;}
-    Set operator ~ () const;
     Set operator & (const Set& other) const;
     Set& operator /= (const Set& other);
     Set operator / (const Set& other) const;
@@ -31,6 +30,7 @@ public:
     Set operator + (const char value) const;
     Set& operator -= (const char value);
     Set operator - (const char value) const;
+    Set operator ~ () const;
     bool operator == (const Set& other) const {return *m_set == *other.m_set;}
     bool operator != (const Set& other) const {return !(*this == other);}
     
