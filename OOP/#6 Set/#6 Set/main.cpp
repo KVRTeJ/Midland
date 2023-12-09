@@ -1,7 +1,8 @@
 #include "Set.hpp"
 
 int main() {
-    Set set("aadadsad");
-    std::cout << set.cardinalis();
+    Set set;
+    std::cin >> set;
+    std::cout << set;
     return 0;
 }
