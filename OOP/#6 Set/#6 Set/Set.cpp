@@ -26,6 +26,20 @@ Set::Set(const Set& other) {
     
 }
 
+char Set::max() const {
+    for(int i = N - 1; i >= 0; --i)
+        if(m_set->operator[](i))
+            return (char) i;
+    return (char) 0;
+}
+
+char Set::min() const {
+    for(int i = 0; i < N; ++i)
+        if(m_set->operator[](i))
+            return (char) i;
+    return (char) 0;
+}
+
 Set& Set::operator = (const Set& other) {
     
     if(this != &other) {
@@ -102,7 +116,7 @@ std::istream& operator >> (std::istream& stream, Set& other) {
     
     std::cout << "To stop input push a repetitive char" << std::endl;
     char scan;
-    other -= (int) 0;
+    other -= (char) 0;
     while(true) {
         stream >> scan;
         if(other.contains(scan))

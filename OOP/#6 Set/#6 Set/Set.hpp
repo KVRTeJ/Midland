@@ -18,8 +18,12 @@ public:
     
     int cardinalis() const {return m_cardinalis;}
     bool contains(const char value) const {return m_set->operator[]((int) value);}
+    char max() const;
+    char min() const;
     
     Set& operator = (const Set& other);
+    bool operator == (const Set& other) const {return *m_set == *other.m_set;}
+    bool operator != (const Set& other) const {return !(*this == other);}
     Set& operator += (const char value);
     Set operator + (const char value) const;
     Set& operator -= (const char value);
