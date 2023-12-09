@@ -1,9 +1,9 @@
 #include "Set.hpp"
 
 int main() {
-    Set a = "asdasdad", b = "das";
+    Set a = "abc", b = "n";
     std::cout << a << " " << b << std::endl;
-    if(a == b)
-        return 1;
+    a /= b;
+    std::cout << a.cardinalis() << std::endl;
     return 0;
 }
