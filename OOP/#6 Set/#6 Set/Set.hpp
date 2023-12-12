@@ -4,16 +4,21 @@
 
 class Set : public BoolVector {
 public:
-    Set(const char value = (char) 0) { //Или лучше = 'a' ?
+    Set(const char value = (char) 0) {
         m_set = new BoolVector(MAX_CARDINALIS);
-        m_set->set((int) value, 1);
+        
+        if(value - NEEDLESS_TABLE >= 0 && value - NEEDLESS_TABLE < MAX_CARDINALIS) {
+            m_set->set((int) value - NEEDLESS_TABLE, 1);
+        }
+        
     }
     Set(const char* string);
     Set(const Set& other);
     ~Set() {delete m_set;}
     
     int cardinalis() const {return m_set->weight();}
-    bool contains(const char value) const {return m_set->operator[]((int) value);}
+    bool contains(const char value) const {if(value < 0 && value >= MAX_CARDINALIS) return false;
+        return m_set->operator[]((int) value);}
     char max() const;
     char min() const;
     
@@ -32,8 +37,9 @@ public:
     bool operator == (const Set& other) const {return *m_set == *other.m_set;}
     bool operator != (const Set& other) const {return !(*this == other);}
     
-    static const int MAX_CARDINALIS = 127;
+    static const int MAX_CARDINALIS = 95;
 private:
+    static const int NEEDLESS_TABLE = 32;
     BoolVector* m_set = nullptr;
     
 };

@@ -1,9 +1,11 @@
 #include "Set.hpp"
 
 int main() {
-    Set a = "abc", b = "n";
-    std::cout << a << " " << b << std::endl;
-    a /= b;
-    std::cout << a.cardinalis() << std::endl;
+    Set a, b;
+    for(int i = 0; i < 150; ++i) {
+        a += (char) i;
+        b = ~a;
+        std::cout << "a = " << a << "\nb = " << b << "\n";
+    }
     return 0;
 }
