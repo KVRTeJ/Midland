@@ -43,14 +43,14 @@ public:
     ConstIterator find(const Type& key) const;
     
     void insert(const unsigned pos, const Type& value);
-    void insert(Iterator& iter, const Type& value);
+    void insert(const Iterator& iter, const Type& value);
     void insertAfter(const Type& key, const Type& value);
     void push_back(const Type& value);
     void push_front(const Type& value);
     
     void erase(const unsigned pos);
-    void erase(Iterator& iter);
-    void erase(Iterator& from, Iterator&to);
+    void erase(const Iterator& iter);
+    void erase(const Iterator& from, const Iterator& to);
     void eraseFirst(const Type& key);
     void pop_back();
     void pop_front();
@@ -73,7 +73,7 @@ public:
     
 private:
     void generateListBasis();
-    void insertNode(Iterator currentNode, const Type& value);
+    void insertNode(const Iterator &currentNode, const Type& value);
     void removeNode(Iterator currentNode);
     
     Node* m_head = nullptr;
@@ -137,8 +137,8 @@ public:
     TemplateIterator operator - (const int value) const;
     TemplateIterator& operator -= (const int value);
     
-    bool operator == (TemplateIterator& other) const ;
-    bool operator != (TemplateIterator& other) const ;
+    bool operator == (const TemplateIterator& other) const ;
+    bool operator != (const TemplateIterator& other) const ;
     
     bool pointsTo(const Node* node) const override {return m_node == node;}
     bool isValid() const override {return m_node != nullptr;}
@@ -179,6 +179,7 @@ public:
     }
     
     ~List() {delete iterators;}
+    
     void subscribe(IIterator* iter) const override {
         if(iter->isValid())
             iterators->push_back(iter);
@@ -193,6 +194,13 @@ public:
                 (*it)->invalidate();
                 unsubscribe(*it);
             }
+    }
+    
+    List& operator = (const List& other) { //FIXME: WHY ARE YOU NOT ACTIVATED
+        delete iterators;
+        iterators = new BaseList<IIterator* >(0);
+        for(auto it = other.iterators.begin(); it != other.iterators.end(); ++it)
+            iterators->push_back(*it);
     }
     
 private:

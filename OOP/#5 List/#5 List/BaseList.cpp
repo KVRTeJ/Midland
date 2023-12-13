@@ -32,7 +32,7 @@ BaseList<Type>::BaseList(const BaseList& other) {
     
     Node* temp = other.m_head->m_next;
     while(temp != other.m_tail) {
-        push_back(temp->m_value);
+        push_back(*temp->m_value);
         temp = temp->m_next;
     }
     
@@ -91,7 +91,7 @@ void BaseList<Type>::insert(const unsigned pos, const Type& value) {
 }
 
 template <typename Type>
-void BaseList<Type>::insert(Iterator& iter, const Type& value) {
+void BaseList<Type>::insert(const Iterator& iter, const Type& value) {
     insertNode(iter, value);
 }
 
@@ -103,12 +103,12 @@ void BaseList<Type>::insertAfter(const Type& key, const Type& value) {
 
 template <typename Type>
 void BaseList<Type>::push_back(const Type& value) {
-    insert(m_size, value);
+    insert(end(), value);
 }
 
 template <typename Type>
 void BaseList<Type>::push_front(const Type& value) {
-    insert((unsigned) 0, value);
+    insert(begin(), value);
 }
 
 template <typename Type>
@@ -119,12 +119,12 @@ void BaseList<Type>::erase(const unsigned pos) {
 }
 
 template <typename Type>
-void BaseList<Type>::erase(Iterator& iter) {
+void BaseList<Type>::erase(const Iterator& iter) {
     removeNode(iter);
 }
 
 template <typename Type>
-void BaseList<Type>::erase(Iterator& from, Iterator& to) {
+void BaseList<Type>::erase(const Iterator& from, const Iterator& to) {
     for(auto it = from; it != to; ++it)
         erase(it);
     return;
@@ -236,15 +236,10 @@ BaseList<Type>& BaseList<Type>::operator = (const BaseList<Type>& other) {
     if(m_head != other.m_head || m_tail != other.m_tail) {
         clear();
         
-        generateListBasis();
-        
-        Node* temp = other.m_head->m_next;
-        while(temp != other.m_tail) {
-            push_back(temp->m_value);
-            temp = temp->m_next;
+        for (const Type &value : other) {
+            push_back(value);
         }
         
-        m_size = other.m_size;
     }
     
     return *this;
@@ -252,32 +247,45 @@ BaseList<Type>& BaseList<Type>::operator = (const BaseList<Type>& other) {
 
 template <typename Type>
 bool BaseList<Type>::operator == (const BaseList<Type>& other) const {
-    return (m_head == other.m_head && m_tail == other.m_tail &&
-            m_size == other.m_size);
+    if(m_size != other.m_size)
+        return false;
+    if(m_head == other.m_head)
+        return true;
+    
+    auto it = begin();
+    auto otherIt = other.begin();
+    auto itEnd = end();
+    while(it != itEnd) {
+        if(*it != *otherIt) {
+            return false;
+        }
+        
+        ++it;
+        ++otherIt;
+    }
+    
+    return true;
 }
 
 template <typename Type>
 bool BaseList<Type>::operator != (const BaseList<Type>& other) const {
-    return !(this==other);
+    return !(*this==other);
 }
 
 template <typename Type>
 BaseList<Type> BaseList<Type>::operator + (const BaseList<Type>& other) const {
     
     BaseList<Type> result(*this);
-    Node* temp = other.m_head->m_next;
-    while(temp != other.m_tail) {
-        result.push_back(temp->m_value);
-        temp = temp->m_next;
-    }
-    
+    result += other;
     return result;
 }
 
 template <typename Type>
 BaseList<Type>& BaseList<Type>::operator += (const BaseList<Type>& other) {
     
-    *this = *this + other;
+    for(auto it = other.begin(); it != other.end(); ++it) {
+        this->push_back(*it);
+    }
     
     return *this;
 }
@@ -301,15 +309,9 @@ void BaseList<Type>::generateListBasis() {
     m_tail->m_prev = m_head;
 }
 
-inline void alertNodeNullptr(const std::string name) {
-    std::cerr << name + ": currentNode == nullptr";
-    std::cerr << std::endl;
-}
-
 template <typename Type>
-void BaseList<Type>::insertNode(Iterator currentNode, const Type& value) {
+void BaseList<Type>::insertNode(const Iterator &currentNode, const Type& value) {
     if(!currentNode.isValid()) {
-        alertNodeNullptr("insertNode()");
         return;
     }
     
@@ -324,7 +326,6 @@ void BaseList<Type>::insertNode(Iterator currentNode, const Type& value) {
 template <typename Type>
 void BaseList<Type>::removeNode(Iterator currentNode) {
     if(!(currentNode.isValid()) || currentNode.m_node->m_next == nullptr) {
-        //alertNodeNullptr("removeNode()");
         return;
     }
     
@@ -438,21 +439,20 @@ TemplateIterator<IterType, ListType>& BaseList<Type>::TemplateIterator<IterType,
  
 template <typename Type>
 template <typename IterType, typename ListType>
-bool BaseList<Type>::TemplateIterator<IterType, ListType>::operator == (TemplateIterator& other) const {
+bool BaseList<Type>::TemplateIterator<IterType, ListType>::operator == (const TemplateIterator& other) const {
     return (m_node == other.m_node) && (m_list == other.m_list);
 }
 
 template <typename Type>
 template <typename IterType, typename ListType>
-bool BaseList<Type>::TemplateIterator<IterType, ListType>::operator != (TemplateIterator& other) const {
-    return !((m_node == other.m_node) && (m_list == other.m_list));
+bool BaseList<Type>::TemplateIterator<IterType, ListType>::operator != (const TemplateIterator& other) const {
+    return !(*this == other);
 }
 
 template <typename Type>
 std::ostream& operator << (std::ostream& stream, const BaseList<Type>& other) {
-    
     stream << "[";
-    for(auto it = other.begin(); it != other.end(); ++it) {
+    for(auto it = other.begin(); it != other.end(); it++) {
         stream << *it << (it != (other.end() - 1) ? ", ":"");
     }
     stream << "]";
