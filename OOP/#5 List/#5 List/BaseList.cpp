@@ -125,8 +125,8 @@ void BaseList<Type>::erase(const Iterator& iter) {
 
 template <typename Type>
 void BaseList<Type>::erase(const Iterator& from, const Iterator& to) {
-    for(auto it = from; it != to; ++it)
-        erase(it);
+    for(auto it = from; it != to;)
+        erase(it++);
     return;
 }
 
@@ -233,7 +233,7 @@ const Type& BaseList<Type>::operator [] (const int index) const {
 template <typename Type>
 BaseList<Type>& BaseList<Type>::operator = (const BaseList<Type>& other) {
     
-    if(m_head != other.m_head || m_tail != other.m_tail) {
+    if(m_head != other.m_head) {
         clear();
         
         for (const Type &value : other) {
@@ -324,20 +324,26 @@ void BaseList<Type>::insertNode(const Iterator &currentNode, const Type& value) 
 }
 
 template <typename Type>
-void BaseList<Type>::removeNode(Iterator currentNode) {
-    if(!(currentNode.isValid()) || currentNode.m_node->m_next == nullptr) {
+void BaseList<Type>::removeNode(const Iterator& currentNode) {
+    if(!(currentNode.isValid())) {
         return;
     }
     
-    currentNode.m_list->notify(currentNode.m_node);
+    removeNode(currentNode.m_node);
     
-    currentNode.m_node->m_next->m_prev = currentNode.m_node->m_prev;
-    currentNode.m_node->m_prev->m_next = currentNode.m_node->m_next;
-    currentNode.invalidate();
-    delete currentNode.m_node;
-    
+}
+
+template <typename Type>
+void BaseList<Type>::removeNode(Node* currentNode) {
+    if(currentNode == nullptr || currentNode->m_next == nullptr)
+        return;
     
     assert(m_size > 0);
+    
+    notify(currentNode);
+    currentNode->m_next->m_prev = currentNode->m_prev;
+    currentNode->m_prev->m_next = currentNode->m_next;
+    delete currentNode;
     --m_size;
 }
 

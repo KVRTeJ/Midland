@@ -74,7 +74,8 @@ public:
 private:
     void generateListBasis();
     void insertNode(const Iterator &currentNode, const Type& value);
-    void removeNode(Iterator currentNode);
+    void removeNode(const Iterator& currentNode);
+    void removeNode(Node* currentNode);
     
     Node* m_head = nullptr;
     Node* m_tail = nullptr;
@@ -172,7 +173,7 @@ public:
         iterators = new BaseList<IIterator* >(0);
         
     }
-    List(const BaseList<Type>& other)
+    List(const List<Type>& other)
     : BaseList<Type>(other)
     {
         iterators = new BaseList<IIterator* >(0);
@@ -185,22 +186,30 @@ public:
             iterators->push_back(iter);
     }
     void unsubscribe(IIterator* iter) const override {
-        iterators->pop_front();
+        iterators->eraseFirst(iter);
     }
     
     void notify(Node* deleted) override {
-        for(auto it = iterators->begin(); it != iterators->end(); ++it)
+        for(auto it = iterators->begin(); it != iterators->end();) {
             if( !(*it)->isValid() || (*it)->pointsTo(deleted)) {
                 (*it)->invalidate();
-                unsubscribe(*it);
+                iterators->erase(it++);
+            } else {
+                ++it;
             }
+        }
+        
     }
     
-    List& operator = (const List& other) { //FIXME: WHY ARE YOU NOT ACTIVATED
-        delete iterators;
-        iterators = new BaseList<IIterator* >(0);
-        for(auto it = other.iterators.begin(); it != other.iterators.end(); ++it)
-            iterators->push_back(*it);
+    List& operator = (const List& other) {
+        if(&other == this)
+            return *this;
+        for (auto *iter : *iterators) {
+            iter->invalidate();
+        }
+        iterators->clear();
+        BaseList<Type>::operator=(other);
+        return *this;
     }
     
 private:

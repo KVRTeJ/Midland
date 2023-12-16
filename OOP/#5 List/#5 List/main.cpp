@@ -1,7 +1,7 @@
 #include "BaseList.hpp"
 
 int main() {
-    const int SIZE = 5;
+    const int SIZE = 40;
     Array<int> arr(SIZE);
     for(int i = 0; i < SIZE; ++i) {
         arr[i] = i;
@@ -13,11 +13,12 @@ int main() {
         
         auto left = origin;
         auto right = origin;
-        left.erase(left.begin(), left.begin() + i);
-        right.erase(right.begin() + i, right.end());
+        left = origin;
+        left.erase(left.begin() + i, left.end());
+        right.erase(right.begin(), right.begin() + i);
         std::cout << "left - " << left << '\n' << "right - " << right << '\n';
-        std::cout << (right + left) << std::endl;
-        assert((right + left) == origin);
+        std::cout << (left + right) << std::endl << std::endl;
+        assert((left + right) == origin);
     }
     std::cout << arr;
     List<int> list(arr);
