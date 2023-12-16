@@ -126,10 +126,9 @@ std::ostream& operator << (std::ostream& stream, const Set& other) {
     
     stream << "{";
     bool wasOutput = false;
-    for(int i = 0; i < other.MAX_CARDINALIS; ++i) {
+    for(int i = 0; i < other.MAX_CARDINALIS + 32; ++i) {
         if(other.contains((char) i)) {
-            
-            stream << (wasOutput ? ", " : "") << static_cast<char> (i + 32);
+            stream << (wasOutput ? ", " : "") << static_cast<char> (i);
             wasOutput = true;
         }
         

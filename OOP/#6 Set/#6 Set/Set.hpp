@@ -17,8 +17,11 @@ public:
     ~Set() {delete m_set;}
     
     int cardinalis() const {return m_set->weight();}
-    bool contains(const char value) const {if(value < 0 && value >= MAX_CARDINALIS) return false;
-        return m_set->operator[]((int) value);}
+    bool contains(const char value) const {
+        if((int) value < NEEDLESS_TABLE || (int) value >= MAX_CARDINALIS + NEEDLESS_TABLE)
+            return false;
+        return m_set->operator[]((int) value - NEEDLESS_TABLE);
+    }
     char max() const;
     char min() const;
     
