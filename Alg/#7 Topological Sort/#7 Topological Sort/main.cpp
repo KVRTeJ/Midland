@@ -12,12 +12,8 @@ void printVector(const std::vector<Type>& vec) {
 int main() {
     
     Graph a;
-    a.addVertex(1, 2);
-    a.addVertex(1, 3);
-    a.addVertex(3, 4);
-    a.addVertex(1, 4);
-    a.addVertex(1, 4);
-    a.deleteVertex(1, 6);
+    a.scan();
+    a.print();
     return -1;
     
     const int SIZE = 7;

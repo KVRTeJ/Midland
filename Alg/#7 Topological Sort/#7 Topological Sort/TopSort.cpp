@@ -4,9 +4,35 @@ Graph::Graph() {
     leaders.push_back(new Leader(1));
 }
 
+void Graph::scan() {
+    std::cout << "Input Graph\nExample -1 2\n";
+    std::cout << "To stop input push -0 0" << std::endl;
+    int a = 1, b = 1;
+    while(true) {
+        std::cout << "-";
+        scanf("%d%d", &a, &b);
+        if(a == 0 || b == 0)
+            return;
+        addVertex(a, b);
+        //std::cout << "a - " << a << " b - " << b << std::endl;
+    }
+}
+
+void Graph::print() const {
+    
+    for(auto itLead = leaders.begin(); itLead != leaders.end(); ++itLead) {
+        for(auto itTrail = (*itLead)->trailers.begin();
+            itTrail != (*itLead)->trailers.end(); ++itTrail) {
+            std::cout << "{" << (*itLead)->key << ", " <<
+            (*itTrail)->key << "}" << ((itTrail + 1) == (*itLead)->trailers.end() ? "\n":", ");
+        }
+    }
+    std::cout << std::endl;
+    
+}
 
 void Graph::addVertex(const int from, const int to) {
-    if(from == 0 || to == 0)
+    if(from <= 0 || to <= 0)
         return;
     if(from == to) {
         std::cerr << from << " cannot be included by itself" << std::endl;
@@ -42,7 +68,7 @@ void Graph::addVertex(const int from, const int to) {
 }
 
 void Graph::deleteVertex(const int from, const int to) {
-    if(from == 0 || to == 0)
+    if(from <= 0 || to <= 0)
         return;
     if(from == to)
         return;
