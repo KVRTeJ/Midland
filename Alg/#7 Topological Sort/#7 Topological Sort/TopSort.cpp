@@ -13,27 +13,14 @@ void Graph::addVertex(const int from, const int to) {
         return;
     }
     
-    bool isFrom = false, isTo = false;
     const auto END = leaders.end();
     
     auto iterFrom = leaders.begin();
-    while(iterFrom != END) {
-        if((*iterFrom)->key == from) {
-            isFrom = true;
-            break;
-        }
-        ++iterFrom;
-    }
+    bool isFrom = shiftIterator(iterFrom, END, from);
     
     auto iterTo = leaders.begin();
-    while(iterTo != END) {
-        if((*iterTo)->key == to) {
-            isTo = true;
-            break;
-        }
-        ++iterTo;
-    }
-    
+    bool isTo = shiftIterator(iterTo, END, to);
+
     if(!isFrom) {
         auto newLead = new Leader(from);
         leaders.push_back(newLead);
@@ -51,8 +38,39 @@ void Graph::addVertex(const int from, const int to) {
            return;
     }
     (*iterFrom)->addTrailer(*iterTo);
-    //std::cout << "From - " << (*iterFrom)->key << "\nTo - " << (*iterTo)->key << std::endl;
+    
 }
+
+void Graph::deleteVertex(const int from, const int to) {
+    if(from == 0 || to == 0)
+        return;
+    if(from == to)
+        return;
+    
+    const auto END = leaders.end();
+    
+    auto iterFrom = leaders.begin();
+    auto iterTo = leaders.begin();
+    if(shiftIterator(iterFrom, END, from) && shiftIterator(iterTo, END, to)) {
+        std::cout << "From - " << (*iterFrom)->key << " To - " << (*iterTo)->key << std::endl;
+        (*iterFrom)->deleteTrailer(*iterTo);
+    }
+    
+    
+}
+
+/*private*/
+bool Graph::shiftIterator(auto& iter, const auto& end, const int key) const {
+    while(iter != end) {
+        if((*iter)->key == key) {
+            return true;
+        }
+        ++iter;
+    }
+    return false;
+}
+    
+    
 
 
 #define forever for(;;)

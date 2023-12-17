@@ -16,7 +16,7 @@ public:
     std::vector<int> TopologicalSort(Graph& adjacencyMatrix);
     
 private:
-    void shiftIterator();
+    bool shiftIterator(auto& iter, const auto& end, const int key) const;
     List<Leader* > leaders;
     
 };
@@ -30,7 +30,13 @@ struct Graph::Leader {
         trailers.push_back(lead);
         ++lead->degree;
     }
-    
+    void deleteTrailer(Leader* lead) {
+        auto target = trailers.find(lead);
+        if(target != trailers.end()) {
+            trailers.erase(target);
+            --lead->degree;
+        }
+    }
     int key = 0;
     int degree = 0;
     List<Leader* > trailers;
