@@ -184,13 +184,15 @@ void BaseList<Type>::clear() {
 template <typename Type>
 void BaseList<Type>::move(Iterator at, Iterator before) {
     
-    at.m_node->m_prev->m_next = before.m_node;
-    at.m_node->m_next->m_prev = before.m_node;
-    before.m_node->m_next->m_prev = at.m_node;
-    before.m_node->m_prev->m_next = at.m_node;
+    at.m_node->m_prev->m_next = at.m_node->m_next;
+    at.m_node->m_next->m_prev = at.m_node->m_prev;
+    --at.m_list->m_size;
     
-    std::swap(at.m_node->m_prev, before.m_node->m_prev);
-    std::swap(at.m_node->m_next, before.m_node->m_next);
+    at.m_node->m_next = before.m_node;
+    at.m_node->m_prev = before.m_node->m_prev;
+    before.m_node->m_prev->m_next = at.m_node;
+    before.m_node->m_prev = at.m_node;
+    ++before.m_list->m_size;
     
 }
 
