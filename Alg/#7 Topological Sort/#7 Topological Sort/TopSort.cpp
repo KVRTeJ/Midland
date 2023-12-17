@@ -31,13 +31,14 @@ BoolMatrix Graph::matrix() const {
 void Graph::scan() {
     std::cout << "Input Graph\nExample -1 2\n";
     std::cout << "To stop input push -0 0" << std::endl;
-    int a = 1, b = 1;
+    
+    int from = 1, to = 1;
     while(true) {
         std::cout << "-";
-        scanf("%d%d", &a, &b);
-        if(a == 0 || b == 0)
+        scanf("%d%d", &from, &to);
+        if(from == 0 || to == 0)
             return;
-        addVertex(a, b);
+        addVertex(from, to);
         //std::cout << "a - " << a << " b - " << b << std::endl;
     }
 }
@@ -109,17 +110,42 @@ void Graph::deleteVertex(const int from, const int to) {
         (*iterFrom)->deleteTrailer(*iterTo);
     }
     
+}
+
+std::vector<int> Graph::TopologicalSort() {
     
+    List<Leader* > newLead;
+    do {
+        for(auto it = m_leaders.begin(); it != m_leaders.end(); ++it) {
+            if( (*it)->degree == 0)
+                newLead.push_front(*it);
+        }
+        Leader* p = *(newLead.begin());
+        newLead.pop_front();
+        for(auto it = p->trailers.begin(); it != p->trailers.end(); it++) {
+            --(*it)->degree;
+            assert((*it)->degree >= 0);
+            if((*it)->degree == 0)
+                newLead.push_front(*it);
+            //TODO: удалить trailer
+        }
+        delete p;
+    }
+    while(!newLead.isEmpty());
+    
+    return {};
 }
 
 /*private*/
 bool Graph::shiftIterator(auto& iter, const auto& end, const int key) const {
+    
     while(iter != end) {
         if((*iter)->key == key) {
             return true;
         }
         ++iter;
     }
+    
     return false;
 }
     

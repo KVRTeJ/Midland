@@ -10,6 +10,11 @@ public:
     Graph();
     
     BoolMatrix matrix() const;
+    /*
+     А что если отнаследоваться(или агрегировать) от(по) BoolMatrix, (Для примера можно назвать AdjacencyMatrix)
+     добавить приведение типа к Graph и обратно, добавить метод топологической сортировки,
+     и сделать этот класс полем для класса Graph?
+    */
     
     void scan();
     void print() const;
@@ -17,7 +22,7 @@ public:
     void deleteVertex(const int from, const int to);
     
     
-    std::vector<int> TopologicalSort(Graph& adjacencyMatrix);
+    std::vector<int> TopologicalSort();
     
 private:
     bool shiftIterator(auto& iter, const auto& end, const int key) const;
