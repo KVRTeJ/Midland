@@ -12,13 +12,11 @@ void printVector(const std::vector<Type>& vec) {
 int main() {
     
     Graph a;
-    a.leaders.push_back(new Graph::Leader(2, 0));
-    a.leaders.push_back(new Graph::Leader(3, 0));
-    a.leaders.push_back(new Graph::Leader(4, 0));
-    //std::cout << a.leaders;
-    a.addVertex(6, 6);
-    
+    a.addVertex(1, 2);
+    a.addVertex(1, 3);
+    a.addVertex(3, 4);
     return -1;
+    
     const int SIZE = 7;
     std::cout << "Size = " << SIZE << std::endl;
     BoolMatrix m(SIZE, SIZE);

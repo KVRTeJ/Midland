@@ -1,19 +1,23 @@
 #include "TopSort.hpp"
 
 Graph::Graph() {
-    leaders.push_back(new Leader(1, 0));
+    leaders.push_back(new Leader(1));
 }
 
 
 void Graph::addVertex(const int from, const int to) {
     if(from == 0 || to == 0)
         return;
+    if(from == to) {
+        std::cerr << from << " cannot be included by itself" << std::endl;
+        return;
+    }
     
     bool isFrom = false, isTo = false;
-    
     const auto END = leaders.end();
+    
     auto iterFrom = leaders.begin();
-    while(iterFrom != END - 1) {
+    while(iterFrom != END) {
         if((*iterFrom)->key == from) {
             isFrom = true;
             break;
@@ -22,7 +26,7 @@ void Graph::addVertex(const int from, const int to) {
     }
     
     auto iterTo = leaders.begin();
-    while(iterTo != END - 1) {
+    while(iterTo != END) {
         if((*iterTo)->key == to) {
             isTo = true;
             break;
@@ -30,14 +34,24 @@ void Graph::addVertex(const int from, const int to) {
         ++iterTo;
     }
     
-    if(isFrom && isTo);//debug
-    
-    if((*iterFrom)->key == (*iterTo)->key) {
-        std::cerr << (*iterFrom)->key << " cannot be included itself" << std::endl;
-        return;
+    if(!isFrom) {
+        auto newLead = new Leader(from);
+        leaders.push_back(newLead);
+        iterFrom = leaders.find(newLead);
     }
     
-    std::cout << "From - " << (*iterFrom)->key << "\nTo - " << (*iterTo)->key << std::endl;
+    if(!isTo) {
+        auto newLead = new Leader(to);
+        leaders.push_back(newLead);
+        iterTo = leaders.find(newLead);
+    }
+    
+    for(auto it = (*iterFrom)->trailers.begin(); it != (*iterFrom)->trailers.end(); ++it) {
+        if((*it)->key == (*iterTo)->key)
+           return;
+    }
+    (*iterFrom)->addTrailer(*iterTo);
+    //std::cout << "From - " << (*iterFrom)->key << "\nTo - " << (*iterTo)->key << std::endl;
 }
 
 

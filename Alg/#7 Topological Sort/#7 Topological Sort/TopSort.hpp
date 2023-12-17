@@ -15,20 +15,25 @@ public:
     
     std::vector<int> TopologicalSort(Graph& adjacencyMatrix);
     
-//private:
+private:
+    void shiftIterator();
     List<Leader* > leaders;
     
 };
 
 struct Graph::Leader {
-    Leader(const int key, const int degree = 0)
-    : key(key),
-    degree(degree)
+    Leader(const int key)
+    : key(key)
     {}
+    
+    void addTrailer(Leader* lead) {
+        trailers.push_back(lead);
+        ++lead->degree;
+    }
     
     int key = 0;
     int degree = 0;
-    List<Leader* > trailers();
+    List<Leader* > trailers;
 };
 
 std::vector<int> TopologicalSort(BoolMatrix& adjacencyMatrix);
