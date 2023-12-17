@@ -10,7 +10,20 @@ void printVector(const std::vector<Type>& vec) {
 }
 
 int main() {
+    Graph b;
+    b.addVertex(1, 6);
+    b.addVertex(2, 1);
+    b.addVertex(4, 5);
+    b.addVertex(5, 1);
+    b.addVertex(5, 3);
+    b.addVertex(6, 2);
+    b.addVertex(6, 3);
+    b.addVertex(6, 5);
+    b.addVertex(7, 1);
+    b.print();
+    printVector(b.TopologicalSort());
     
+    return -2;
     Graph a;
     a.scan();
     a.print();

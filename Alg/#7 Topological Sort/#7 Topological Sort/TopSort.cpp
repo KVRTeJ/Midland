@@ -113,27 +113,36 @@ void Graph::deleteVertex(const int from, const int to) {
 }
 
 std::vector<int> Graph::TopologicalSort() {
+    std::vector<int> result;
     
     List<Leader* > newLead;
     do {
-        for(auto it = m_leaders.begin(); it != m_leaders.end(); ++it) {
-            if( (*it)->degree == 0)
-                newLead.push_front(*it);
+        for(auto it = m_leaders.begin(); it != m_leaders.end();) {
+            if( (*it)->degree == 0) {
+                result.push_back((*it)->key);
+                m_leaders.move(it++, newLead.begin());
+            }
+            else
+                ++it;
         }
-        Leader* p = *(newLead.begin());
+        if(newLead.isEmpty())
+            return {};
+        
+        auto p = *(newLead.begin());
+        auto temp = p->trailers.begin();
+        while(!p->trailers.isEmpty()) {
+            --(*temp)->degree;
+            assert( (*temp)->degree >= 0);
+            if( (*temp)->degree == 0)
+                newLead.push_front(*temp);
+            p->trailers.pop_front();
+            temp = p->trailers.begin();
+        }
         newLead.pop_front();
-        for(auto it = p->trailers.begin(); it != p->trailers.end(); it++) {
-            --(*it)->degree;
-            assert((*it)->degree >= 0);
-            if((*it)->degree == 0)
-                newLead.push_front(*it);
-            //TODO: удалить trailer
-        }
-        delete p;
     }
     while(!newLead.isEmpty());
     
-    return {};
+    return result;
 }
 
 /*private*/
