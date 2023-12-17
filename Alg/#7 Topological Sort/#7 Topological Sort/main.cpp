@@ -14,6 +14,9 @@ int main() {
     Graph a;
     a.scan();
     a.print();
+    BoolMatrix temp = a.matrix();
+    printVector(TopologicalSort(temp));
+    //std::cout << a.matrix() << std::endl;
     return -1;
     
     const int SIZE = 7;

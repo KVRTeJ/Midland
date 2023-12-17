@@ -8,16 +8,20 @@ public:
     struct Leader;
 public:
     Graph();
+    
+    BoolMatrix matrix() const;
+    
     void scan();
     void print() const;
     void addVertex(const int from, const int to);
     void deleteVertex(const int from, const int to);
     
+    
     std::vector<int> TopologicalSort(Graph& adjacencyMatrix);
     
 private:
     bool shiftIterator(auto& iter, const auto& end, const int key) const;
-    List<Leader* > leaders;
+    List<Leader* > m_leaders;
     
 };
 

@@ -1,7 +1,31 @@
 #include "TopSort.hpp"
 
 Graph::Graph() {
-    leaders.push_back(new Leader(1));
+    m_leaders.push_back(new Leader(1));
+}
+
+BoolMatrix Graph::matrix() const {
+    const int MAX_SIZE = m_leaders.getSize();
+    BoolMatrix matrix(MAX_SIZE, MAX_SIZE);
+    
+    int leadKey = -1, trailKey = -1;
+    for(auto itLead = m_leaders.begin(); itLead != m_leaders.end(); ++itLead) {
+        for(auto itTrail = (*itLead)->trailers.begin();
+            itTrail != (*itLead)->trailers.end(); ++itTrail) {
+            if( (*itLead)->key > MAX_SIZE)
+                leadKey = MAX_SIZE - 1;
+            else
+                leadKey = (*itLead)->key - 1;
+            if( (*itTrail)->key > MAX_SIZE)
+                trailKey = MAX_SIZE - 1;
+            else
+                trailKey = (*itTrail)->key - 1;
+            
+            matrix.set(leadKey, trailKey, true);
+        }
+    }
+            
+    return matrix;
 }
 
 void Graph::scan() {
@@ -20,11 +44,14 @@ void Graph::scan() {
 
 void Graph::print() const {
     
-    for(auto itLead = leaders.begin(); itLead != leaders.end(); ++itLead) {
+    for(auto itLead = m_leaders.begin(); itLead != m_leaders.end(); ++itLead) {
         for(auto itTrail = (*itLead)->trailers.begin();
             itTrail != (*itLead)->trailers.end(); ++itTrail) {
-            std::cout << "{" << (*itLead)->key << ", " <<
-            (*itTrail)->key << "}" << ((itTrail + 1) == (*itLead)->trailers.end() ? "\n":", ");
+            
+            std::cout << "{" << (*itLead)->key << ", "
+            << (*itTrail)->key << "}"
+            << ((itTrail + 1) == (*itLead)->trailers.end() ? "\n":", ");
+            
         }
     }
     std::cout << std::endl;
@@ -39,24 +66,24 @@ void Graph::addVertex(const int from, const int to) {
         return;
     }
     
-    const auto END = leaders.end();
+    const auto END = m_leaders.end();
     
-    auto iterFrom = leaders.begin();
+    auto iterFrom = m_leaders.begin();
     bool isFrom = shiftIterator(iterFrom, END, from);
     
-    auto iterTo = leaders.begin();
+    auto iterTo = m_leaders.begin();
     bool isTo = shiftIterator(iterTo, END, to);
 
     if(!isFrom) {
         auto newLead = new Leader(from);
-        leaders.push_back(newLead);
-        iterFrom = leaders.find(newLead);
+        m_leaders.push_back(newLead);
+        iterFrom = m_leaders.find(newLead);
     }
     
     if(!isTo) {
         auto newLead = new Leader(to);
-        leaders.push_back(newLead);
-        iterTo = leaders.find(newLead);
+        m_leaders.push_back(newLead);
+        iterTo = m_leaders.find(newLead);
     }
     
     for(auto it = (*iterFrom)->trailers.begin(); it != (*iterFrom)->trailers.end(); ++it) {
@@ -73,10 +100,10 @@ void Graph::deleteVertex(const int from, const int to) {
     if(from == to)
         return;
     
-    const auto END = leaders.end();
+    const auto END = m_leaders.end();
     
-    auto iterFrom = leaders.begin();
-    auto iterTo = leaders.begin();
+    auto iterFrom = m_leaders.begin();
+    auto iterTo = m_leaders.begin();
     if(shiftIterator(iterFrom, END, from) && shiftIterator(iterTo, END, to)) {
         std::cout << "From - " << (*iterFrom)->key << " To - " << (*iterTo)->key << std::endl;
         (*iterFrom)->deleteTrailer(*iterTo);
