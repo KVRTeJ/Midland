@@ -4,22 +4,43 @@ Graph::Graph() {
     m_leaders.push_back(new Leader(1));
 }
 
+Graph::Graph(const BoolMatrix& adjacencyMatrix) {
+    if(adjacencyMatrix.getRowCount() != adjacencyMatrix.getColumnCount()) {
+        std::cerr << "Graph::Graph(const BoolMatrix& adjacencyMatrix) - exit with code: -1\n";
+        m_leaders.push_back(new Leader(1));
+        return;
+    }
+    
+    int size = adjacencyMatrix.getRowCount();
+    for(int i = 0; i < size; ++i)
+        for(int j = 0; j < size; ++j)
+            if(adjacencyMatrix[i][j])
+                addArc(i + 1, j + 1);
+    
+}
+
+Graph::~Graph() {
+    for(auto it = m_leaders.begin(); it != m_leaders.end();)
+        delete *(it++);
+}
+
 BoolMatrix Graph::matrix() const {
     const int MAX_SIZE = m_leaders.getSize();
     BoolMatrix matrix(MAX_SIZE, MAX_SIZE);
     
     int leadKey = -1, trailKey = -1;
     for(auto itLead = m_leaders.begin(); itLead != m_leaders.end(); ++itLead) {
-        for(auto itTrail = (*itLead)->trailers.begin();
-            itTrail != (*itLead)->trailers.end(); ++itTrail) {
-            if( (*itLead)->key > MAX_SIZE)
+        for(auto itTrail = (*itLead)->m_trailers.begin();
+            itTrail != (*itLead)->m_trailers.end(); ++itTrail) {
+            if( (*itLead)->m_key > MAX_SIZE)
                 leadKey = MAX_SIZE - 1;
             else
-                leadKey = (*itLead)->key - 1;
-            if( (*itTrail)->key > MAX_SIZE)
+                leadKey = (*itLead)->m_key - 1;
+            
+            if( (*itTrail)->m_key > MAX_SIZE)
                 trailKey = MAX_SIZE - 1;
             else
-                trailKey = (*itTrail)->key - 1;
+                trailKey = (*itTrail)->m_key - 1;
             
             matrix.set(leadKey, trailKey, true);
         }
@@ -29,6 +50,8 @@ BoolMatrix Graph::matrix() const {
 }
 
 void Graph::scan() {
+    m_leaders.clear();
+    m_leaders.push_back(new Leader(1));
     std::cout << "Input Graph\nExample -1 2\n";
     std::cout << "To stop input push -0 0" << std::endl;
     
@@ -38,7 +61,11 @@ void Graph::scan() {
         scanf("%d%d", &from, &to);
         if(from == 0 || to == 0)
             return;
-        addVertex(from, to);
+        else if(from < 0 || to < 0) {
+            std::cout << "from and to can't be < 0" << std::endl;
+            continue;
+        }
+        addArc(from, to);
         //std::cout << "a - " << a << " b - " << b << std::endl;
     }
 }
@@ -46,12 +73,12 @@ void Graph::scan() {
 void Graph::print() const {
     
     for(auto itLead = m_leaders.begin(); itLead != m_leaders.end(); ++itLead) {
-        for(auto itTrail = (*itLead)->trailers.begin();
-            itTrail != (*itLead)->trailers.end(); ++itTrail) {
+        for(auto itTrail = (*itLead)->m_trailers.begin();
+            itTrail != (*itLead)->m_trailers.end(); ++itTrail) {
             
-            std::cout << "{" << (*itLead)->key << ", "
-            << (*itTrail)->key << "}"
-            << ((itTrail + 1) == (*itLead)->trailers.end() ? "\n":", ");
+            std::cout << "{" << (*itLead)->m_key << ", "
+            << (*itTrail)->m_key << "}"
+            << ((itTrail + 1) == (*itLead)->m_trailers.end() ? "\n":", ");
             
         }
     }
@@ -59,54 +86,39 @@ void Graph::print() const {
     
 }
 
-void Graph::addVertex(const int from, const int to) {
-    if(from <= 0 || to <= 0)
-        return;
-    if(from == to) {
-        std::cerr << from << " cannot be included by itself" << std::endl;
-        return;
-    }
-    
+void Graph::addArc(const int from, const int to) {
     const auto END = m_leaders.end();
     
     auto iterFrom = m_leaders.begin();
-    bool isFrom = shiftIterator(iterFrom, END, from);
-    
     auto iterTo = m_leaders.begin();
-    bool isTo = shiftIterator(iterTo, END, to);
 
-    if(!isFrom) {
+    if(!find(iterFrom, END, from)) {
         auto newLead = new Leader(from);
         m_leaders.push_back(newLead);
         iterFrom = m_leaders.find(newLead);
     }
     
-    if(!isTo) {
+    if(!find(iterTo, END, to)) {
         auto newLead = new Leader(to);
         m_leaders.push_back(newLead);
         iterTo = m_leaders.find(newLead);
     }
     
-    for(auto it = (*iterFrom)->trailers.begin(); it != (*iterFrom)->trailers.end(); ++it) {
-        if((*it)->key == (*iterTo)->key)
-           return;
+    for(auto it = (*iterFrom)->m_trailers.begin(); it != (*iterFrom)->m_trailers.end(); ++it) {
+        if((*it)->m_key == (*iterTo)->m_key)
+           return; //already has arc
     }
-    (*iterFrom)->addTrailer(*iterTo);
     
+    (*iterFrom)->addTrailer(*iterTo);
 }
 
-void Graph::deleteVertex(const int from, const int to) {
-    if(from <= 0 || to <= 0)
-        return;
-    if(from == to)
-        return;
-    
+void Graph::deleteArc(const int from, const int to) {
     const auto END = m_leaders.end();
     
     auto iterFrom = m_leaders.begin();
     auto iterTo = m_leaders.begin();
-    if(shiftIterator(iterFrom, END, from) && shiftIterator(iterTo, END, to)) {
-        std::cout << "From - " << (*iterFrom)->key << " To - " << (*iterTo)->key << std::endl;
+    if(find(iterFrom, END, from) && find(iterTo, END, to)) {
+        std::cout << "From - " << (*iterFrom)->m_key << " To - " << (*iterTo)->m_key << std::endl;
         (*iterFrom)->deleteTrailer(*iterTo);
     }
     
@@ -114,42 +126,51 @@ void Graph::deleteVertex(const int from, const int to) {
 
 std::vector<int> Graph::TopologicalSort() {
     std::vector<int> result;
+    BoolMatrix reserve = matrix();
     
     List<Leader* > newLead;
     do {
         for(auto it = m_leaders.begin(); it != m_leaders.end();) {
-            if( (*it)->degree == 0) {
-                result.push_back((*it)->key);
+            if( (*it)->m_degree == 0) {
+                result.push_back((*it)->m_key);
                 m_leaders.move(it++, newLead.begin());
             }
             else
                 ++it;
         }
         if(newLead.isEmpty())
-            return {};
+            break;
         
         auto p = *(newLead.begin());
-        auto temp = p->trailers.begin();
-        while(!p->trailers.isEmpty()) {
-            --(*temp)->degree;
-            assert( (*temp)->degree >= 0);
-            if( (*temp)->degree == 0)
+        auto temp = p->m_trailers.begin();
+        while(!p->m_trailers.isEmpty()) {
+            --(*temp)->m_degree;
+            assert( (*temp)->m_degree >= 0);
+            if( (*temp)->m_degree == 0)
                 newLead.push_front(*temp);
-            p->trailers.pop_front();
-            temp = p->trailers.begin();
+            p->m_trailers.pop_front();
+            temp = p->m_trailers.begin();
         }
         newLead.pop_front();
     }
     while(!newLead.isEmpty());
     
+    if(result.size() != reserve.getRowCount()) {
+        int size = reserve.getRowCount();
+        for(int i = 0; i < size; ++i)
+            for(int j = 0; j < size; ++j)
+                if(reserve[i][j])
+                    addArc(i + 1, j + 1);
+    }
+
     return result;
 }
 
 /*private*/
-bool Graph::shiftIterator(auto& iter, const auto& end, const int key) const {
+bool Graph::find(List<Leader* >::Iterator& iter, const List<Leader* >::Iterator& end, const int key) const {
     
     while(iter != end) {
-        if((*iter)->key == key) {
+        if((*iter)->m_key == key) {
             return true;
         }
         ++iter;

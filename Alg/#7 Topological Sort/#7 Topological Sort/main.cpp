@@ -11,17 +11,20 @@ void printVector(const std::vector<Type>& vec) {
 
 int main() {
     Graph b;
-    b.addVertex(1, 6);
-    b.addVertex(2, 1);
-    b.addVertex(4, 5);
-    b.addVertex(5, 1);
-    b.addVertex(5, 3);
-    b.addVertex(6, 2);
-    b.addVertex(6, 3);
-    b.addVertex(6, 5);
-    b.addVertex(7, 1);
+    
+    b.addArc(1, 7);
+    b.addArc(2, 1);
+    b.addArc(4, 5);
+    b.addArc(5, 1);
+    b.addArc(5, 3);
+    b.addArc(6, 2);
+    b.addArc(6, 3);
+    b.addArc(6, 5);
+    b.addArc(7, 1);
     b.print();
+    //std::cout << b.matrix() << std::endl;
     printVector(b.TopologicalSort());
+    b.print();
     
     return -2;
     Graph a;
