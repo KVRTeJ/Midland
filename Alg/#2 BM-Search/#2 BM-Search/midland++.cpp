@@ -91,6 +91,13 @@ void getOccurrences(std::vector<int> &answer,const std::string string,
 
 int bmSearch(const std::string string, const std::string subString) {
     
+    if(string.size() == subString.size()) {
+        for(int i = 0; i < string.size(); ++i)
+            if(string[i] != subString[i])
+                return -1;
+        return 0;
+    }
+    
     int start = 0,
         stop = (int) subString.size();
     
@@ -138,3 +145,48 @@ std::vector<int> bmSearchOccurrencesInRange(const std::string string, const std:
     
 }
 
+std::vector<int> generateNewJTable(const std::string& string) {
+    
+    std::vector<int> newJ(string.size());
+    newJ[0] = -1;
+    
+    {
+        int k = 0;
+        int j = 1;
+        const size_t size = newJ.size();
+        while(j < size) {
+            if(string[k] == string[j]) {
+                newJ[j] = newJ[k];
+                ++k;
+            } else { //string[k] != string[j]
+                newJ[j] = k;
+                while(k >= 0 && string[k] != string[j]) {
+                    k = newJ[k];
+                }
+                ++k;
+            }
+            
+            ++j;
+        }
+    }
+    
+    return newJ;
+}
+
+int kmpSearch(const std::string& string, const std::string& substring) {
+    
+    std::vector<int> newJ = generateNewJTable(substring);
+    
+    const int strSize = (int) string.size();
+    const int subStrSize = (int) substring.size();
+    for(int i = 0, j = 0; i < strSize; ++i) {
+        if(j < subStrSize) {
+            if(j >= 0) {
+                if(string[i] != substring[j]) {
+                    j = newJ[j];
+                } else { ++j;}
+            } else { ++j;}
+        } else { return i - subStrSize;}
+    }
+    return -1;
+}

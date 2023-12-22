@@ -20,3 +20,6 @@ std::vector<int> bmSearchOccurrencesInRange(const std::string string, const std:
                                             const int start, const int stop);
 //БМ-Поиск. Возвращает вхождения подстроки в строку в диапазоне от start до stop
 
+std::vector<int> generateNewJTable(const std::string& string);
+
+int kmpSearch(const std::string& string, const std::string& substring);
