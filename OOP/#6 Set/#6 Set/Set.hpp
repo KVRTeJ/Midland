@@ -1,14 +1,16 @@
 #pragma once
 
 #include "BoolVector.hpp"
+#include "midland++.hpp"
 
 class Set : public BoolVector {
 public:
-    Set(const char value = (char) 0) {
+    Set(const char value = (char) MAX_CARDINALIS)
+    : BoolVector(MAX_CARDINALIS)
+    {
         m_set = new BoolVector(MAX_CARDINALIS);
-        
-        if(value - NEEDLESS_TABLE >= 0 && value - NEEDLESS_TABLE < MAX_CARDINALIS) {
-            m_set->set((int) value - NEEDLESS_TABLE, 1);
+        if(value < MAX_CARDINALIS) {
+            m_set->set((int) value, 1);
         }
         
     }
@@ -18,9 +20,9 @@ public:
     
     int cardinalis() const {return m_set->weight();}
     bool contains(const char value) const {
-        if((int) value < NEEDLESS_TABLE || (int) value >= MAX_CARDINALIS + NEEDLESS_TABLE)
+        if((unsigned) value >= MAX_CARDINALIS) // if value < 0 => max unsigned => > 127
             return false;
-        return m_set->operator[]((int) value - NEEDLESS_TABLE);
+        return m_set->operator[]((int) value);
     }
     char max() const;
     char min() const;
@@ -40,9 +42,11 @@ public:
     bool operator == (const Set& other) const {return *m_set == *other.m_set;}
     bool operator != (const Set& other) const {return !(*this == other);}
     
-    static const int MAX_CARDINALIS = 95;
+    static const int MAX_CARDINALIS;
+    static const std::vector<std::string> NOT_ENTERED_CHARAPTERS;
+    
 private:
-    static const int NEEDLESS_TABLE = 32;
+    
     BoolVector* m_set = nullptr;
     
 };

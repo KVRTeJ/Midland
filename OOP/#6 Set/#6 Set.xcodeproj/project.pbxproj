@@ -10,6 +10,7 @@
 		2C09D26D2B20640000AB3F8E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C09D26C2B20640000AB3F8E /* main.cpp */; };
 		2C09D2752B20652900AB3F8E /* Set.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C09D2732B20652900AB3F8E /* Set.cpp */; };
 		2C09D2782B206E1300AB3F8E /* BoolVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C09D2772B206E1300AB3F8E /* BoolVector.cpp */; };
+		2CCE20792B36057C0076F2F8 /* midland++.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CCE20772B36057C0076F2F8 /* midland++.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +32,8 @@
 		2C09D2742B20652900AB3F8E /* Set.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Set.hpp; sourceTree = "<group>"; };
 		2C09D2762B206E1300AB3F8E /* BoolVector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BoolVector.hpp; path = "../../#3 Bool Vector/#3 Bool Vector/BoolVector.hpp"; sourceTree = "<group>"; };
 		2C09D2772B206E1300AB3F8E /* BoolVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BoolVector.cpp; path = "../../#3 Bool Vector/#3 Bool Vector/BoolVector.cpp"; sourceTree = "<group>"; };
+		2CCE20772B36057C0076F2F8 /* midland++.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "midland++.cpp"; path = "../../../Alg/#2 BM-Search/#2 BM-Search/midland++.cpp"; sourceTree = "<group>"; };
+		2CCE20782B36057C0076F2F8 /* midland++.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = "midland++.hpp"; path = "../../../Alg/#2 BM-Search/#2 BM-Search/midland++.hpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +66,8 @@
 		2C09D26B2B20640000AB3F8E /* #6 Set */ = {
 			isa = PBXGroup;
 			children = (
+				2CCE20772B36057C0076F2F8 /* midland++.cpp */,
+				2CCE20782B36057C0076F2F8 /* midland++.hpp */,
 				2C09D2772B206E1300AB3F8E /* BoolVector.cpp */,
 				2C09D2762B206E1300AB3F8E /* BoolVector.hpp */,
 				2C09D26C2B20640000AB3F8E /* main.cpp */,
@@ -130,6 +135,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C09D2782B206E1300AB3F8E /* BoolVector.cpp in Sources */,
+				2CCE20792B36057C0076F2F8 /* midland++.cpp in Sources */,
 				2C09D2752B20652900AB3F8E /* Set.cpp in Sources */,
 				2C09D26D2B20640000AB3F8E /* main.cpp in Sources */,
 			);
