@@ -183,10 +183,17 @@ void BaseList<Type>::clear() {
 
 template <typename Type>
 void BaseList<Type>::move(Iterator at, Iterator before) {
+    if(at.m_list->getSize() == 0)
+        return;
     
     at.m_node->m_prev->m_next = at.m_node->m_next;
     at.m_node->m_next->m_prev = at.m_node->m_prev;
     --at.m_list->m_size;
+    
+    at.m_list->notify(at.m_node, [&before](IIterator *it){
+        it->setList(before.m_list);
+        before.m_list->subscribe(it);
+    });
     
     at.m_node->m_next = before.m_node;
     at.m_node->m_prev = before.m_node->m_prev;
@@ -342,7 +349,9 @@ void BaseList<Type>::removeNode(Node* currentNode) {
     
     assert(m_size > 0);
     
-    notify(currentNode);
+    notify(currentNode, [](IIterator *it) {
+        it->invalidate();
+    });
     currentNode->m_next->m_prev = currentNode->m_prev;
     currentNode->m_prev->m_next = currentNode->m_next;
     delete currentNode;

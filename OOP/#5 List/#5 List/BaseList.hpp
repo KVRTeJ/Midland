@@ -27,7 +27,7 @@ public:
     
     virtual void subscribe(IIterator* iter) const {}
     virtual void unsubscribe(IIterator* iter) const {}
-    virtual void notify(Node* deleted) {}
+    virtual void notify(Node* deleted, std::function<void(IIterator *)> action, bool eraseAfterAction = true) {}
     
     
     unsigned int getSize() const {return m_size;}
@@ -107,6 +107,8 @@ public:
     virtual void invalidate() = 0;
     virtual bool pointsTo(const Node *node) const = 0;
     virtual ~IIterator() = default;
+    //TODO: move to protected, IIterator -> AbstractIterator
+    virtual void setList(BaseList *list) = 0;
 };
 
 template <typename Type>
@@ -144,6 +146,7 @@ public:
     bool pointsTo(const Node* node) const override {return m_node == node;}
     bool isValid() const override {return m_node != nullptr;}
     void invalidate() override {m_node = nullptr; m_list = nullptr;}
+    void setList(BaseList *list) override { m_list = list;}
 private:
     Node* m_node = nullptr;
     ListType* m_list = nullptr;
@@ -189,11 +192,13 @@ public:
         iterators->eraseFirst(iter);
     }
     
-    void notify(Node* deleted) override {
+    void notify(Node* deleted, std::function<void(IIterator *)> action, bool eraseAfterAction = true) override {
         for(auto it = iterators->begin(); it != iterators->end();) {
             if( !(*it)->isValid() || (*it)->pointsTo(deleted)) {
-                (*it)->invalidate();
-                iterators->erase(it++);
+                action(*it);
+                
+                if (eraseAfterAction)
+                    iterators->erase(it++);
             } else {
                 ++it;
             }
