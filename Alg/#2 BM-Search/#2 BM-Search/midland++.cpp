@@ -135,6 +135,9 @@ std::vector<int> bmSearchAllOccurrences(const std::string string,const std::stri
 std::vector<int> bmSearchOccurrencesInRange(const std::string string, const std::string subString,
                                             const int start, const int stop) {
     
+    if(start > string.size())
+        return {};
+    
     int tab[256] = {0};
     
     fillAsciiTab(tab, subString);
