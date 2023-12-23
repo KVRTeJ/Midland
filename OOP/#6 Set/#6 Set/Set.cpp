@@ -24,10 +24,11 @@ const std::vector<std::string> Set::NOT_ENTERED_CHARAPTERS = {
 };
 
 
-Set::Set(const char* str) {
+Set::Set(const char* str)
+: BoolVector(MAX_CARDINALIS)
+{
     
     const std::string string(str);
-    m_set = new BoolVector(MAX_CARDINALIS);
     for(int i = 0; i < string.size(); ++i) {
     begin:
         if(string[i] >= 'A' && string[i] <= 'Z') {
@@ -47,35 +48,26 @@ Set::Set(const char* str) {
     
 }
 
-Set::Set(const Set& other) {
-    
-    m_set = new BoolVector(MAX_CARDINALIS);
-    *m_set |= *other.m_set;
-    
-}
+Set::Set(const Set& other)
+: BoolVector(other)
+{}
 
 char Set::max() const {
     for(int i = MAX_CARDINALIS - 1; i >= 0; --i)
-        if(m_set->operator[](i))
+        if(operator[](i))
             return (char) i;
     return (char) 0;
 }
 
 char Set::min() const {
     for(int i = 0; i < MAX_CARDINALIS; ++i)
-        if(m_set->operator[](i))
+        if(operator[](i))
             return (char) i;
     return (char) 0;
 }
 
 Set& Set::operator = (const Set& other) {
-    
-    if(this != &other) {
-        delete m_set;
-        m_set = new BoolVector(MAX_CARDINALIS);
-        *m_set |= *other.m_set;
-    }
-    
+    BoolVector::operator=(other);
     return *this;
 }
 
@@ -96,7 +88,7 @@ Set Set::operator & (const Set& other) const {
 }
 
 Set& Set::operator /= (const Set& other) {
-    *m_set &= ~*other.m_set;
+    BoolVector::operator&=(~other);
     return *this;
 }
 
@@ -111,8 +103,8 @@ Set Set::operator / (const Set& other) const {
 Set& Set::operator += (const char value) {
     
     if(value >= 0 && value < MAX_CARDINALIS) {
-        if(!m_set->operator[]((int) value)) {
-            m_set->operator[]((int) value) = true;
+        if(!operator[]((int) value)) {
+            operator[]((int) value) = true;
         }
     }
     
@@ -131,8 +123,8 @@ Set Set::operator + (const char value) const  {
 Set& Set::operator -= (const char value) {
     
     if(value >= 0 && value < MAX_CARDINALIS) {
-        if(m_set->operator[]((int) value)) {
-            m_set->operator[]((int) value) = false;
+        if(operator[]((int) value)) {
+            operator[]((int) value) = false;
         }
     }
     
@@ -150,7 +142,7 @@ Set Set::operator - (const char value) const {
 Set Set::operator ~ () const {
     
     Set result(*this);
-    result.m_set->invert();
+    result.invert();
     
     return result;
 }
@@ -160,6 +152,7 @@ Set Set::operator ~ () const {
 std::ostream& operator << (std::ostream& stream, const Set& other) {
     
     stream << "{";
+    
     bool wasOutput = false;
     for(int i = 0; i < Set::MAX_CARDINALIS; ++i) {
         if(other.contains((char) i)) {
@@ -173,12 +166,13 @@ std::ostream& operator << (std::ostream& stream, const Set& other) {
         }
         
     }
+    
     stream << "}";
     
     return stream;
 }
 
-std::istream& operator >> (std::istream& stream, Set& other) { //FIXME: fixme
+std::istream& operator >> (std::istream& stream, Set& other) {
     
     std::string c;
     std::getline(stream, c);
