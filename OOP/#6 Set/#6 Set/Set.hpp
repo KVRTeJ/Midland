@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BoolVector.hpp"
-#include "midland++.hpp"
+//#include "midland++.hpp"
 
 class Set : public BoolVector {
 public:
@@ -14,7 +14,7 @@ public:
         }
         
     }
-    Set(const char* string);
+    Set(const char* str);
     Set(const Set& other);
     ~Set() {delete m_set;}
     

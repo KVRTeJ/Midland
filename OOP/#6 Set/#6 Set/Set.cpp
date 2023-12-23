@@ -1,5 +1,20 @@
 #include "Set.hpp"
 
+bool find(const std::string& string, const std::string& substring, const int start) {
+    if(start + substring.size() > string.size())
+        return false;
+    
+    const int subStrSize = (int) substring.size();
+    for(int i = start, j = 0; i < start + subStrSize && j < subStrSize; ++i, ++j) {
+        if(string[i] != substring[j]) {
+            return false;
+        }
+    }
+    
+    return true;
+    
+}
+
 const int Set::MAX_CARDINALIS = 127;
 
 const std::vector<std::string> Set::NOT_ENTERED_CHARAPTERS = {
@@ -8,13 +23,25 @@ const std::vector<std::string> Set::NOT_ENTERED_CHARAPTERS = {
     "SYN", "ETB", "CAN", "EM", "SUB", "ESC", "FS", "GS", "RS", "US", "SPACE"
 };
 
-Set::Set(const char* string) {
+
+Set::Set(const char* str) {
     
+    const std::string string(str);
     m_set = new BoolVector(MAX_CARDINALIS);
-    const int size = (int) strlen(string);
-    for(int i = 0; i < size; ++i) {
-        if(!m_set->operator[]((string[i]))) {
-            m_set->set((int) string[i], 1);
+    for(int i = 0; i < string.size(); ++i) {
+    begin:
+        if(string[i] >= 'A' && string[i] <= 'Z') {
+            for(int j = 0; j < Set::NOT_ENTERED_CHARAPTERS.size(); ++j) {
+                if(find(string, Set::NOT_ENTERED_CHARAPTERS[j], i)) {
+                    *this += (char) j;
+                    i += Set::NOT_ENTERED_CHARAPTERS[j].size();
+                    goto begin;
+                }
+            }
+            *this += string[i];
+        } else {
+            if(string[i] != (char) 0)
+                *this += string[i];
         }
     }
     
@@ -151,26 +178,27 @@ std::ostream& operator << (std::ostream& stream, const Set& other) {
     return stream;
 }
 
-
-
 std::istream& operator >> (std::istream& stream, Set& other) { //FIXME: fixme
     
-    std::string c = "";
+    std::string c;
     std::getline(stream, c);
-    for(int i = 0; i < c.size(); ++i)
+    std::cout << c << std::endl;
+    for(int i = 0; i < c.size(); ++i) {
+    begin:
         if(c[i] >= 'A' && c[i] <= 'Z') {
             for(int j = 0; j < Set::NOT_ENTERED_CHARAPTERS.size(); ++j) {
-                if(!bmSearchOccurrencesInRange(c, Set::NOT_ENTERED_CHARAPTERS[j], i,
-                    i + Set::NOT_ENTERED_CHARAPTERS[j].size()).empty()) { //FIXME: fixme
+                if(find(c, Set::NOT_ENTERED_CHARAPTERS[j], i)) {
                     other += (char) j;
                     i += Set::NOT_ENTERED_CHARAPTERS[j].size();
-                    break;
+                    goto begin;
                 }
             }
             other += c[i];
         } else {
-            other += c[i];
+            if(c[i] != (char) 0)
+                other += c[i];
         }
+    }
      
  return stream;
 }

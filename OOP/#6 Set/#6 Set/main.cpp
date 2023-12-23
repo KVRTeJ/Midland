@@ -2,8 +2,8 @@
 
 
 int main() {
-    Set temp;
-    std::cin >> temp;
+    Set temp = "SOHjdaskNULLSPACE";
+    //std::cin >> temp;
     std::cout << temp;
     
     return -1;
