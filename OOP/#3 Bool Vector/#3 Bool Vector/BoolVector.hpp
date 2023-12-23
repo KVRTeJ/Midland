@@ -13,7 +13,7 @@ public:
     BoolVector(const char* string);
     BoolVector(const std::vector<char>& string);
     BoolVector(const BoolVector& other);
-    ~BoolVector();
+    virtual ~BoolVector();
     
     int weight() const;
     void print() const;
