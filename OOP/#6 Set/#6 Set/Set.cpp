@@ -173,6 +173,7 @@ std::ostream& operator << (std::ostream& stream, const Set& other) {
 }
 
 std::istream& operator >> (std::istream& stream, Set& other) {
+    other.clear();
     
     std::string c;
     std::getline(stream, c);

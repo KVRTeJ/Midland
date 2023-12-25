@@ -23,6 +23,7 @@ public:
     }
     char max() const;
     char min() const;
+    void clear() { *this = Set();}
     
     Set& operator = (const Set& other);
     Set& operator |= (const Set& other) { BoolVector::operator |= (other); return *this;}
