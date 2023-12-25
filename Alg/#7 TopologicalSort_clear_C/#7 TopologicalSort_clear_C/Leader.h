@@ -20,5 +20,5 @@ struct Trailer {
 
 void printGraph(struct Leader* graph);
 
-void addArc(struct Leader* lead, const int From, const int To);
+void addArc(struct Leader** lead, const int From, const int To); //FIXME: не меняет struct Leader*
 void deleteArc(struct Leader* lead, const int From, const int To);

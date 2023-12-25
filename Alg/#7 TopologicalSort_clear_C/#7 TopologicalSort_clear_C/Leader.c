@@ -3,6 +3,8 @@
 void printGraph(struct Leader* graph) {
     
     for(struct Leader* it = graph; it; it = it->next) {
+        if(!it->key)
+            continue;
         printf("%d -> ", it->key);
         for(struct Trailer* itTrailer = it->trailers; itTrailer; itTrailer = itTrailer->next){
             printf("%d ", itTrailer->lead->key);
@@ -11,16 +13,16 @@ void printGraph(struct Leader* graph) {
     }
 }
 
-void addArc(struct Leader* graph, const int From, const int To) {
+void addArc(struct Leader** graph, const int From, const int To) {
     struct Leader* ptrFrom = NULL;
     struct Leader* ptrTo = NULL;
     
-    for(ptrFrom = graph; ptrFrom; ptrFrom = ptrFrom->next) {
+    for(ptrFrom = *graph; ptrFrom; ptrFrom = ptrFrom->next) {
         if(ptrFrom->key == From)
             break;
     }
-    for(ptrTo = graph; ptrTo; ptrTo = ptrTo->next) {
-        if(ptrTo->key == From)
+    for(ptrTo = *graph; ptrTo; ptrTo = ptrTo->next) {
+        if(ptrTo->key == To)
             break;
     }
     
@@ -41,8 +43,8 @@ void addArc(struct Leader* graph, const int From, const int To) {
             
             ptrFrom->key = From;
             ptrFrom->st = 0;
-            ptrFrom->next = graph;
-            graph = ptrFrom;
+            ptrFrom->next = *graph;
+            *graph = ptrFrom;
             ptrFrom->trailers = NULL;
         }
         if(!ptrTo) {
@@ -54,8 +56,8 @@ void addArc(struct Leader* graph, const int From, const int To) {
             
             ptrTo->key = To;
             ptrTo->st = 0;
-            ptrTo->next = graph;
-            graph = ptrTo;
+            ptrTo->next = *graph;
+            *graph = ptrTo;
             ptrTo->trailers = NULL;
         }
     }
@@ -73,7 +75,5 @@ void addArc(struct Leader* graph, const int From, const int To) {
         ptrFrom->trailers = newTrailer;
     }
     
-    ptrTo = NULL;
-    ptrFrom = NULL;
-    
+    return;
 }
