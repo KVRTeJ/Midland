@@ -18,7 +18,11 @@ struct Trailer {
     struct Trailer* next;
 };
 
-void printGraph(struct Leader* graph);
+void print(struct Leader* graph);
+void scan(struct Leader** graph);
+_Bool isEdge(struct Leader* graph, const int from, const int to);
 
-void addArc(struct Leader** lead, const int From, const int To); //FIXME: не меняет struct Leader*
-void deleteArc(struct Leader* lead, const int From, const int To);
+void addArc(struct Leader** graph, const int From, const int To);
+void excludeArc(struct Leader** graph, const int From, const int To);
+
+void deleteGraph(struct Leader** graph);

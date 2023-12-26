@@ -3,11 +3,12 @@
 int main() {
     
     struct Leader* lead = malloc(1*sizeof(struct Leader));
-
+    
     addArc(&lead, 1, 2);
-    addArc(&lead, 2, 1);
     addArc(&lead, 2, 3);
-    addArc(&lead, 2, 4);
-    printGraph(lead);
+    if(isEdge(lead, 2, 3))
+        printf("Yes\n");
+    print(lead);
+    
     return 0;
 }
