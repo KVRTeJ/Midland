@@ -22,14 +22,14 @@ int main() {
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
     
-    
-    Set foo = "NULL, SOH, STX, ETX, EOT, ENQ, ACK, BEL, BS, HT, LF, VT, FF, CR, SO, SI, DLE, DC1, DC2, DC3, DC4, NAK, SYN, ETB, CAN, EM, SUB, ESC, FS, GS, RS, US, SPACE FAKE";
+    Set foo = "/NULL, /SOH, /STX, /ETX, /EOT, /ENQ, /ACK, /BEL, /BS, /HT, /LF, /VT, /FF, /CR, /SO, /SI, /DLE, /DC1, /DC2, /DC3, /DC4, /NAK, /SYN, /ETB, /CAN, /EM, /SUB, /ESC, /FS, /GS, /RS, /US, /SPACE /FAKE";
     foo -= ',';
     foo -= 'F';
     foo -= 'A';
     Set boo(foo);
     boo -= 'K';
     boo -= 'E';
+    boo -= '/';
     foo = boo;
     std::cout << "Key Words: \n" << foo << std::endl;
     assert(boo.cardinalis() == Set::NOT_ENTERED_CHARAPTERS.size());

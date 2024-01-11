@@ -2,7 +2,7 @@
 
 #include "BoolVector.hpp"
 
-class Set : public BoolVector {
+class Set : private BoolVector {
 public:
     Set(const char value = (char) MAX_CARDINALIS)
     : BoolVector(MAX_CARDINALIS)

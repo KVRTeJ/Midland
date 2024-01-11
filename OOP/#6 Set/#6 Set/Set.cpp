@@ -1,26 +1,28 @@
 #include "Set.hpp"
 
-bool find(const std::string& string, const std::string& substring, const int start) {
-    if(start + substring.size() > string.size())
-        return false;
-    
-    const int subStrSize = (int) substring.size();
-    for(int i = start, j = 0; i < start + subStrSize && j < subStrSize; ++i, ++j) {
-        if(string[i] != substring[j]) {
+namespace {
+    bool find(const std::string& string, const std::string& substring, const int start) {
+        if(start + substring.size() > string.size())
             return false;
+        
+        const int subStrSize = (int) substring.size();
+        for(int i = start, j = 0; i < start + subStrSize && j < subStrSize; ++i, ++j) {
+            if(string[i] != substring[j]) {
+                return false;
+            }
         }
+        
+        return true;
+        
     }
-    
-    return true;
-    
 }
 
 const int Set::MAX_CARDINALIS = 127;
 
 const std::vector<std::string> Set::NOT_ENTERED_CHARAPTERS = {
-    "NULL", "SOH", "STX", "ETX", "EOT", "ENQ", "ACK", "BEL", "BS", "HT", "LF",
-    "VT", "FF", "CR", "SO", "SI", "DLE", "DC1", "DC2", "DC3", "DC4", "NAK",
-    "SYN", "ETB", "CAN", "EM", "SUB", "ESC", "FS", "GS", "RS", "US", "SPACE"
+    "/NULL", "/SOH", "/STX", "/ETX", "/EOT", "/ENQ", "/ACK", "/BEL", "/BS", "/HT", "/LF",
+    "/VT", "/FF", "/CR", "/SO", "/SI", "/DLE", "/DC1", "/DC2", "/DC3", "/DC4", "/NAK",
+    "/SYN", "/ETB", "/CAN", "/EM", "/SUB", "/ESC", "/FS", "/GS", "/RS", "/US", "/SPACE"
 };
 
 
@@ -30,20 +32,23 @@ Set::Set(const char* str)
     
     const std::string string(str);
     for(int i = 0; i < string.size(); ++i) {
-    begin:
-        if(string[i] >= 'A' && string[i] <= 'Z') {
-            for(int j = 0; j < Set::NOT_ENTERED_CHARAPTERS.size(); ++j) {
-                if(find(string, Set::NOT_ENTERED_CHARAPTERS[j], i)) {
-                    *this += (char) j;
-                    i += Set::NOT_ENTERED_CHARAPTERS[j].size();
-                    goto begin;
+        if(string[i] == '/') {
+            if(string[i + 1] >= 'A' && string[i + 1] <= 'Z') {
+                for(int j = 0; j < Set::NOT_ENTERED_CHARAPTERS.size(); ++j) {
+                    if(find(string, Set::NOT_ENTERED_CHARAPTERS[j], i)) {
+                        *this += (char) j;
+                        i += Set::NOT_ENTERED_CHARAPTERS[j].size();
+                        continue;
+                    }
                 }
-            }
-            *this += string[i];
-        } else {
-            if(string[i] != (char) 0)
                 *this += string[i];
+            } else {
+                if(string[i] != (char) 0)
+                    *this += string[i];
+            }
         }
+        else
+            *this += '/';
     }
     
 }
@@ -179,22 +184,24 @@ std::istream& operator >> (std::istream& stream, Set& other) {
     std::getline(stream, c);
     std::cout << c << std::endl;
     for(int i = 0; i < c.size(); ++i) {
-    begin:
-        if(c[i] >= 'A' && c[i] <= 'Z') {
-            for(int j = 0; j < Set::NOT_ENTERED_CHARAPTERS.size(); ++j) {
-                if(find(c, Set::NOT_ENTERED_CHARAPTERS[j], i)) {
-                    other += (char) j;
-                    i += Set::NOT_ENTERED_CHARAPTERS[j].size();
-                    goto begin;
+        if(c[i] == '/') {
+            if(c[i + 1] >= 'A' && c[i + 1] <= 'Z') {
+                for(int j = 0; j < Set::NOT_ENTERED_CHARAPTERS.size(); ++j) {
+                    if(find(c, Set::NOT_ENTERED_CHARAPTERS[j], i)) {
+                        other += (char) j;
+                        i += Set::NOT_ENTERED_CHARAPTERS[j].size();
+                        continue;
+                    }
                 }
-            }
-            other += c[i];
-        } else {
-            if(c[i] != (char) 0)
                 other += c[i];
-        }
+            } else {
+                if(c[i] != (char) 0)
+                    other += c[i];
+            }
+        } else
+            c[i] += '/';
     }
-     
- return stream;
+    
+    return stream;
 }
-
+    
