@@ -1,4 +1,5 @@
 #include "Set.hpp"
+#include "assert.h"
 #include <chrono>
 #include <thread>
 
