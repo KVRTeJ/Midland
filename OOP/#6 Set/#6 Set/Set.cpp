@@ -30,27 +30,10 @@ Set::Set(const char* str)
 : BoolVector(MAX_CARDINALIS)
 {
     
-    const std::string string(str);
-    for(int i = 0; i < string.size(); ++i) {
-        if(string[i] == '/') {
-            if(string[i + 1] >= 'A' && string[i + 1] <= 'Z') {
-                for(int j = 0; j < Set::NOT_ENTERED_CHARAPTERS.size(); ++j) {
-                    if(find(string, Set::NOT_ENTERED_CHARAPTERS[j], i)) {
-                        *this += (char) j;
-                        i += Set::NOT_ENTERED_CHARAPTERS[j].size();
-                        continue;
-                    }
-                }
-                *this += string[i];
-            } else {
-                if(string[i] != (char) 0)
-                    *this += string[i];
-            }
-        }
-        else
-            *this += '/';
+    for(int i = 0; str[i] != '\0'; ++i) {
+        *this += str[i];
     }
-    
+
 }
 
 Set::Set(const Set& other)
@@ -163,9 +146,9 @@ std::ostream& operator << (std::ostream& stream, const Set& other) {
         if(other.contains((char) i)) {
             stream << (wasOutput ? ", " : "");
             if(i < Set::NOT_ENTERED_CHARAPTERS.size()) { //Нелья засунуть в тернарный оператор :(
-                std::cout << Set::NOT_ENTERED_CHARAPTERS[i];
+                stream << Set::NOT_ENTERED_CHARAPTERS[i];
             } else {
-                std::cout << static_cast<char> (i);
+                stream << static_cast<char> (i);
             }
             wasOutput = true;
         }

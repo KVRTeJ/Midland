@@ -22,7 +22,12 @@ int main() {
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
     
-    Set foo = "/NULL, /SOH, /STX, /ETX, /EOT, /ENQ, /ACK, /BEL, /BS, /HT, /LF, /VT, /FF, /CR, /SO, /SI, /DLE, /DC1, /DC2, /DC3, /DC4, /NAK, /SYN, /ETB, /CAN, /EM, /SUB, /ESC, /FS, /GS, /RS, /US, /SPACE /FAKE";
+    std::cout << "Enter foo: ";
+    Set foo;
+    std::cin >> foo;
+    /*
+     /NULL, /SOH, /STX, /ETX, /EOT, /ENQ, /ACK, /BEL, /BS, /HT, /LF, /VT, /FF, /CR, /SO, /SI, /DLE, /DC1, /DC2, /DC3, /DC4, /NAK, /SYN, /ETB, /CAN, /EM, /SUB, /ESC, /FS, /GS, /RS, /US, /SPACE /FAKE
+     */
     foo -= ',';
     foo -= 'F';
     foo -= 'A';
