@@ -155,14 +155,13 @@ std::vector<int> Graph::TopologicalSort() {
     }
     while(!newLead.isEmpty());
     
-    if(result.size() != reserve.getRowCount()) {
-        int size = reserve.getRowCount();
-        for(int i = 0; i < size; ++i)
-            for(int j = 0; j < size; ++j)
-                if(reserve[i][j])
-                    addArc(i + 1, j + 1);
-    }
-
+    int size = reserve.getRowCount();
+    for(int i = 0; i < size; ++i)
+        for(int j = 0; j < size; ++j)
+            if(reserve[i][j])
+                addArc(i + 1, j + 1);
+    
+    
     return result;
 }
 

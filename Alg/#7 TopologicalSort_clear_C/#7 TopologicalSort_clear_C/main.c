@@ -6,8 +6,7 @@ int main() {
     
     addArc(&lead, 1, 2);
     addArc(&lead, 2, 3);
-    if(isEdge(lead, 2, 3))
-        printf("Yes\n");
+    excludeArc(&lead, 2, 3);
     print(lead);
     
     return 0;

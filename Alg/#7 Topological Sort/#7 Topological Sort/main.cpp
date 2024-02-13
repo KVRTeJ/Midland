@@ -12,7 +12,7 @@ void printVector(const std::vector<Type>& vec) {
 int main() {
     Graph b;
     
-    b.addArc(1, 7);
+    //b.addArc(1, 7);
     b.addArc(2, 1);
     b.addArc(4, 5);
     b.addArc(5, 1);

@@ -6,6 +6,13 @@
 #include "midland++.hpp"
 
 int main() {
+    std::string temp = "fffbafffb";
+    auto nums = generateNewJTable(temp);
+    for(auto it = nums.begin(); it != nums.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+    return -1;
     //для проверки 3 функции bmSearchOccurrencesInDiapason
     const int start = 0, stop = 91,
               start1 = 17, stop1 = 91,
