@@ -36,6 +36,11 @@ Set::Set(const char* str)
 
 }
 
+Set::Set(const std::string& str) 
+: Set(str.c_str())
+{}
+
+
 Set::Set(const Set& other)
 : BoolVector(other)
 {}

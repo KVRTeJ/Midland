@@ -200,6 +200,66 @@ BoolVector& BoolVector::operator = (const BoolVector& other) {
     
 }
 
+
+BoolVector& BoolVector::operator += (const bool value) {
+    if(m_unsignificantRankCount != 0) {
+        ++m_lenght;
+        set(m_lenght - 1, value);
+        --m_unsignificantRankCount;
+    } else {
+        uint8_t* old = new uint8_t [m_cellCount];
+        for(int i = 0; i < m_cellCount; ++i) {
+            old[i] = m_cells[i];
+        }
+        delete [] m_cells;
+        
+        ++m_cellCount;
+        ++m_lenght;
+        m_unsignificantRankCount = CELL_SIZE - 1;
+        
+        m_cells = new uint8_t [m_cellCount];
+        for(int i = 0; i < m_cellCount - 1; ++i) {
+            m_cells[i] = old[i];
+        }
+        set(m_lenght - 1, value);
+    }
+    
+    
+    return *this;
+}
+
+BoolVector& BoolVector::operator += (const BoolVector& value) {
+    for(int i = 0; i < value.lenth(); ++i) {
+        *this += value[i];
+    }
+    
+    return *this;
+}
+
+void BoolVector::add(const char value, int unsignificantRankCount) {
+    uint8_t* old = new uint8_t [m_cellCount];
+    for(int i = 0; i < m_cellCount; ++i) {
+        old[i] = m_cells[i];
+    }
+    delete [] m_cells;
+    
+    m_cells = new uint8_t[m_cellCount + 1];
+    for(int i = 0; i < m_cellCount; ++i) {
+        m_cells[i] = old[i];
+    }
+    m_cells[m_cellCount] = value;
+    ++m_cellCount;
+    m_unsignificantRankCount = unsignificantRankCount;
+    m_lenght += CELL_SIZE - unsignificantRankCount;
+    
+}
+
+BoolVector BoolVector::operator + (const bool value) {
+    BoolVector result(*this);
+    result += value;
+    return result;
+}
+
 BoolVector BoolVector::operator ~ () const {
     
     BoolVector returned(*this);

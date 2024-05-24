@@ -13,6 +13,7 @@ public:
         
     }
     Set(const char* str);
+    Set(const std::string& str);
     Set(const Set& other);
     
     int cardinalis() const {return weight();}
@@ -26,9 +27,9 @@ public:
     void clear() { *this = Set();}
     
     Set& operator = (const Set& other);
-    Set& operator |= (const Set& other) { BoolVector::operator |= (other); return *this;}
+    Set& operator |= (const Set& other) {BoolVector::operator |= (other); return *this;}
     Set operator | (const Set& other) const;
-    Set& operator &= (const Set& other) { BoolVector::operator &= (other); return *this;; return *this;}
+    Set& operator &= (const Set& other) {BoolVector::operator &= (other); return *this; return *this;}
     Set operator & (const Set& other) const;
     Set& operator /= (const Set& other);
     Set operator / (const Set& other) const;

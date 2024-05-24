@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <assert.h>
 
 class BoolVector {
     friend std::ostream& operator << (std::ostream& stream, const BoolVector& object);
@@ -15,7 +16,13 @@ public:
     BoolVector(const BoolVector& other);
     virtual ~BoolVector();
     
+    void add(const char value, int unsignificantRankCount = 0);
+    
+    void setUnsignificantRankCount(const int value) {assert(value >= 0); m_unsignificantRankCount = value; m_lenght -= value;}
     int weight() const;
+    int unsignificantRankCount() const {return m_unsignificantRankCount;}
+    int lenth() const {return m_lenght;}
+    int cellCount() const {return m_cellCount;}
     void print() const;
     void scan();
     
@@ -29,9 +36,14 @@ public:
         return m_lenght;
     }
     
+    uint8_t* cells() const {return m_cells;}
+    
     BoolRank operator [] (const int index);
     const BoolRank operator [] (const int index) const;
     BoolVector& operator = (const BoolVector& other);
+    BoolVector& operator += (const bool value);
+    BoolVector operator + (const bool value);
+    BoolVector& operator += (const BoolVector& value);
     BoolVector operator ~ () const;
     BoolVector operator & (const BoolVector& other) const;
     BoolVector operator | (const BoolVector& other) const;
